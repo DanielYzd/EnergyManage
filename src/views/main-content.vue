@@ -118,6 +118,8 @@ export default {
   methods: {
     // tabs, 选中tab
     selectedTabHandle(tab) {
+      console.log(tab)
+      console.log(this.mainTabs)
       tab = this.mainTabs.filter(item => item.name === tab.name)
       if (tab.length >= 1) {
         this.$router.push({ name: tab[0].name })
@@ -126,6 +128,8 @@ export default {
     // tabs, 删除tab
     removeTabHandle(tabName) {
       var newTabs = this.mainTabs.filter(item => item.name !== tabName)
+      console.log(this.mainTabs)
+      console.log(newTabs)
       if (newTabs.length >= 1) {
         // 当前选中tab被删除
         if (tabName === this.mainTabsActiveName) {
@@ -135,6 +139,7 @@ export default {
         }
         this.mainTabs = newTabs
       } else {
+        this.mainTabs = []
         this.menuActiveName = ''
         this.$router.push({ name: 'home' })
       }
