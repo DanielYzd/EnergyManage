@@ -1,0 +1,34 @@
+<!--
+ * @Author: Sun
+ * @Date: 2019-10-05 11:20:15
+ * @LastEditTime: 2019-10-05 11:20:15
+ * @LastEditors: Sun
+ * @Description: 
+ * @输出一段不带属性的自定义信息
+ -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      name="theme"
+      href="./static/element-ui-theme/tiankonglan/index.css"
+    />
+    <!--<meta http-equiv="Access-Control-Allow-Origin" content="*">-->
+    <title>建筑能耗监测管理系统</title>
+    <% if (process.env.NODE_ENV === 'production') { %>
+    <!-- 生产环境 -->
+    <script src="./static/config/index.js?h=<%=compilation.hash%>"></script>
+    <% }else { %>
+    <!-- 开发环境 -->
+    <script src="./static/config/index.js"></script>
+    <script src="./static/plugins/mock-1.0.0-beta3/mock-min.js"></script>
+    <% } %>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

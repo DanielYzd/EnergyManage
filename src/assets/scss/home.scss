@@ -1,0 +1,142 @@
+$background: rgb(240, 246, 249);
+.home {
+  height: 100%;
+  overflow: auto;
+  .top {
+    .num {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .el-card {
+        width: 48%;
+        margin-bottom: 20px;
+        background: #{$background};
+        // /deep/.el-card__body{   //穿透修改deep
+        //        display: flex;
+        //    }
+        .icon {
+          font-size: 32px;
+          width: 70px;
+          height: 77px;
+          text-align: center;
+          line-height: 77px;
+          color: #fff;
+        }
+        .detail {
+          margin-left: 10px;
+          display: flex;
+          flex-direction: column; //垂直方向
+          justify-content: center; //垂直居中，主轴居中
+          .num {
+            font-size: 23px;
+            margin-bottom: 10px;
+          }
+          .txt {
+            font-size: 14px;
+            text-align: center;
+            color: rgb(10, 9, 9);
+          }
+        }
+      }
+    }
+    .calendar {
+      height: 247px;
+      overflow: auto;
+
+      /deep/.el-calendar__header {
+        display: flex;
+        justify-content: flex-start;
+        font-size: 12px;
+        width: 305px;
+        padding: 0;
+        /deep/.el-calendar__button-group {
+          .el-button-group {
+            margin-left: 5px;
+            .el-button {
+              font-size: 10px;
+              padding: 3px;
+            }
+          }
+        }
+      }
+      /deep/.el-calendar__body {
+        font-size: 12px;
+        padding: 0px;
+        .el-calendar-table {
+          .el-calendar-day {
+            height: 25px;
+          }
+        }
+      }
+      .rightnum {
+        // margin-top: 60px;
+        // margin-left: 5px;
+        height: 190px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .num {
+          font-size: 26px;
+          color: #fff;
+          font-weight: 900;
+          text-align: center;
+          margin: 20px 0;
+        }
+        .txt {
+          font-size: 15px;
+          color: #fff;
+          text-align: center;
+        }
+      }
+    }
+    .calendardata {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .num {
+        font-size: 14px;
+        color: #1e9bef;
+        font-weight: 900;
+      }
+      .txt {
+        margin-top: 10px;
+        font-size: 12px;
+        color: #000;
+      }
+    }
+    .control {
+      .itemstyle {
+        margin-bottom: 20px;
+        background: #{$background};
+        .icon {
+          font-size: 32px;
+          width: 70px;
+          height: 77px;
+          text-align: center;
+          line-height: 77px;
+          color: #fff;
+        }
+        .detail {
+          margin-left: 10px;
+          display: flex;
+          flex-direction: column; //垂直方向
+          justify-content: center; //垂直居中，主轴居中
+          .num {
+            font-size: 25px;
+            margin-bottom: 10px;
+          }
+          .txt {
+            font-size: 12px;
+            text-align: center;
+            color: rgb(10, 9, 9);
+          }
+        }
+      }
+    }
+  }
+  .bottom {
+    margin-top: 20px;
+  }
+}

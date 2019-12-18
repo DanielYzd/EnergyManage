@@ -1,0 +1,24 @@
+.statistics{
+    height: 100%;
+    .leftcontent{
+        height: 100%;
+    }
+    .rightcontent{
+        height: 100%;
+        .el-form{
+            padding:10px 20px 0 20px;
+            .el-form-item{
+                margin:0px;
+            }
+        }
+    }
+    .lefttitle{
+        .el-row{
+         display: flex;
+         justify-content: center;
+         align-items: center;
+        }
+      
+    }
+}
+ 
