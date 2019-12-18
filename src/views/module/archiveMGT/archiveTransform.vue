@@ -113,7 +113,7 @@ export default {
                   .then(() => {
                     let id = row.id
                     this.$api.transformer.deletetrans(id).then(res => {
-                      this.queryalltrans()
+                      this.query()
                     })
                   })
                   .catch(error => {

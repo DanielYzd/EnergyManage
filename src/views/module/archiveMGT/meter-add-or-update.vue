@@ -14,9 +14,18 @@
       label-width="140px"
     >
       <el-form-item label="表计类型">
-        <!--<el-radio-group v-model="dataForm.type" @change="meterTypeChange" style="width:220px">
-					    <el-radio v-for="item in meterTypeList" :key="item.value" :label="item.value">{{item.key}}</el-radio>
-					  </el-radio-group>-->
+        <!-- <el-radio-group
+          v-model="dataForm.type"
+          @change="meterTypeChange"
+          style="width:220px"
+        >
+          <el-radio
+            v-for="item in meterTypeList"
+            :key="item.value"
+            :label="item.value"
+            >{{ item.key }}</el-radio
+          >
+        </el-radio-group> -->
         <el-select
           v-model="dataForm.type"
           placeholder="表计类型"
@@ -294,7 +303,7 @@ export default {
           { min: 1, max: 16, message: '长度在 1 到 16 个字符', trigger: 'blur' }
         ],
         regionName: [
-          { required: true, message: '所属区域不能为空', trigger: 'blur' }
+          { required: true, message: '所属区域不能为空', trigger: 'change' }
         ]
         // ,parentId: [
         //   { required: true, message: "所属总表不能为空", trigger: "blur" }

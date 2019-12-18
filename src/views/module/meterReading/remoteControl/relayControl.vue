@@ -62,7 +62,7 @@
           v-bind:tbconfig="tbconfig"
           @selections="
             data => {
-              this.dataListSelections = data;
+              this.dataListSelections = data
             }
           "
         ></hltable>
@@ -84,12 +84,12 @@
 </template>
 
 <script>
-import pointSwitchUpdate from "./pointSwitch-update";
-import hlProgress from "@/components/hl-progress";
-import regionSelect from "@/views/modules/pob/region-select";
-import hltable from "@/components/hltable";
+import pointSwitchUpdate from './pointSwitch-update'
+import hlProgress from '@/components/hl-progress'
+import regionSelect from '@/views/modules/pob/region-select'
+import hltable from '@/components/hltable'
 const SWITCH_ON = 0,
-  SWITCH_OFF = 1;
+  SWITCH_OFF = 1
 export default {
   data() {
     return {
@@ -97,24 +97,24 @@ export default {
       loading: false,
       rtuLoading: false,
       optSwitch: 0,
-      remoteUrl: "",
+      remoteUrl: '',
       dataForm: {
-        regionid: this.$cookie.get("regionid"),
-        regionName: this.$cookie.get("regionName"),
+        regionid: this.$cookie.get('regionid'),
+        regionName: this.$cookie.get('regionName'),
         rtuAddr: null,
         rtuid: null,
-        type: ""
+        type: ''
       },
-      rtuUrl: "/pob/rtu/list",
+      rtuUrl: '/pob/rtu/list',
       rtuCols: [
-        { prop: "commaddress", label: "终端地址", width: "100" },
+        { prop: 'commaddress', label: '终端地址', width: '100' },
         {
-          prop: "curstatusDesc",
-          label: "终端状态",
-          width: "90",
+          prop: 'curstatusDesc',
+          label: '终端状态',
+          width: '90',
           tag: true,
           getColor: function(row) {
-            return row.curstatus === 1 ? "success" : "warning";
+            return row.curstatus === 1 ? 'success' : 'warning'
           }
         }
       ],
@@ -124,7 +124,7 @@ export default {
         pageMode: 1,
         isShowPage: true
       },
-      url: "/pob/point/list",
+      url: '/pob/point/list',
       tbconfig: {
         isShowSelection: true,
         isShowRowIndex: true,
@@ -132,17 +132,17 @@ export default {
         btnWidth: 150,
         buttons: [
           {
-            label: "拉闸",
+            label: '拉闸',
             handler: (row, refTable) => {
-              var _this = refTable.multipleTable.$parent.$parent;
-              _this.sendHandle(row, SWITCH_OFF);
+              var _this = refTable.multipleTable.$parent.$parent
+              _this.sendHandle(row, SWITCH_OFF)
             }
           },
           {
-            label: "合闸",
+            label: '合闸',
             handler: (row, refTable) => {
-              var _this = refTable.multipleTable.$parent.$parent;
-              _this.sendHandle(row, SWITCH_ON);
+              var _this = refTable.multipleTable.$parent.$parent
+              _this.sendHandle(row, SWITCH_ON)
             }
           }
         ],
@@ -150,21 +150,21 @@ export default {
       },
       cols: [
         // {prop:"rtuAddr", label:"终端地址",width:"120"},
-        { prop: "disc", label: "表计名称", width: "150" },
-        { prop: "commaddress", label: "表通讯地址", width: "120" },
-        { prop: "numberid", label: "表序号", width: "60" },
-        { prop: "comDesc", label: "通讯端口号", width: "80" },
-        { prop: "bpsDesc", label: "通讯速率", width: "80" },
-        { prop: "protocolDesc", label: "通讯规约类型", width: "120" },
-        { prop: "secretLevel", label: "密级", width: "60" },
-        { prop: "secretCode", label: "拉合闸密码", width: "80" },
+        { prop: 'disc', label: '表计名称', width: '150' },
+        { prop: 'commaddress', label: '表通讯地址', width: '120' },
+        { prop: 'numberid', label: '表序号', width: '60' },
+        { prop: 'comDesc', label: '通讯端口号', width: '80' },
+        { prop: 'bpsDesc', label: '通讯速率', width: '80' },
+        { prop: 'protocolDesc', label: '通讯规约类型', width: '120' },
+        { prop: 'secretLevel', label: '密级', width: '60' },
+        { prop: 'secretCode', label: '拉合闸密码', width: '80' },
         {
-          prop: "useenergyStatusName",
-          label: "当前开关状态",
-          width: "120",
+          prop: 'useenergyStatusName',
+          label: '当前开关状态',
+          width: '120',
           tag: true,
           getColor: function(row) {
-            return row.useenergyStatus === 0 ? "success" : "warning";
+            return row.useenergyStatus === 0 ? 'success' : 'warning'
           }
         }
       ],
@@ -172,126 +172,126 @@ export default {
       addOrUpdateVisible: false,
       hlProgVisible: false,
       rtuSendVisible: false
-    };
+    }
   },
   components: {
     pointSwitchUpdate,
     hlProgress,
     hltable,
-    "region-select-item": regionSelect
+    'region-select-item': regionSelect
   },
   mounted() {
-    this.getDataList();
+    this.getDataList()
   },
   methods: {
     getDataList() {
-      this.loadRtu();
-      this.loadPoint();
+      this.loadRtu()
+      this.loadPoint()
     },
     loadPoint() {
       this.$refs.dataTable.loadData({
         regionid: this.dataForm.regionid,
         rtuid: this.dataForm.rtuid || null,
         type: this.dataForm.type
-      });
+      })
     },
     getSelectRegion(data) {
-      this.dataForm.regionid = data.id;
-      this.dataForm.regionName = data.label;
-      this.dataForm.rtuid = null;
-      this.getDataList();
+      this.dataForm.regionid = data.id
+      this.dataForm.regionName = data.label
+      this.dataForm.rtuid = null
+      this.getDataList()
     },
     loadRtu() {
       this.$refs.rtuDataTable.loadData({
         regionid: this.dataForm.regionid ? this.dataForm.regionid : null
-      });
+      })
     },
     batchHandler(optSwitch) {
-      var rows = this.dataListSelections;
+      var rows = this.dataListSelections
       if (!rows || rows.length === 0) {
-        this.$message.error("至少选择一条表计记录!");
-        return;
+        this.$message.error('至少选择一条表计记录!')
+        return
       }
-      this.optSwitch = optSwitch;
-      var tmp = [];
-      var tableData = this.$refs.dataTable.tableData;
+      this.optSwitch = optSwitch
+      var tmp = []
+      var tableData = this.$refs.dataTable.tableData
       var checked = rows.some((row, index) => {
         if (!row.rtuid || (!row.numberid && row.numberid !== 0)) {
-          this.$message.error("选择的表计中没有设置终端地址!");
-          return true;
+          this.$message.error('选择的表计中没有设置终端地址!')
+          return true
         }
-        tmp.push(row.pointid);
-      });
+        tmp.push(row.pointid)
+      })
       if (!checked) {
-        this.sendAction(tmp);
+        this.sendAction(tmp)
       }
     },
     sendHandle(pointParam, optSwitchType) {
-      this.addOrUpdateVisible = true;
-      this.optSwitch = optSwitchType;
+      this.addOrUpdateVisible = true
+      this.optSwitch = optSwitchType
       this.$nextTick(() => {
-        this.$refs.meterAdd.init(pointParam.pointid);
-      });
+        this.$refs.meterAdd.init(pointParam.pointid)
+      })
     },
     sendAction(pointIdArray) {
-      this.hlProgVisible = true;
+      this.hlProgVisible = true
       this.remoteUrl =
-        "/remote/rtu/switchDo?pointIds=" +
-        pointIdArray.join(",") +
-        "&switchType=" +
-        this.optSwitch;
+        '/remote/rtu/switchDo?pointIds=' +
+        pointIdArray.join(',') +
+        '&switchType=' +
+        this.optSwitch
       this.$nextTick(() => {
-        this.$refs.hlProg.sendRequest({});
-      });
+        this.$refs.hlProg.sendRequest({})
+      })
     },
     selectChange(value) {
       if (value.length > 1) {
-        this.$refs.rtuDataTable.selectRow(value[0], false);
-        this.$refs.rtuDataTable.selectRow(value[1], true);
-        this.dataForm.rtuid = value[1].rtuid;
+        this.$refs.rtuDataTable.selectRow(value[0], false)
+        this.$refs.rtuDataTable.selectRow(value[1], true)
+        this.dataForm.rtuid = value[1].rtuid
       } else if (value.length == 1) {
-        this.dataForm.rtuid = value[0].rtuid;
+        this.dataForm.rtuid = value[0].rtuid
       } else {
-        this.dataForm.rtuid = "";
+        this.dataForm.rtuid = ''
       }
-      this.loadPoint();
+      this.loadPoint()
     },
     showProgResult(commResult) {
-      var vm = this;
-      var rtuid = commResult.rtuid;
-      var pointid = commResult.extInfo;
-      var tableData = this.$refs.dataTable.tableData;
-      var backResult = commResult.value;
-      var isOk = commResult.success;
+      var vm = this
+      var rtuid = commResult.rtuid
+      var pointid = commResult.extInfo
+      var tableData = this.$refs.dataTable.tableData
+      var backResult = commResult.value
+      var isOk = commResult.success
       if (isOk) {
         let params = {
           pointIds: pointid,
           switchType: this.optSwitch
-        };
+        }
         this.$http.ajaxGet(
-          "/remote/rtu/updatePointUseEnergyStatus",
+          '/remote/rtu/updatePointUseEnergyStatus',
           params,
           null
-        );
+        )
       }
       tableData.some((item, index) => {
         if (item.rtuid === rtuid && item.pointid === pointid) {
           if (!vm.cols[9]) {
-            vm.cols.push({ prop: "optResult", label: "操作结果", width: "90" });
+            vm.cols.push({ prop: 'optResult', label: '操作结果', width: '90' })
           }
-          item.optResult = isOk ? "操作成功" : "操作失败";
+          item.optResult = isOk ? '操作成功' : '操作失败'
           if (isOk) {
-            item.useenergyStatus = this.optSwitch;
+            item.useenergyStatus = this.optSwitch
             item.useenergyStatusName =
-              this.optSwitch === SWITCH_ON ? "合闸" : "拉闸";
+              this.optSwitch === SWITCH_ON ? '合闸' : '拉闸'
           }
-          this.$set(tableData, index, item);
-          return true;
+          this.$set(tableData, index, item)
+          return true
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style></style>

@@ -12,7 +12,6 @@
       size="small"
       labelWidth="90px"
     >
-
       <region-select-item
         label="所属区域"
         v-model="queryForm.regionName"
@@ -25,21 +24,9 @@
           placeholder="请选择"
           class="formItem"
         >
-          <el-option
-            :key=1
-            label="小时"
-            :value=1
-          ></el-option>
-          <el-option
-            :key=2
-            label="日"
-            :value=2
-          ></el-option>
-          <el-option
-            :key=3
-            label="月"
-            :value=3
-          ></el-option>
+          <el-option :key="1" label="小时" :value="1"></el-option>
+          <el-option :key="2" label="日" :value="2"></el-option>
+          <el-option :key="3" label="月" :value="3"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="数据时间">
@@ -56,7 +43,7 @@
             v-if="queryForm.schemeid === 1"
             style="width: 100px;"
             v-model="queryForm.time"
-            :picker-options="{start: '00:00',step: '01:00',end: '23:00'}"
+            :picker-options="{ start: '00:00', step: '01:00', end: '23:00' }"
             placeholder="选择时间"
           ></el-time-select>
         </div>
@@ -112,11 +99,16 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <!--<el-col :span="6">
-			    	<el-form-item label="用户名称">
-			    		<el-input v-model="queryForm.hm" placeholder="用户名称" style="width: 200px;" clearable></el-input>
-			    	</el-form-item>
-				</el-col>-->
+      <!-- <el-col :span="6">
+        <el-form-item label="用户名称">
+          <el-input
+            v-model="queryForm.hm"
+            placeholder="用户名称"
+            style="width: 200px;"
+            clearable
+          ></el-input>
+        </el-form-item>
+      </el-col> -->
       <el-form-item label="表通信地址">
         <el-input
           v-model="queryForm.commaddress"
@@ -125,20 +117,31 @@
           clearable
         ></el-input>
       </el-form-item>
-      <!--
-			    <el-col :span="6">
-			    	<el-form-item label="数据属性">
-			    		<el-select v-model="queryForm.dataattribute" placeholder="数据属性" style="width: 220px;" clearable>
-					      <el-option v-for="item in dataTypeList" :key="item.value" :label="item.key" :value="item.value"></el-option>
-					    </el-select>
-			    	</el-form-item>
-				</el-col>-->
+      <!-- 
+      <el-col :span="6">
+        <el-form-item label="数据属性">
+          <el-select
+            v-model="queryForm.dataattribute"
+            placeholder="数据属性"
+            style="width: 220px;"
+            clearable
+          >
+            <el-option
+              v-for="item in dataTypeList"
+              :key="item.value"
+              :label="item.key"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </el-col> -->
       <el-form-item>
         <el-button
           type="primary"
           @click.prevent="getDataList()"
           icon="el-icon-search"
-        >查询</el-button>
+          >查询</el-button
+        >
       </el-form-item>
     </el-form>
     <hltable
@@ -151,11 +154,11 @@
 </template>
 
 <script>
-import hlDatePicker from "@/components/hl-date-picker";
-import hltable from "@/components/hltable";
-import tool from "@/utils/tool";
-import regionSelect from "@/views/modules/pob/region-select";
-import globals from "@/utils/globals";
+import hlDatePicker from '@/components/hl-date-picker'
+import hltable from '@/components/hltable'
+import tool from '@/utils/tool'
+import regionSelect from '@/views/modules/pob/region-select'
+import globals from '@/utils/globals'
 export default {
   data() {
     return {
@@ -163,51 +166,51 @@ export default {
       meterList: [],
       meterTypeList: this.$sysConfig.getMeterTypes(),
       dataTypeList: [
-        { key: "自动采集", value: 0 },
-        { key: "手动录入", value: 2 }
+        { key: '自动采集', value: 0 },
+        { key: '手动录入', value: 2 }
       ],
       queryForm: {
-        dataattribute: "",
-        commaddress: "",
-        hm: "",
-        loopUsedType: "",
+        dataattribute: '',
+        commaddress: '',
+        hm: '',
+        loopUsedType: '',
         type: 0,
-        monthDate: tool.formatDate(tool.addDay(new Date(), -1), "yyyy-MM"),
-        datatime: tool.formatDate(tool.addDay(new Date(), -1), "yyyy-MM-dd"),
-        time: "00:00",
+        monthDate: tool.formatDate(tool.addDay(new Date(), -1), 'yyyy-MM'),
+        datatime: tool.formatDate(tool.addDay(new Date(), -1), 'yyyy-MM-dd'),
+        time: '00:00',
         schemeid: 2,
-        regionName: this.$cookie.get("regionName"),
-        regionid: this.$cookie.get("regionid")
+        regionName: this.$cookie.get('regionName'),
+        regionid: this.$cookie.get('regionid')
       },
       loopUsedTypeList: globals.loopUsedTypeList,
-      url: "/data/pointsEnergy/list"
-    };
+      url: '/data/pointsEnergy/list'
+    }
   },
   components: {
     hlDatePicker,
-    "region-select-item": regionSelect,
+    'region-select-item': regionSelect,
     hltable
   },
   computed: {
     mainTabs: {
       get() {
-        return this.$store.state.common.mainTabs;
+        return this.$store.state.common.mainTabs
       },
       set(val) {
-        this.$store.commit("common/updateMainTabs", val);
+        this.$store.commit('common/updateMainTabs', val)
       }
     },
     tbconfig() {
-      let isHas = this.isAuth("runmain:input:add");
+      let isHas = this.isAuth('runmain:input:add')
       let buttons = [
         {
-          label: "用能曲线",
+          label: '用能曲线',
           handler: (row, refTable) => {
-            var _this = refTable.multipleTable.$parent.$parent;
-            _this.energyDetail(row);
+            var _this = refTable.multipleTable.$parent.$parent
+            _this.energyDetail(row)
           }
         }
-      ];
+      ]
       // if(isHas){
       // 	buttons.push({
       // 		label : '用能录入',
@@ -224,46 +227,46 @@ export default {
         btnWidth: 120,
         buttons: buttons,
         isShowPage: true
-      };
+      }
     },
     cols() {
       let cols = [
-        { prop: "regionName", label: "所属区域" },
-        { prop: "pointName", label: "表计名称" },
-        { prop: "commaddress", label: "表通信地址", width: 120 }
+        { prop: 'regionName', label: '所属区域' },
+        { prop: 'pointName', label: '表计名称' },
+        { prop: 'commaddress', label: '表通信地址', width: 120 }
         //,{prop:"loopUsedTypeName", label:"计量回路标志",width:80}
-      ];
+      ]
       if (this.queryForm.type == 0) {
         cols = cols.concat([
-          { prop: "rate", label: "倍率", width: 60 },
-          { prop: "zDlp", label: "电量总(kWh)" },
-          { prop: "jDlp", label: "电量尖(kWh)" },
-          { prop: "fDlp", label: "电量峰(kWh)" },
-          { prop: "pDlp", label: "电量平(kWh)" },
-          { prop: "gDlp", label: "电量谷(kWh)" }
-        ]);
+          { prop: 'rate', label: '倍率', width: 60 },
+          { prop: 'zDlp', label: '电量总(kWh)' },
+          { prop: 'jDlp', label: '电量尖(kWh)' },
+          { prop: 'fDlp', label: '电量峰(kWh)' },
+          { prop: 'pDlp', label: '电量平(kWh)' },
+          { prop: 'gDlp', label: '电量谷(kWh)' }
+        ])
       } else if (this.queryForm.type == 1 || this.queryForm.type === 2) {
-        cols.push({ prop: "flowV", label: "流量(m³)", width: "80" });
+        cols.push({ prop: 'flowV', label: '流量(m³)', width: '80' })
       } else {
-        cols = cols.concat([{ prop: "hotV", label: "热量(kWh)", width: "80" }]);
+        cols = cols.concat([{ prop: 'hotV', label: '热量(kWh)', width: '80' }])
       }
-      return cols;
+      return cols
     },
     queryDatatime() {
-      let queryDate = null;
-      let schemeid = this.queryForm.schemeid;
+      let queryDate = null
+      let schemeid = this.queryForm.schemeid
       if (schemeid === 1) {
-        queryDate = this.queryForm.datatime + " " + this.queryForm.time + ":00";
+        queryDate = this.queryForm.datatime + ' ' + this.queryForm.time + ':00'
       } else if (schemeid === 2) {
-        queryDate = this.queryForm.datatime + " 00:00:00";
+        queryDate = this.queryForm.datatime + ' 00:00:00'
       } else if (schemeid === 3) {
-        queryDate = this.queryForm.monthDate + "-01 00:00:00";
+        queryDate = this.queryForm.monthDate + '-01 00:00:00'
       }
-      return queryDate;
+      return queryDate
     }
   },
   mounted() {
-    this.getDataList();
+    this.getDataList()
   },
   methods: {
     getDataList() {
@@ -276,17 +279,17 @@ export default {
         schemeid: this.queryForm.schemeid,
         regionid: this.queryForm.regionid,
         dataattribute: this.queryForm.dataattribute
-      });
+      })
     },
     getSelectRegion(data) {
-      this.queryForm.regionid = data.id;
-      this.queryForm.regionName = data.label;
+      this.queryForm.regionid = data.id
+      this.queryForm.regionName = data.label
     },
     energyDetail(row) {
-      var name = "pointEnergy";
-      var newTabs = this.mainTabs.filter(item => item.name !== name);
+      var name = 'pointEnergy'
+      var newTabs = this.mainTabs.filter(item => item.name !== name)
       if (newTabs.length >= 1) {
-        this.mainTabs = newTabs;
+        this.mainTabs = newTabs
       }
       this.$router.push({
         name: name,
@@ -296,13 +299,13 @@ export default {
           datatime: this.queryDatatime,
           schemeid: this.queryForm.schemeid
         }
-      });
+      })
     },
     inputHandler(row) {
-      var name = "inputAdd2";
-      var newTabs = this.mainTabs.filter(item => item.name !== name);
+      var name = 'inputAdd2'
+      var newTabs = this.mainTabs.filter(item => item.name !== name)
       if (newTabs.length >= 1) {
-        this.mainTabs = newTabs;
+        this.mainTabs = newTabs
       }
       this.$router.push({
         name: name,
@@ -312,10 +315,10 @@ export default {
           datatime: this.queryDatatime,
           schemeid: this.queryForm.schemeid
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style>

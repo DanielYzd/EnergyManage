@@ -251,6 +251,7 @@ export default {
       })
     },
     getSelectRegion(data) {
+      console.log(data)
       this.dataForm.regionid = data.id
       this.dataForm.regionName = data.label
       this.getDataList()
