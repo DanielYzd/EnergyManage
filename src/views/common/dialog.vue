@@ -11,11 +11,17 @@
     >
       <slot></slot>
       <span slot="footer" class="dialog-footer" v-show="showFoot">
-        <el-button @click="cancle()">取 消</el-button>
-        <el-button type="primary" @click="confirm()">确 定</el-button>
+        <el-button size="mini" @click="cancle()">取 消</el-button>
+        <el-button type="primary" size="mini" @click="confirm()"
+          >确 定</el-button
+        >
       </span>
-      <span slot="footer" class="dialog-footer" v-show="!showFoot">
-        <el-button type="primary" @click="close()">关闭</el-button>
+      <span
+        slot="footer"
+        class="dialog-footer"
+        v-show="!showFoot && showFootClose"
+      >
+        <el-button type="primary" size="mini" @click="close()">关闭</el-button>
       </span>
     </el-dialog>
   </div>
@@ -43,6 +49,10 @@ export default {
     width: {
       type: String,
       default: '55%'
+    },
+    showFootClose: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

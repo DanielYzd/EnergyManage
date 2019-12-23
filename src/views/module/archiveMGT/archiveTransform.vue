@@ -40,6 +40,7 @@
       @close="operateclose"
       :showClose="false"
       :showFoot="false"
+      :showFootClose="true"
     >
       <transformerOperate :row="row"></transformerOperate>
     </Dialog>

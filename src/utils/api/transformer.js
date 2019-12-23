@@ -46,6 +46,30 @@ const transformer = {
   // GET /archive/association/mountchild
   mountchild(params) {
     return axios.post('/archive/association/mountchild', params)
+  },
+  // POST /archive/association/dismountchild
+  dismountchild(params) {
+    return axios.post('/archive/association/dismountchild', params)
+  },
+  // GET /archive/association/afterresultmeter
+  afterresultmeter(params) {
+    return axios.get('/archive/association/afterresultmeter', {
+      params: params
+    })
+  },
+  // GET /archive/association/querymeterchildnode
+  querymeterchildnode(params) {
+    return axios.get('/archive/association/querymeterchildnode', {
+      params: params
+    })
+  },
+  // POST /archive/association/dismountmeter
+  dismountmeter(params) {
+    return axios.post('/archive/association/dismountmeter', params)
+  },
+  // POST /archive/association/mountmeter
+  mountmeter(params) {
+    return axios.post('/archive/association/mountmeter', params)
   }
 }
 export default transformer
