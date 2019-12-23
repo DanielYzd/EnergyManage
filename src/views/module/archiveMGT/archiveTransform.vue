@@ -33,6 +33,16 @@
         @confirm="confirm"
       ></transformerAddorUpdate>
     </Dialog>
+    <Dialog
+      :width="width"
+      :dialogVisible="operateVisible"
+      :title="operateTitle"
+      @close="operateclose"
+      :showClose="false"
+      :showFoot="false"
+    >
+      <transformerOperate :row="row"></transformerOperate>
+    </Dialog>
   </div>
 </template>
 
@@ -40,11 +50,13 @@
 import Dialog from '@/views/common/dialog'
 import CommonTable from '@/views/common/Table'
 import transformerAddorUpdate from './components/transformer-add-or-update'
+import transformerOperate from './components/transformer-operation'
 export default {
   components: {
     CommonTable,
     Dialog,
-    transformerAddorUpdate
+    transformerAddorUpdate,
+    transformerOperate
   },
   data() {
     return {
@@ -56,6 +68,7 @@ export default {
         index: false,
         maxHeight: 650
       },
+      row: {},
       columns: [
         {
           prop: 'transcode',
@@ -120,6 +133,14 @@ export default {
                     console.log(error)
                   })
               }
+            },
+            {
+              name: '操作',
+              type: 'primary',
+              icon: 'el-icon-setting',
+              onClick: row => {
+                this._openOperate(row)
+              }
             }
           ]
         }
@@ -131,7 +152,10 @@ export default {
       },
       dialogVisible: false,
       showFoot: false,
-      title: ''
+      title: '',
+      operateVisible: false,
+      operateTitle: '',
+      width: '70%'
     }
   },
   created() {
@@ -197,6 +221,15 @@ export default {
       }
 
       this.dialogVisible = false
+    },
+    _openOperate(row) {
+      console.log(row)
+      this.row = row
+      this.operateVisible = true
+      this.operateTitle = row.transname
+    },
+    operateclose() {
+      this.operateVisible = false
     }
   }
 }

@@ -29,6 +29,23 @@ const transformer = {
     params = adornParams(params)
     console.log(params)
     return axios.get('/archive/transformer/page', { params: params })
+  },
+  // GET /archive/association/queryparentchildnode 待挂载子级列表
+  queryparentchildnode(params) {
+    params = adornParams(params)
+    return axios.get('/archive/association/queryparentchildnode', {
+      params: params
+    })
+  },
+  // GET /archive/association/afterresultquery
+  afterresultquery(params) {
+    return axios.get('/archive/association/afterresultquery', {
+      params: params
+    })
+  },
+  // GET /archive/association/mountchild
+  mountchild(params) {
+    return axios.post('/archive/association/mountchild', params)
   }
 }
 export default transformer

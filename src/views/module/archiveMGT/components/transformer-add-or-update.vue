@@ -26,19 +26,31 @@
         </el-col>
         <el-col :span="12">
           <el-form-item prop="ratedcapacity" label="额定容量">
-            <el-input size="small" v-model="ruleForm.ratedcapacity"></el-input>
+            <el-input
+              type="number"
+              size="small"
+              v-model="ruleForm.ratedcapacity"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item prop="ratedvoltage" label="额定电压">
-            <el-input size="small" v-model="ruleForm.ratedvoltage"></el-input>
+            <el-input
+              size="small"
+              type="number"
+              v-model="ruleForm.ratedvoltage"
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="ratedcurrent" label="额定电流">
-            <el-input size="small" v-model="ruleForm.ratedcurrent"></el-input>
+            <el-input
+              size="small"
+              type="number"
+              v-model="ruleForm.ratedcurrent"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -150,6 +162,7 @@ export default {
         ratedcurrent: '',
         noloadloss: '',
         loadloss: '',
+        mountstatus: 0,
         supplymode: 0,
         operationdate: '',
         factory: '',
