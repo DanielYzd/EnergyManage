@@ -9,7 +9,7 @@
 /**
  * 开发环境
  */
-;(function() {
+(function() {
   window.SITE_CONFIG = {}
 
   // api接口请求地址
