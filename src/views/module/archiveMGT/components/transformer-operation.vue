@@ -65,6 +65,7 @@
             <el-input
               size="mini"
               clearable
+              v-model="linename"
               prefix-icon="el-icon-search"
               placeholder="输入名称搜索"
               style="width:150px;margin-right:10px;"
@@ -94,10 +95,11 @@
             <el-input
               size="mini"
               clearable
+              v-model="metername"
               prefix-icon="el-icon-search"
               placeholder="输入名称搜索"
               style="width:150px;margin-right:10px;"
-              @keyup.enter.native="queryparentchildnode"
+              @keyup.enter.native="querymeterchildnode"
             ></el-input>
             <el-button
               size="mini"
@@ -126,6 +128,8 @@ export default {
   },
   data() {
     return {
+      linename: '',
+      metername: '',
       radio: 1,
       data1: [], //已挂载子级列表
       data2: [], //待挂载子集列表
@@ -286,7 +290,8 @@ export default {
       let body = {
         page: this.pagination2.pageNum,
         limit: this.pagination2.numPerPage,
-        notype: 2
+        notype: 2,
+        linename: this.linename ? this.linename : 'admin'
       }
       this.$api.transformer.queryparentchildnode(body).then(res => {
         console.log(res)
@@ -303,7 +308,8 @@ export default {
       let body = {
         page: this.pagination4.pageNum,
         limit: this.pagination4.numPerPage,
-        notype: 1
+        notype: 1,
+        metername: this.metername ? this.metername : 'admin'
       }
       this.$api.transformer.querymeterchildnode(body).then(res => {
         console.log(res)
