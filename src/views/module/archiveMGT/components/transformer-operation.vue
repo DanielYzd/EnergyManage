@@ -261,17 +261,17 @@ export default {
     radio(newValue, oldValue) {
       console.log(newValue)
       if (newValue === 1) {
-        (this.pagination1 = {
-          total: 0,
-          pageNum: 1,
-          numPerPage: 10
-        }),
-          (this.pagination2 = {
-            total: 0,
-            pageNum: 1,
-            numPerPage: 10
-          }),
-          this.queryparentchildnode()
+        // (this.pagination1 = {
+        //   total: 0,
+        //   pageNum: 1,
+        //   numPerPage: 10
+        // }),
+        //   (this.pagination2 = {
+        //     total: 0,
+        //     pageNum: 1,
+        //     numPerPage: 10
+        //   }),
+        this.queryparentchildnode()
         this.afterresultquery()
       } else {
         this.afterresultmeter()
@@ -470,7 +470,7 @@ export default {
     dismountmeter() {
       let body = {
         transformer: this.row,
-        PobMeters: this.selectionValue1
+        PobMeters: this.selectionValue3
       }
       this.$api.transformer.dismountmeter(body).then(res => {
         if (res.code === 0) {
