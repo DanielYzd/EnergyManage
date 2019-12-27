@@ -4,6 +4,7 @@
       <slot name="toolbar"> </slot>
     </div>
     <el-table
+      style="width:100%;"
       v-loading="tableoptions.loading"
       element-loading-text="加载中..."
       :data="dataSource"

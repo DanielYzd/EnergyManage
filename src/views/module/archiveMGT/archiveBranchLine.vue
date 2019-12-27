@@ -28,13 +28,16 @@
         <el-tabs
           v-if="type === 1 && id"
           v-model="activeName"
+          :stretch="true"
           @tab-click="handleClick"
         >
-          <el-tab-pane label="子级信息" name="first">
-            <branchlineSublevel></branchlineSublevel>
+          <el-tab-pane label="子级信息" name="first" :lazy="true">
+            <branchlineSublevel
+              v-if="activeName === 'first'"
+            ></branchlineSublevel>
           </el-tab-pane>
-          <el-tab-pane label="表计信息" name="second">
-            <branchlineMeter></branchlineMeter>
+          <el-tab-pane label="表计信息" name="second" :lazy="true">
+            <branchlineMeter v-if="activeName === 'second'"></branchlineMeter>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -186,6 +189,7 @@ export default {
     },
     handleClick(tab, event) {
       console.log(tab, event)
+      console.log(this.activeName)
     }
   }
 }
@@ -198,7 +202,13 @@ export default {
   .content {
     padding: 0 20px;
     flex: 1;
+    height: 100%;
     overflow: auto;
+    .el-tabs {
+      /deep/.el-tabs__content {
+        overflow: visible;
+      }
+    }
   }
 }
 </style>
