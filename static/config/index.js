@@ -9,12 +9,13 @@
 /**
  * 开发环境
  */
-(function() {
+;(function() {
   window.SITE_CONFIG = {}
 
   // api接口请求地址
   window.SITE_CONFIG['baseUrl'] =
     'http://39.100.106.72:8080/multi-meter-fast-api'
+  // window.SITE_CONFIG['baseUrl'] = 'http://127.0.0.1:8080/multi-meter-fast-api'
 
   // cdn地址 = 域名 + 版本号
   window.SITE_CONFIG['domain'] = './' // 域名

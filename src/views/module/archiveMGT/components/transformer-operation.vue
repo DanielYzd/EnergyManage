@@ -302,7 +302,7 @@ export default {
         }
       })
     },
-    //查询待挂载子集
+    //查询待挂载表计
     querymeterchildnode() {
       this.options4.loading = true
       let body = {

@@ -9,10 +9,13 @@ console.log(process.env.NODE_ENV)
 console.log(process.env)
 if (process.env.NODE_ENV === 'development') {
   axios.defaults.baseURL = 'http://39.100.106.72:8080/multi-meter-fast-api'
+  // axios.defaults.baseURL = 'http://127.0.0.1:8080/multi-meter-fast-api'
 } else if (process.env.NODE_ENV === 'test') {
   axios.defaults.baseURL = 'http://39.100.106.72:8080/multi-meter-fast-api'
+  // axios.defaults.baseURL = 'http://127.0.0.1:8080/multi-meter-fast-api'
 } else if (process.env.NODE_ENV === 'production') {
   axios.defaults.baseURL = 'http://39.100.106.72:8080/multi-meter-fast-api'
+  // axios.defaults.baseURL = 'http://127.0.0.1:8080/multi-meter-fast-api'
 }
 console.log(axios.defaults.baseURL)
 
@@ -97,11 +100,11 @@ instance.interceptors.request.use(
     // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token
     // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
-    console.log('请求拦截')
-    console.log(config)
+    // console.log('请求拦截')
+    // console.log(config)
     const token = Vue.cookie.get('token')
     token ? (config.headers['token'] = token) : (config.headers['token'] = null)
-    console.log(config)
+    // console.log(config)
     return config
   },
   error => Promise.error(error)
@@ -110,8 +113,8 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   // 请求成功
   res => {
-    console.log('响应成功拦截')
-    console.log(res)
+    // console.log('响应成功拦截')
+    // console.log(res)
     // res.data.code === 200 ? Promise.resolve(res) : Promise.reject(res)
     if (res.data && res.data.code === 0) {
       // code=0 响应正确  很蠢

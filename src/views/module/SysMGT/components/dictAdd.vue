@@ -35,8 +35,10 @@
         <el-input type="textarea" v-model="ruleForm.notes"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="save('ruleForm')">保存</el-button>
-        <el-button type="primary" @click="cancle()">取消</el-button>
+        <el-button type="primary" @click="save('ruleForm')" size="mini"
+          >保存</el-button
+        >
+        <el-button type="primary" @click="cancle()" size="mini">取消</el-button>
       </el-form-item>
     </el-form>
   </div>

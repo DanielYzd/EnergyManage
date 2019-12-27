@@ -5,6 +5,7 @@
       :treeData="treeData"
       :isaccordion="true"
       :defaultExpandAll="false"
+      :loading="loading"
       ref="parentTree"
       @node-click="_handleNodeClick"
       :showCollapseExpand="false"
@@ -105,6 +106,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       defaultExpandedKeys: [],
       defaultProps: {
         children: 'children',
@@ -215,11 +217,13 @@ export default {
   },
   methods: {
     getDictList() {
+      this.loading = true
       this.defaultExpandedKeys = []
       this.defaultExpandedKeys.push(this.id)
       this.$api.sys.getDictlist().then(res => {
         this.resData = res.data
         this.loop(res.data, [], 0)
+        this.loading = false
       })
     },
     loop(list, data, pcode) {

@@ -8,7 +8,7 @@ const transformer = {
   // 所有变压器档案
   queryalltrans(params) {
     params = adornParams(params)
-    return axios.get('/archive/transformer/queryalltrans', params)
+    return axios.get('/archive/transformer/queryalltrans', { params: params })
   },
   //   POST /archive/transformer/addtrans
   addtrans(data) {
