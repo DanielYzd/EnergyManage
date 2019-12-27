@@ -24,6 +24,8 @@
           @confirm="confirm"
           @cancle="cancle"
           :branchlineData="branchlineData"
+          @deleteline="deleteline"
+          :id="id"
         ></branchlineAddorUpdate>
         <el-tabs
           v-if="type === 1 && id"
@@ -33,11 +35,15 @@
         >
           <el-tab-pane label="子级信息" name="first" :lazy="true">
             <branchlineSublevel
+              @refresh="querytopline"
               v-if="activeName === 'first'"
             ></branchlineSublevel>
           </el-tab-pane>
           <el-tab-pane label="表计信息" name="second" :lazy="true">
-            <branchlineMeter v-if="activeName === 'second'"></branchlineMeter>
+            <branchlineMeter
+              @refresh="querytopline"
+              v-if="activeName === 'second'"
+            ></branchlineMeter>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -46,6 +52,8 @@
         v-else-if="type === 4"
         :transformData="transformData"
       ></branchlineTransform>
+
+      <empty v-else></empty>
     </section>
   </div>
 </template>
@@ -56,13 +64,15 @@ import branchlineAddorUpdate from './components/branchline-add-or-update'
 import branchlineTransform from './components/branchline-transform'
 import branchlineSublevel from './components/branchline-sublevel'
 import branchlineMeter from './components/branchline-meter'
+import empty from '@/views/common/Empty.vue'
 export default {
   components: {
     Tree,
     branchlineAddorUpdate,
     branchlineTransform,
     branchlineSublevel,
-    branchlineMeter
+    branchlineMeter,
+    empty
   },
   data() {
     // 档案类型0=区域，1=分线，2=建筑，3=用户，4=变压器，5=终端，6=分项，7=部门，8=表计 ,
@@ -112,7 +122,7 @@ export default {
     },
     addline() {
       this.type = 0
-      this.id = 0
+      this.id = ''
       this.$nextTick(() => {
         this.branchlineData = []
         this.type = 1
@@ -190,6 +200,15 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event)
       console.log(this.activeName)
+    },
+    deleteline(id) {
+      this.$api.branchline.deleteline(this.id).then(res => {
+        if (res.code === 0) {
+          this.querytopline()
+          this.id = ''
+          this.type = 0
+        }
+      })
     }
   }
 }

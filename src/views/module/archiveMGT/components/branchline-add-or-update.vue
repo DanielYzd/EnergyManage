@@ -57,6 +57,13 @@
           >确定</el-button
         >
         <el-button size="mini" @click="cancle()">取消</el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="deleteline"
+          v-show="this.id"
+          >删除</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
@@ -67,6 +74,9 @@ export default {
   props: {
     branchlineData: {
       type: Array
+    },
+    id: {
+      type: String
     }
   },
   watch: {
@@ -88,6 +98,9 @@ export default {
           createtime: ''
         }
       }
+    },
+    id(newValue, oldValue) {
+      this.id = newValue
     }
   },
   data() {
@@ -111,7 +124,6 @@ export default {
     }
   },
   created() {
-    console.log(this.branchlineData[0])
     if (this.branchlineData.length > 0) {
       let {
         linename,
@@ -149,6 +161,10 @@ export default {
     },
     cancle() {
       this.$emit('cancle')
+    },
+    deleteline() {
+      console.log(this.id)
+      this.$emit('deleteline', this.id)
     }
   }
 }

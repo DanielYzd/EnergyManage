@@ -17,6 +17,7 @@
               size="mini"
               type="primary"
               :disabled="this.selectionValue.length === 0"
+              @click="dismountlinemeter"
               >批量卸载</el-button
             >
           </template>
@@ -49,6 +50,7 @@
               size="mini"
               type="primary"
               :disabled="this.selectionValue1.length === 0"
+              @click="mountlinemeter"
               >批量挂载</el-button
             >
           </template>
@@ -187,9 +189,17 @@ export default {
         }
       })
     },
-    handleSizeChange() {},
-    handleIndexChange() {},
-    handleSelectionChange() {},
+    handleSizeChange(numPerPage) {
+      this.pagination.numPerPage = numPerPage
+      this.afterlineresultmeter()
+    },
+    handleIndexChange(pageNum) {
+      this.pagination.pageNum = pageNum
+      this.afterlineresultmeter()
+    },
+    handleSelectionChange(value) {
+      this.selectionValue = value
+    },
     handleSizeChange1(numPerPage) {
       this.pagination1.numPerPage = numPerPage
       this.querymeterchildnode()
@@ -200,6 +210,40 @@ export default {
     },
     handleSelectionChange1(value) {
       this.selectionValue1 = value
+    },
+    //挂载电表
+    mountlinemeter() {
+      let body = {
+        PobMeters: this.selectionValue1,
+        brachline: {
+          archivetype: 1,
+          id: this.id
+        }
+      }
+      this.$api.branchline.mountlinemeter(body).then(res => {
+        if (res.code === 0) {
+          this.$emit('refresh')
+          this.afterlineresultmeter()
+          this.querymeterchildnode()
+        }
+      })
+    },
+    //卸载电表
+    dismountlinemeter() {
+      let body = {
+        PobMeters: this.selectionValue,
+        brachline: {
+          archivetype: 1,
+          id: this.id
+        }
+      }
+      this.$api.branchline.dismountlinemeter(body).then(res => {
+        if (res.code === 0) {
+          this.$emit('refresh')
+          this.afterlineresultmeter()
+          this.querymeterchildnode()
+        }
+      })
     }
   }
 }
