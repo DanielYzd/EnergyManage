@@ -17,6 +17,8 @@
       @selection-change="handleSelectionChange"
       @current-change="handleCurrentChange"
       header-row-class-name="table-header-row"
+      :tree-props="treeProps"
+      :row-key="rowKey"
     >
       <!-- selection选择框 -->
       <el-table-column
@@ -140,7 +142,9 @@ export default {
     columns: Array,
     // fetch: Function, // 获取数据的函数
     pagination: Object, // 分页不传则不显示
-    rowStyle: Function // 根据当前行数据是否高亮
+    rowStyle: Function, // 根据当前行数据是否高亮
+    treeProps: Object, //树形数据使用
+    rowKey: String
   },
   computed: {
     tableoptions() {
@@ -195,6 +199,9 @@ export default {
   font-size: 12px;
   background: #f1f1f1;
   color: #666666;
+}
+.el-table__body {
+  font-size: 12px !important;
 }
 
 .el-table .el-button [class*='el-icon-'] + span {

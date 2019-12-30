@@ -204,13 +204,6 @@ export default {
     },
     // 节点被点击时的回调
     _handleNodeClick(data, draggingNode) {
-      if (data.type === 'productionLine') {
-        this.productionCode = data.code
-        this.schemeId = draggingNode.parent.data.id
-      } else {
-        this.productionCode = ''
-        this.schemeId = ''
-      }
       this.$emit('node-click', data, draggingNode)
     },
     // 当复选框被点击的时候触发
@@ -263,7 +256,7 @@ export default {
 $borderColor: #dddddd;
 .tree {
   height: 100%;
-  width: 350px;
+  width: 320px;
   border-right: 1px solid #ccc;
   display: flex;
   flex-direction: column;

@@ -19,6 +19,7 @@
       v-bind:value="value"
       class="formItem"
       clearable
+      :size="size"
       v-popover:regionIdsPopover
       :readonly="true"
       placeholder="点击选择所属区域"
@@ -30,7 +31,7 @@
 <script>
 export default {
   name: 'region-select',
-  props: ['label', 'value', 'prop'],
+  props: ['label', 'value', 'prop', 'size'],
   data() {
     return {
       regionList: [],
@@ -84,7 +85,7 @@ export default {
           this.loop(list, child.children, item.regionId)
           data.push(child)
           this.regionList = data
-          console.log(this.regionList)
+          // console.log(this.regionList)
         }
       })
     },

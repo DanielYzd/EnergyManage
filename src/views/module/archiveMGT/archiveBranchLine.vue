@@ -186,6 +186,7 @@ export default {
         this.$api.branchline.addline(body).then(res => {
           console.log(res)
           if (res.code === 0) {
+            this.id = res.data
             this.querytopline()
             this.$nextTick(() => {
               this.type = 0

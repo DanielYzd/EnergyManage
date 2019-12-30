@@ -31,6 +31,7 @@
         :nodeData="nodeData"
         :parentForm="parentForm"
         @dictDetailModify="dictDetailModify"
+        @delNode="delNode"
       >
         <common-table
           :dataSource="tableData"
@@ -40,9 +41,6 @@
           <template slot="toolbar">
             <el-button size="mini" icon="el-icon-plus" @click="_onAddDialog"
               >新增</el-button
-            >
-            <el-button size="mini" icon="el-icon-delete" @click="delNode"
-              >删除</el-button
             >
           </template></common-table
         >
@@ -94,7 +92,7 @@ import Tree from '@/views/common/tree.vue'
 import Dialog from '@/views/common/dialog.vue'
 import dictAdd from './components/dictAdd.vue'
 import dictUpdate from './components/dictUpdate.vue'
-import empty from './components/empty.vue'
+import empty from '@/views/common/Empty.vue'
 export default {
   components: {
     CommonTable,

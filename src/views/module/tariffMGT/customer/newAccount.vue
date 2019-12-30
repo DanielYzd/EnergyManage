@@ -35,16 +35,22 @@
           </el-select>
         </el-input>
       </el-form-item>
-      <!--	      <el-form-item label="表计类型">
-	      	<el-select v-model="dataForm.type" multiple placeholder="请选择" style="width:190px;display: block;">
-			    <el-option
-			      v-for="item in meterTypeList"
-			      :key="item.value"
-			      :label="item.key"
-			      :value="item.value">
-			    </el-option>
-			</el-select>
-	      </el-form-item>-->
+      <!-- <el-form-item label="表计类型">
+        <el-select
+          v-model="dataForm.type"
+          multiple
+          placeholder="请选择"
+          style="width:190px;display: block;"
+        >
+          <el-option
+            v-for="item in meterTypeList"
+            :key="item.value"
+            :label="item.key"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item> -->
       <el-form-item>
         <el-button icon="el-icon-search" @click="getDataList()">查询</el-button>
         <el-button
@@ -82,7 +88,7 @@
       @deleteHandle="deleteHandle"
       @selections="
         data => {
-          this.dataListSelections = data;
+          this.dataListSelections = data
         }
       "
     ></hltable>
@@ -100,14 +106,14 @@
 </template>
 
 <script>
-import regionSelect from "@/views/modules/pob/region-select";
-import AddOrUpdate from "./archives-add-or-update";
-import batchAdd from "./archives-batch-add";
-import hltable from "@/components/hltable";
+import regionSelect from '@/views/modules/pob/region-select'
+import AddOrUpdate from './archives-add-or-update'
+import batchAdd from './archives-batch-add'
+import hltable from '@/components/hltable'
 export default {
   components: {
     AddOrUpdate,
-    "region-select-item": regionSelect,
+    'region-select-item': regionSelect,
     hltable,
     batchAdd
   },
@@ -117,62 +123,62 @@ export default {
   data() {
     return {
       isShoreMode: false,
-      searchSelect: "1",
+      searchSelect: '1',
       meterTypeList: [
-        { key: "电", value: 0 },
-        { key: "水", value: 1 },
-        { key: "气", value: 2 }
+        { key: '电', value: 0 },
+        { key: '水', value: 1 },
+        { key: '气', value: 2 }
       ], //,{key : '热',value : 3}
       dataForm: {
-        regionid: this.$cookie.get("regionid"),
-        regionName: this.$cookie.get("regionName"),
-        searchWord: "",
-        hm: "",
-        telephone: "",
+        regionid: this.$cookie.get('regionid'),
+        regionName: this.$cookie.get('regionName'),
+        searchWord: '',
+        hm: '',
+        telephone: '',
         type: [0, 1, 2]
       },
-      tburl: "/pob/customerUnion/list",
+      tburl: '/pob/customerUnion/list',
       tbstyle: {
-        width: "100%"
+        width: '100%'
       },
       tbconfig: {
         isShowSelection: true,
         isShowRowIndex: true,
         rowButtonType: 1,
-        hasUpdateAuth: this.isAuth("pob:customer:update"),
-        hasDeleteAuth: this.isAuth("pob:customer:delete"),
+        hasUpdateAuth: this.isAuth('pob:customer:update'),
+        hasDeleteAuth: this.isAuth('pob:customer:delete'),
         isShowPage: true
       },
       tbcols: [
-        { prop: "regionName", label: "所属区域" },
-        { prop: "disc", label: "户名", width: 220 },
+        { prop: 'regionName', label: '所属区域' },
+        { prop: 'disc', label: '户名', width: 220 },
         //,{prop:"doorplate", label:"门牌号",width:200}
-        { prop: "telephone", label: "手机号", width: 130 },
+        { prop: 'telephone', label: '手机号', width: 130 },
         {
-          prop: "ppfstatusName",
-          label: "主站计费",
+          prop: 'ppfstatusName',
+          label: '主站计费',
           width: 90,
           tag: true,
           getColor: function(row) {
             if (row.ppfstatus === 0) {
-              return "warning";
+              return 'warning'
             } else {
-              return "info";
+              return 'info'
             }
           }
         },
-        { prop: "starttime", label: "计费开始日期", width: 120 },
-        { prop: "checkOutTime", label: "计费结束日期", width: 120 },
-        { prop: "unitPriceNameEle", label: "电价" },
-        { prop: "unitPriceNameWat", label: "水价" }
+        { prop: 'starttime', label: '计费开始日期', width: 120 },
+        { prop: 'checkOutTime', label: '计费结束日期', width: 120 },
+        { prop: 'unitPriceNameEle', label: '电价' },
+        { prop: 'unitPriceNameWat', label: '水价' }
       ],
       dataListSelections: [],
       addOrUpdateVisible: false,
       batchAddVisible: false
-    };
+    }
   },
   mounted() {
-    this.getDataList();
+    this.getDataList()
   },
   methods: {
     // 获取数据列表
@@ -180,62 +186,62 @@ export default {
       this.$refs.dataTable.loadData({
         regionid: this.dataForm.regionid,
         type: this.dataForm.type.join(),
-        hm: this.searchSelect === "1" ? this.dataForm.searchWord : null,
-        telephone: this.searchSelect === "2" ? this.dataForm.searchWord : null
-      });
+        hm: this.searchSelect === '1' ? this.dataForm.searchWord : null,
+        telephone: this.searchSelect === '2' ? this.dataForm.searchWord : null
+      })
     },
     getSelectRegion(data) {
-      this.dataForm.regionid = data.id;
-      this.dataForm.regionName = data.label;
-      this.getDataList();
+      this.dataForm.regionid = data.id
+      this.dataForm.regionName = data.label
+      this.getDataList()
     },
     // 新增 / 修改
     addOrUpdateHandle(row) {
-      this.addOrUpdateVisible = true;
+      this.addOrUpdateVisible = true
       this.$nextTick(() => {
-        this.$refs.addOrUpdate.init(row ? row.customerid : null);
-      });
+        this.$refs.addOrUpdate.init(row ? row.customerid : null)
+      })
     },
     // 批量导入
     batchAddHandle() {
-      this.batchAddVisible = true;
+      this.batchAddVisible = true
       this.$nextTick(() => {
-        this.$refs.batchAdd.init();
-      });
+        this.$refs.batchAdd.init()
+      })
     },
     // 删除
     deleteHandle(row) {
       var ids = row
         ? [row.customerid]
         : this.dataListSelections.map(item => {
-            return item.customerid;
-          });
-      var len = ids.length;
+            return item.customerid
+          })
+      var len = ids.length
       this.$confirm(
-        `确定${len == 1 ? "删除" : "批量删除"} ${len}条记录?`,
-        "删除提示",
+        `确定${len == 1 ? '删除' : '批量删除'} ${len}条记录?`,
+        '删除提示',
         {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           dangerouslyUseHTMLString: true,
-          type: "warning"
+          type: 'warning'
         }
       ).then(() => {
         this.$http.ajaxPost(
-          "/pob/customerUnion/delete",
+          '/pob/customerUnion/delete',
           ids,
           () => {
-            this.$message.success("操作成功");
-            this.getDataList();
+            this.$message.success('操作成功')
+            this.getDataList()
           },
           data => {
-            this.$message.error(data.msg);
+            this.$message.error(data.msg)
           }
-        );
-      });
+        )
+      })
     }
   }
-};
+}
 </script>
 
 <style>

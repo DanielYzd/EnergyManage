@@ -34,11 +34,18 @@
       <el-form-item label="备注">
         <el-input type="textarea" v-model="ruleForm.notes"></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="save('ruleForm')" size="mini"
-          >保存</el-button
+      <el-form-item style="display:flex;flex-direction:row-reverse">
+        <el-button
+          size="mini"
+          type="danger"
+          icon="el-icon-delete"
+          @click="delNode"
+          >删除</el-button
         >
         <el-button type="primary" @click="cancle()" size="mini">取消</el-button>
+        <el-button type="primary" @click="save('ruleForm')" size="mini"
+          >确认</el-button
+        >
       </el-form-item>
     </el-form>
     <slot></slot>
@@ -100,6 +107,9 @@ export default {
     cancle() {
       console.log((this.$parent.showType = ''))
       // console.log((this.$parent.btnDisabled = true))
+    },
+    delNode() {
+      this.$emit('delNode')
     }
   }
 }
