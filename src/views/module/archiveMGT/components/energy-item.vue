@@ -34,7 +34,11 @@ export default {
         },
         {
           prop: 'differmeter',
-          label: '计量公式'
+          label: '＋公式'
+        },
+        {
+          prop: 'summeter',
+          label: '-公式'
         },
         {
           button: true,
@@ -48,10 +52,23 @@ export default {
               type: 'primary',
               size: 'mini',
               icon: 'el-icon-edit',
+              value: '指标',
               //   plain: true,
               onClick: (row, index) => {
                 // 箭头函数写法的 this 代表 Vue 实例
-                this._onEditDialog(row, index)
+                this._edit('content', row, index)
+              }
+            },
+            {
+              name: '编辑',
+              type: 'primary',
+              size: 'mini',
+              icon: 'el-icon-edit',
+              value: '公式',
+              //   plain: true,
+              onClick: (row, index) => {
+                // 箭头函数写法的 this 代表 Vue 实例
+                this._edit('table', row, index)
               }
             }
           ]
@@ -115,7 +132,9 @@ export default {
         }
       })
     },
-    _onEditDialog(row, index) {}
+    _edit(type, row, index) {
+      this.$emit('itemedit', type, row, index)
+    }
   }
 }
 </script>

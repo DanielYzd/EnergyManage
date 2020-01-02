@@ -51,6 +51,31 @@ const building = {
     return axios.get('/archive/transformer/queryallenergytype', {
       params: params
     })
+  },
+  // GET /archive/transformer/queryenergyitem
+  queryenergyitem(params) {
+    return axios.get('/archive/transformer/queryenergyitem', {
+      params: params
+    })
+  },
+  // GET /archive/transfomer/itemaddmeter 查询已挂载的表计
+  itemaddmeter(params) {
+    params = adornParams(params)
+    return axios.get('/archive/transfomer/itemaddmeter', {
+      params: params
+    })
+  },
+  // GET /archive/transfomer/itemsubmeter 查询已挂载的表计
+  itemsubmeter(params) {
+    return axios.get('/archive/transfomer/itemsubmeter', {
+      params: params
+    })
+  },
+  // GET /archive/transfomer/itemunmountedmeter 查询待挂载表计
+  itemunmountedmeter(params) {
+    return axios.get('/archive/transfomer/itemunmountedmeter', {
+      params: params
+    })
   }
   //   // GET /archive/branchline/querytopline 查询树
   //   querytopline(params) {

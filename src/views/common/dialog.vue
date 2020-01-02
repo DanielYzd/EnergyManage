@@ -4,10 +4,11 @@
       :title="title"
       :visible.sync="dialogVisible"
       :width="width"
+      :top="top"
       :close-on-click-modal="false"
       v-if="dialogVisible"
       :show-close="showClose"
-      center
+      :center="center"
     >
       <slot></slot>
       <span slot="footer" class="dialog-footer" v-show="showFoot">
@@ -42,9 +43,17 @@ export default {
       type: Boolean,
       default: true
     },
+    center: {
+      type: Boolean,
+      default: true
+    },
     showClose: {
       type: Boolean,
       default: false
+    },
+    top: {
+      type: String,
+      default: '15vh'
     },
     width: {
       type: String,

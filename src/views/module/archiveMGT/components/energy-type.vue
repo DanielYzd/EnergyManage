@@ -29,19 +29,23 @@ export default {
           label: '分类类别'
         },
         {
-          prop: 'itemname',
-          label: '计量公式'
+          prop: 'summeter',
+          label: '+公式'
         },
         {
           prop: 'differmeter',
+          label: '-公式'
+        },
+        {
+          prop: 'energyunit',
           label: '单位'
         },
         {
-          prop: 'differmeter',
+          prop: 'coalcoefficient',
           label: '折标准系煤数'
         },
         {
-          prop: '',
+          prop: 'typetype',
           label: '采集类型'
         },
         {

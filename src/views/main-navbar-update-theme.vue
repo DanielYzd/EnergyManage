@@ -1,37 +1,42 @@
 <template>
-  <el-dialog
-    title="主题选择"
-    :visible.sync="visible"
-    :append-to-body="true"
-    v-loading="loading"
-    element-loading-text="主题切换编译中..."
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.8)"
-  >
-    <el-select v-model="theme" @change="changeTheme">
-      <el-option
-        v-for="item in themeArr"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      >
-        <div :style="{ background: item.color }">
-          <span style="color:#fff;margin-left:45px;">{{ item.label }}</span>
-        </div>
-      </el-option>
-    </el-select>
-    <div
-      :style="{
-        height: '40px',
-        width: '40px',
-        background: beijing,
-        marginLeft: '10px'
-      }"
-    ></div>
-    <span slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="visible = false">关闭</el-button>
-    </span>
-  </el-dialog>
+  <div>
+    <el-dialog
+      title="主题选择"
+      class="theme"
+      :visible.sync="visible"
+      :append-to-body="true"
+      v-loading="loading"
+      element-loading-text="主题切换编译中..."
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+    >
+      <el-select v-model="theme" @change="changeTheme">
+        <el-option
+          v-for="item in themeArr"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+          <div :style="{ background: item.color }">
+            <span style="color:#fff;margin-left:45px;">{{ item.label }}</span>
+          </div>
+        </el-option>
+      </el-select>
+      <div
+        :style="{
+          height: '40px',
+          width: '40px',
+          background: beijing,
+          marginLeft: '10px'
+        }"
+      ></div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="visible = false" size="mini"
+          >关闭</el-button
+        >
+      </span>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -145,10 +150,13 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.el-dialog__body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+<style lang="scss" scoped>
+.theme {
+  /deep/.el-dialog__body {
+    // padding: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>

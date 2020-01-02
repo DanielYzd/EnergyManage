@@ -34,15 +34,35 @@
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="电能分项" name="first" :lazy="true">
             <!-- v-if 每次切换标签会重新加载组件 -->
-            <energy-item v-if="activeName === 'first'"></energy-item>
+            <energy-item
+              v-if="activeName === 'first'"
+              @itemedit="item_edit"
+            ></energy-item>
           </el-tab-pane>
-          <el-tab-pane label="能源分项" name="second" :lazy="true">
+          <el-tab-pane label="能源分类" name="second" :lazy="true">
             <energy-type v-if="activeName === 'second'"></energy-type>
           </el-tab-pane>
         </el-tabs>
       </div>
       <empty v-else></empty>
     </div>
+    <!-- 电能分项编辑弹框 -->
+    <Dialog
+      :title="'电能分项设置'"
+      :dialogVisible="itemDialogVisible"
+      :showClose="false"
+      :width="'60%'"
+      @cancle="itemCancle"
+      :top="'15vh'"
+      :center="false"
+    >
+      <dialog-content-item
+        v-if="itemtype === 'content'"
+        :itemrow="itemrow"
+      ></dialog-content-item>
+      <dialog-table-item :itemrow="itemrow" v-if="itemtype === 'table'">
+      </dialog-table-item>
+    </Dialog>
   </div>
 </template>
 
@@ -52,13 +72,19 @@ import EnergyAddorUpdate from './components/energy-add-update'
 import empty from '@/views/common/Empty'
 import EnergyItem from './components/energy-item'
 import EnergyType from './components/energy-type'
+import Dialog from '@/views/common/dialog'
+import DialogContentItem from './components/DialogContentItem'
+import DialogTableItem from './components/DialogTableItem'
 export default {
   components: {
     Tree,
     EnergyAddorUpdate,
     EnergyItem,
     EnergyType,
-    empty
+    empty,
+    Dialog,
+    DialogContentItem,
+    DialogTableItem
   },
   data() {
     return {
@@ -73,7 +99,10 @@ export default {
       activeName: 'first',
       type: '',
       parentData: {},
-      queryoneLoading: false
+      queryoneLoading: false,
+      itemDialogVisible: false,
+      itemrow: '',
+      itemtype: ''
     }
   },
   created() {
@@ -102,6 +131,7 @@ export default {
         })
       }
     },
+    //新增建筑档案按钮
     add() {
       //type=add 表示新增
 
@@ -111,9 +141,13 @@ export default {
         this.parentData = {}
       })
     },
+    //建筑档案表单取消按钮
     cancle() {
-      this.type = ''
+      this.$nextTick(() => {
+        this.type = ''
+      })
     },
+    //建筑档案表单删除按钮
     deletebuilding() {
       this.$confirm('此操作将永久删除该建筑档案, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -132,6 +166,7 @@ export default {
           })
         })
     },
+    //建筑档案新增编辑确定按钮
     confirm(value) {
       console.log(value)
       if (this.type === 'add') {
@@ -158,7 +193,7 @@ export default {
       }
     },
     handleClick() {},
-
+    //查询建筑档案树
     queryallbuilding() {
       this.loading = true
       this.defaultExpandedKeys = []
@@ -189,6 +224,17 @@ export default {
           this.treeData = data
         }
       })
+    },
+    //电能分项列表编辑按钮
+    item_edit(type, row, index) {
+      console.log(row)
+      console.log(index)
+      this.itemrow = row
+      this.itemtype = type
+      this.itemDialogVisible = true
+    },
+    itemCancle() {
+      this.itemDialogVisible = false
     }
   }
 }
@@ -207,6 +253,11 @@ export default {
       /deep/.el-tabs__content {
         overflow: visible;
       }
+    }
+  }
+  /deep/.el-dialog {
+    .el-dialog__body {
+      padding: 0 20px !important;
     }
   }
 }

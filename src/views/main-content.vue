@@ -107,7 +107,6 @@ export default {
           : { minHeight: height + 'px' }
       }
       let viewHeight = { height: height + 'px', padding: '0' }
-      console.log(viewHeight)
       return viewHeight
     },
     activeStyle() {
