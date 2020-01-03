@@ -4,6 +4,7 @@
       <slot name="toolbar"> </slot>
     </div>
     <el-table
+      ref="table"
       style="width:100%;"
       v-loading="tableoptions.loading"
       element-loading-text="加载中..."
@@ -103,6 +104,7 @@
       layout="total, sizes, prev, pager, next, jumper"
       @size-change="handleSizeChange"
       @current-change="handleIndexChange"
+      :small="pagination.small"
       style="margin-top: 20px;text-align: right"
     >
     </el-pagination>
@@ -188,6 +190,9 @@ export default {
       } else {
         return index
       }
+    },
+    clearSelection() {
+      console.log(this.$refs.table.clearSelection())
     }
   }
 }

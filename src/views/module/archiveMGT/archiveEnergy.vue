@@ -40,7 +40,10 @@
             ></energy-item>
           </el-tab-pane>
           <el-tab-pane label="能源分类" name="second" :lazy="true">
-            <energy-type v-if="activeName === 'second'"></energy-type>
+            <energy-type
+              v-if="activeName === 'second'"
+              @editType="type_edit"
+            ></energy-type>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -51,17 +54,44 @@
       :title="'电能分项设置'"
       :dialogVisible="itemDialogVisible"
       :showClose="false"
+      :showFoot="false"
       :width="'60%'"
-      @cancle="itemCancle"
       :top="'15vh'"
       :center="false"
     >
       <dialog-content-item
         v-if="itemtype === 'content'"
         :itemrow="itemrow"
+        @contentCancle="contentCancle"
+        @contentConfirm="contentConfirm"
       ></dialog-content-item>
-      <dialog-table-item :itemrow="itemrow" v-if="itemtype === 'table'">
+      <dialog-table-item
+        :itemrow="itemrow"
+        v-if="itemtype === 'table'"
+        @closeItemTable="closeItemTable"
+      >
       </dialog-table-item>
+    </Dialog>
+    <Dialog
+      :title="'能源分类设置'"
+      :dialogVisible="typeDialogVisible"
+      :showClose="false"
+      :showFoot="false"
+      :width="'60%'"
+      :top="'15vh'"
+      :center="false"
+    >
+      <DialogContentType
+        :typerow="typerow"
+        @typecontentClose="typecontentClose"
+        v-if="typetype === 'content'"
+      ></DialogContentType>
+      <DialogTableType
+        :typerow="typerow"
+        v-if="typetype === 'table'"
+        @closeTypeTable="closeTypeTable"
+      >
+      </DialogTableType>
     </Dialog>
   </div>
 </template>
@@ -75,6 +105,8 @@ import EnergyType from './components/energy-type'
 import Dialog from '@/views/common/dialog'
 import DialogContentItem from './components/DialogContentItem'
 import DialogTableItem from './components/DialogTableItem'
+import DialogContentType from './components/DialogContentType'
+import DialogTableType from './components/DialogTableType'
 export default {
   components: {
     Tree,
@@ -84,7 +116,9 @@ export default {
     empty,
     Dialog,
     DialogContentItem,
-    DialogTableItem
+    DialogTableItem,
+    DialogContentType,
+    DialogTableType
   },
   data() {
     return {
@@ -102,7 +136,10 @@ export default {
       queryoneLoading: false,
       itemDialogVisible: false,
       itemrow: '',
-      itemtype: ''
+      itemtype: '',
+      typerow: '',
+      typetype: '',
+      typeDialogVisible: false //分类的弹框
     }
   },
   created() {
@@ -233,8 +270,41 @@ export default {
       this.itemtype = type
       this.itemDialogVisible = true
     },
-    itemCancle() {
+    type_edit(row, index, type) {
+      this.typerow = row
+      this.typetype = type
+      this.typeDialogVisible = true
+    },
+    contentCancle() {
       this.itemDialogVisible = false
+    },
+    closeItemTable() {
+      this.itemDialogVisible = false
+    },
+    closeTypeTable() {
+      this.typeDialogVisible = false
+    },
+    contentConfirm(body) {
+      console.log(body)
+      this.$api.building.saveitemtagert(body).then(res => {
+        console.log(res)
+        if (res.code === 0) {
+          this.itemDialogVisible = false
+          // this.$message({
+          //   type: 'success',
+          //   message: '更新成功'
+          // })
+          this.$notify({
+            title: '更新成功',
+            type: 'success',
+            offset: 50
+          })
+        }
+      })
+    },
+    //分类能耗弹框关闭
+    typecontentClose() {
+      this.typeDialogVisible = false
     }
   }
 }

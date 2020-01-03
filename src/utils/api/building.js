@@ -76,6 +76,58 @@ const building = {
     return axios.get('/archive/transfomer/itemunmountedmeter', {
       params: params
     })
+  },
+  // POST /archive/transfomer/saveitemtagert
+  saveitemtagert(data) {
+    data = adornData(data)
+    return axios.post('/archive/transfomer/saveitemtagert', data)
+  },
+  // GET /archive/transformer/queryenergyitemtarget 查询能耗信息年月
+  queryenergyitemtarget(params) {
+    params = adornParams(params)
+    return axios.get('/archive/transformer/queryenergyitemtarget', {
+      params: params
+    })
+  },
+  // POST /archive/association/dismountitemmeter//卸载分项上的电表
+  dismountitemmeter(data) {
+    return axios.post('/archive/association/dismountitemmeter', data)
+  },
+  // POST /archive/transfromer/mountitemmeter 挂载分项上电表
+  mountitemmeter(data) {
+    return axios.post('/archive/transfromer/mountitemmeter', data)
+  },
+  // GET /archive/dicListclass 查询所有分类类别
+  dicListclass(params) {
+    return axios.get('/archive/dicListclass', {
+      params: params
+    })
+  },
+  // GET /archive/transformer/queryenergytypeone //查询单个能源分类
+  queryenergytypeone(params) {
+    return axios.get('/archive/transformer/queryenergytypeone', {
+      params: params
+    })
+  },
+  // GET /archive/association/afterresultwater //查询已挂载
+  afterresultwater(params) {
+    return axios.get('/archive/association/afterresultwater', {
+      params: params
+    })
+  },
+  // GET /archive/association/querywaterchildnode //查询待挂载
+  querywaterchildnode(params) {
+    return axios.get('/archive/association/querywaterchildnode', {
+      params: params
+    })
+  },
+  // POST /archive/association/mountlinewater 挂载水表
+  mountlinewater(data) {
+    return axios.post('/archive/association/mountlinewater', data)
+  },
+  // POST /archive/association/unmountlinewater 卸载水表
+  unmountlinewater(data) {
+    return axios.post('/archive/association/unmountlinewater', data)
   }
   //   // GET /archive/branchline/querytopline 查询树
   //   querytopline(params) {

@@ -56,14 +56,32 @@ export default {
           group: [
             {
               // you can props => type size icon disabled plain
-              name: '编辑',
+              name: '能耗',
+              type: 'primary',
+              size: 'mini',
+              icon: 'el-icon-edit',
+              value: '能耗',
+              //   plain: true,
+
+              onClick: (row, index) => {
+                // 箭头函数写法的 this 代表 Vue 实例
+                this._onEditDialog(row, index, 'content')
+              }
+            },
+            {
+              // you can props => type size icon disabled plain
+              name: '公式',
               type: 'primary',
               size: 'mini',
               icon: 'el-icon-edit',
               //   plain: true,
+              value: '公式',
+              disabled: row => {
+                return row.typecode === '88'
+              },
               onClick: (row, index) => {
                 // 箭头函数写法的 this 代表 Vue 实例
-                this._onEditDialog(row, index)
+                this._onEditDialog(row, index, 'table')
               }
             }
           ]
@@ -130,7 +148,9 @@ export default {
     //     }
     //   })
     // },
-    _onEditDialog(row, index) {}
+    _onEditDialog(row, index, type) {
+      this.$emit('editType', row, index, type)
+    }
   }
 }
 </script>
