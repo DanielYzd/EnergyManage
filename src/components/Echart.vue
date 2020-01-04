@@ -74,6 +74,7 @@ export default {
         yAxis: [
           {
             type: 'value',
+            // type: 'category',
             axisLine: {
               lineStyle: {
                 color: '#17b3a3'
@@ -128,11 +129,7 @@ export default {
       },
       normalOption: {
         // 图例
-        // legend: {
-        //   textStyle: {
-        //     color: '#333'
-        //   }
-        // },
+        legend: {},
         // 触发
         tooltip: {
           trigger: 'item'
@@ -169,18 +166,27 @@ export default {
     initChart() {
       this.initChartData()
       if (this.echart) {
-        this.echart.setOption(this.options, true)
+        this.$nextTick(() => {
+          this.echart.setOption(this.options, true)
+        })
       } else {
-        this.echart = echarts.init(this.$refs.echart)
-        this.echart.setOption(this.options, true)
+        this.$nextTick(() => {
+          this.echart = echarts.init(this.$refs.echart)
+          this.echart.setOption(this.options, true)
+        })
       }
     },
     initChartData() {
+      console.log(this.chartData)
       if (this.isAxisChart) {
         this.axisOption.xAxis.data = this.chartData.xData
         this.axisOption.series = this.chartData.series
+        this.axisOption.tooltip = this.chartData.tooltip
+        this.axisOption.legend = this.chartData.legend
       } else {
         this.normalOption.series = this.chartData.series
+        this.normalOption.tooltip = this.chartData.tooltip
+        this.normalOption.legend = this.chartData.legend
       }
     },
     resizeChart() {
@@ -188,8 +194,11 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('resize', this.resizeChart)
     this.initChart()
+    window.addEventListener('resize', this.resizeChart)
+  },
+  created() {
+    this.resizeChart()
   },
   // 避免内存泄漏
   destroyed() {

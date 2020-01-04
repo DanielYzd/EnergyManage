@@ -1,313 +1,417 @@
 <template>
   <div class="home">
-    <el-row :gutter="20" class="top">
-      <el-col :xs="24" :sm="24" :lg="8">
-        <el-card shadow="always">
+    <el-row :gutter="20">
+      <el-col :span="8">
+        <el-card shadow="hover">
           <div slot="header">
-            <span>档案信息</span>
-          </div>
-          <div class="num" v-loading="loading">
-            <el-card
-              shadow="always"
-              :body-style="{ display: 'flex', padding: 0 }"
-              v-for="item in countData"
-              :key="item.name"
-            >
-              <icon-svg
-                class="icon"
-                :name="item.icon"
-                :style="{ background: item.color }"
-              ></icon-svg>
-              <div class="detail">
-                <p class="num">{{ item.value }}</p>
-                <p class="txt">{{ item.name }}</p>
-              </div>
-            </el-card>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <el-card shadow="always">
-          <div slot="header">
-            <span>能耗日历-电力 (kWh)</span>
-          </div>
-          <el-row class="calendar" :gutter="20">
-            <el-col :span="15">
-              <el-calendar v-model="value"></el-calendar>
-            </el-col>
-            <el-col :span="9">
-              <el-card shadow="hover" style="background:#5ec680">
-                <div class="rightnum">
-                  <p class="num">???万</p>
-                  <p class="txt">日用量</p>
-                  <p class="num">???万</p>
-                  <p class="txt">月用量</p>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-          <el-row class="calendardata">
-            <el-col :span="8">
-              <h3 class="num">{{ energy.energy_ele }}万 kWh</h3>
-              <h5 class="txt">累计用电量</h5>
-            </el-col>
-            <el-col :span="8">
-              <h3 class="num">{{ energy.energy_wat }}万 m3</h3>
-              <h5 class="txt">累计用水量</h5>
-            </el-col>
-            <el-col :span="8">
-              <h3 class="num">{{ energy.energy_gas }}万 m3</h3>
-              <h5 class="txt">累计用气量</h5>
-            </el-col>
-          </el-row>
-        </el-card>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <el-card shadow="hover" class="control">
-          <div slot="header">
-            <span>费控信息</span>
+            <h2>企业信息</h2>
           </div>
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-card
-                shadow="hover"
-                :body-style="{ display: 'flex', padding: 0 }"
-                class="itemstyle"
-                v-for="item in controlData"
-                :key="item.index"
-                style="min-width:170px"
-              >
-                <icon-svg
-                  class="icon"
-                  :name="item.icon"
-                  :style="{ background: item.color }"
-                ></icon-svg>
-                <div class="detail">
-                  <p class="num">
-                    {{ item.value }}
-                  </p>
-                  <p class="txt">
-                    {{ item.name }}
-                  </p>
-                </div>
-              </el-card>
+              <div class="content">
+                <el-row style="width:100%">
+                  <el-col :span="12">
+                    <icon-svg name="zhubiantaishu" class="zhubian"></icon-svg>
+                  </el-col>
+                  <el-col :span="12" class="title">
+                    <div class="title1">111</div>
+                    <div class="title2">主变台数(台)</div>
+                  </el-col>
+                </el-row>
+              </div>
             </el-col>
             <el-col :span="12">
-              <el-progress
-                type="circle"
-                :stroke-width="16"
-                :percentage="payPerc"
-                color="#ea686e"
-                style="color: #fff;"
-              ></el-progress>
-              <el-card
-                shadow="hover"
-                :body-style="{ padding: 0, background: '#ea686e' }"
-                class="itemstyle"
-              >
-                <div>
-                  <p
-                    style="font-size:26px;text-align:center;line-height:30px;color:#ffffff"
-                  >
-                    {{ payPerc }}
-                  </p>
-                  <p
-                    style="font-size:20px;text-align:center;line-height:30px;color:#ffffff"
-                  >
-                    欠费户占比
-                  </p>
-                </div>
-              </el-card>
-              <el-card
-                shadow="hover"
-                :body-style="{ padding: 0, background: '#ea686e' }"
-                class="itemstyle"
-              >
-                <div>
-                  <p
-                    style="font-size:26px;text-align:center;line-height:30px;color:#ffffff"
-                  >
-                    {{ noPayCustomerNum }}
-                  </p>
-                  <p
-                    style="font-size:20px;text-align:center;line-height:30px;color:#ffffff"
-                  >
-                    欠费户数
-                  </p>
-                </div>
-              </el-card>
+              <div class="content">
+                <el-row style="width:100%">
+                  <el-col :span="12">
+                    <icon-svg
+                      name="zhuangjirongliang"
+                      class="zhubian"
+                    ></icon-svg>
+                  </el-col>
+                  <el-col :span="12" class="title">
+                    <div class="title1">111</div>
+                    <div class="title2">装机容量(kVA)</div>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20" style="margin-top:20px;">
+            <el-col :span="12">
+              <div class="content">
+                <el-row style="width:100%">
+                  <el-col :span="12">
+                    <icon-svg
+                      name="wangguanshuliang"
+                      class="zhubian"
+                    ></icon-svg>
+                  </el-col>
+                  <el-col :span="12" class="title">
+                    <div class="title1">111</div>
+                    <div class="title2">网关数量(个)</div>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div class="content">
+                <el-row style="width:100%">
+                  <el-col :span="12">
+                    <icon-svg name="jiliangdianshu" class="zhubian"></icon-svg>
+                  </el-col>
+                  <el-col :span="12" class="title">
+                    <div class="title1">111</div>
+                    <div class="title2">计量点数(个)</div>
+                  </el-col>
+                </el-row>
+              </div>
             </el-col>
           </el-row>
         </el-card>
       </el-col>
-    </el-row>
-    <el-row :gutter="20" class="bottom">
-      <el-col :xs="24" :sm="24" :lg="12">
+      <el-col :span="8">
         <el-card shadow="hover">
-          <Echart style="height:400px;" :chartData="echartData.order"></Echart>
+          <div slot="header" class="clearfix">
+            <span>能耗日历</span>
+            <el-dropdown @command="handleCommand" style="float:right">
+              <icon-svg
+                name="menu"
+                style="font-size:16px;cursor:pointer"
+              ></icon-svg>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="a">水</el-dropdown-item>
+                <el-dropdown-item command="b">电</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+          <el-row :gutter="40" style="height:270px;">
+            <el-col :span="12" class="second">
+              <div class="secondname">
+                <div class="secondname1">水日用量</div>
+                <div class="secondname2">11233</div>
+              </div>
+              <div class="secondname">
+                <div class="secondname1">水月用量</div>
+                <div class="secondname2">11233</div>
+              </div>
+            </el-col>
+            <el-col :span="12" class="second">
+              <div class="secondname">
+                <div class="secondname1">水日用量</div>
+                <div class="secondname2">11233</div>
+              </div>
+              <div class="secondname">
+                <div class="secondname1">水日用量</div>
+                <div class="secondname2">11233</div>
+              </div>
+            </el-col>
+          </el-row>
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="12">
-        <el-card shadow="hover">
-          <Echart style="height:400px;" :chartData="echartData.user"></Echart>
+      <el-col :span="8">
+        <el-card shadow="hover" class="bodypad">
+          <div slot="header" class="clearfix">
+            <span>能耗用途</span>
+            <el-dropdown @command="handleCommand" style="float:right">
+              <icon-svg
+                name="menu"
+                style="font-size:16px;cursor:pointer"
+              ></icon-svg>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="a">水</el-dropdown-item>
+                <el-dropdown-item command="b">电</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+          <div class="piecontent">
+            <div class="symbol">单位(千瓦时)</div>
+            <div class="echart">
+              <Echart :isAxisChart="false" :chartData="chartData"></Echart>
+            </div>
+            <el-tabs type="border-card" class="tabs" stretch>
+              <el-tab-pane label="昨日"></el-tab-pane>
+              <el-tab-pane label="本月"></el-tab-pane>
+              <el-tab-pane label="本年"></el-tab-pane>
+            </el-tabs>
+          </div>
         </el-card>
       </el-col>
     </el-row>
+    <div class="bottomcontent">
+      <el-row :gutter="20" style="height:100%">
+        <el-col :span="12" style="height:100%">
+          <el-card shadow="hover">
+            <div slot="header" class="clearfix">
+              <span style="height:40px;line-height:40px;">能耗分类</span>
+              <el-tabs style="float:right;height:20px;">
+                <el-tab-pane label="逐时" name="first"></el-tab-pane>
+                <el-tab-pane label="逐日" name="second"></el-tab-pane>
+                <el-tab-pane label="逐月" name="third"></el-tab-pane>
+              </el-tabs>
+            </div>
+            <Echart :isAxisChart="true" :chartData="chartData1"></Echart>
+          </el-card>
+        </el-col>
+        <el-col :span="12" style="height:100%">
+          <el-card shadow="hover" style="height:100%">
+            <div slot="header" class="clearfix">
+              <span style="height:40px;line-height:40px;"
+                >纵向能耗同比-电力</span
+              >
+              <el-dropdown @command="handleCommand" style="float:right">
+                <icon-svg
+                  name="menu"
+                  style="font-size:16px;cursor:pointer;height:40px;line-height:40px;"
+                ></icon-svg>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="a">水</el-dropdown-item>
+                  <el-dropdown-item command="b">电</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+              <el-tabs style="float:right;height:20px;margin-right:20px;">
+                <el-tab-pane label="逐时" name="first"></el-tab-pane>
+                <el-tab-pane label="逐日" name="second"></el-tab-pane>
+                <el-tab-pane label="逐月" name="third"></el-tab-pane>
+              </el-tabs>
+            </div>
+            <Echart
+              class="echart"
+              :isAxisChart="true"
+              :chartData="chartData2"
+            ></Echart>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
 <script>
-import Echart from '@/components/Echart'
+import Echart from '@/components/Echart.vue'
 export default {
   components: {
     Echart
   },
   data() {
     return {
-      isAxisChart: false,
-      echartData: {
-        order: {
-          xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          series: [
-            {
-              data: [820, 932, 901, 934, 1290, 1330, 1320],
-              type: 'line'
-            }
-          ]
+      chartData: {
+        legend: {
+          //图例组件展现了不同系列的标记(symbol)，颜色和名字。可以通过点击图例控制哪些系列不显示。
+          show: true,
+          orient: 'vertical',
+          left: 'right',
+          textStyle: {
+            color: '#333'
+          }
         },
-        user: {
-          xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          series: [
-            {
-              name: '直接访问',
-              type: 'bar',
-              barWidth: '60%',
-              data: [10, 52, 200, 334, 390, 330, 220]
-            }
-          ]
-        }
+        tooltip: {
+          show: true,
+          trigger: 'item',
+          formatter: '{b} : {c} ({d}%)'
+        },
+        series: [
+          {
+            type: 'pie',
+            data: [
+              { value: 335, name: '直接访问' },
+              { value: 310, name: '邮件营销' },
+              { value: 234, name: '联盟广告' },
+              { value: 135, name: '视频广告' },
+              { value: 1548, name: '搜索引擎' }
+            ],
+            //饼图图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等
+            label: {
+              position: 'inside',
+              formatter: '{d}%'
+            },
+            center: ['45%', '45%']
+          }
+        ]
       },
-      loading: false,
-      countData: [
-        {
-          name: '主变数量(台)',
-          value: 0,
-          icon: 'zhubian',
-          color: '#b5621e'
+      chartData1: {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          }
         },
-        {
-          name: '终端数量(台)',
-          value: 0,
-          icon: 'zhongduan',
-          color: '#b5621e'
+        legend: {
+          data: ['水', '电']
         },
-        {
-          name: '装机容量(KVA)',
-          value: 0,
-          icon: 'ronliang',
-          color: '#2ec7c9'
-        },
-        {
-          name: '终端在线率',
-          value: '0%',
-          icon: 'rate',
-          color: '#2ec7c9'
-        },
-        {
-          name: '用户数量',
-          value: 0,
-          icon: 'admin',
-          color: '#5ec680'
-        },
-        {
-          name: '计量设备数量(台)',
-          value: 0,
-          icon: 'shebeicount',
-          color: '#5ec680'
-        }
-      ],
-      value: new Date(),
-      energy: {
-        energy_ele: 0,
-        energy_gas: 0,
-        energy_wat: 0
+        xData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+        series: [
+          {
+            name: '水',
+            type: 'bar',
+            stack: '总量',
+            areaStyle: {},
+            data: [120, 132, 101, 134, 300, 330, 410]
+          },
+          {
+            name: '电',
+            type: 'bar',
+            stack: '总量',
+            areaStyle: {},
+            data: [220, 182, 191, 234, 500, 330, 310]
+          }
+        ]
       },
-      controlData: [
-        {
-          name: '费控总用户数(户)',
-          icon: 'yonghuzongshu',
-          value: 0,
-          color: '#5ec680'
+      chartData2: {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          }
         },
-        {
-          name: '累计充值金额(元)',
-          icon: 'chongzhi',
-          value: 0,
-          color: '#f5a465'
+        legend: {
+          data: ['本月', '上月']
         },
-        {
-          name: '欠费总金额(元)',
-          icon: 'qianfei',
-          value: 0,
-          color: '#ea686e'
-        }
-      ],
-      payPerc: 0,
-      noPayCustomerNum: 0
+        xData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+        series: [
+          {
+            name: '本月',
+            type: 'line',
+
+            data: [120, 132, 101, 134, 90, 230, 410]
+          },
+          {
+            name: '上月',
+            type: 'line',
+
+            data: [220, 182, 191, 234, 290, 330, 310]
+          }
+        ]
+      }
     }
-  },
-  created() {
-    this.initData()
   },
   methods: {
-    ajaxGet(url, params, successFun, errorFun) {
-      this.$http({
-        url: this.$http.adornUrl(url),
-        method: 'get',
-        params: this.$http.adornParams(params)
-      })
-        .then(({ data }) => {
-          successFun(data)
-        })
-        .catch(error => {
-          console.log(error)
-          if (errorFun) {
-            errorFun(error)
-          } else {
-            this.$message.error('请求失败，稍后请重试!')
-          }
-        })
-    },
-    initData() {
-      this.ajaxGet('/data/stat/countArchives', {}, res => {
-        console.log(res.data)
-        this.countData[4].value = res.data.customerNum
-        // this.archives = res.data
-        this.countData[1].value = res.data.rtuNum
-      })
-      this.ajaxGet('/data/stat/countEnergy', {}, res => {
-        this.energy = res.data
-      })
-      this.ajaxGet('/data/stat/countPay', {}, res => {
-        this.controlData[0].value = res.data.customerNum
-        this.controlData[1].value = res.data.totalMoney
-        this.controlData[2].value = res.data.noPayTotalMoney
-        this.payPerc = parseFloat(res.data.payPerc)
-        this.noPayCustomerNum = parseInt(res.data.noPayCustomerNum)
-      })
-      this.ajaxGet('/data/stat/countRtuRate', {}, res => {
-        this.countData[3].value = res.data.rate
-        // this.loadOnlineRateChart(res.data.rate)
-      })
-      this.ajaxGet('/energy/compare/dayEnergyType', {}, res => {
-        console.log(111)
-        console.log(res)
-      })
-    }
+    handleCommand(command) {}
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~@/assets/scss/home.scss';
+.home {
+  height: 100%;
+  min-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  .el-card {
+    /deep/.el-card__header {
+      padding: 10px 20px !important;
+      .clearfix:before,
+      .clearfix:after {
+        display: table;
+        content: '';
+      }
+      .clearfix:after {
+        clear: both;
+      }
+    }
+    .content {
+      width: 100%;
+      height: 125px;
+      background-color: #f0f6f9;
+      display: flex;
+      padding: 0 10px;
+      // justify-content: center;
+      align-items: center;
+      /deep/.zhubian {
+        // background-color: #24a5e8;
+        font-size: 70px;
+      }
+
+      .title {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: 15px;
+        .title1 {
+          font-size: 20px;
+        }
+        .title2 {
+          font-size: 12px;
+        }
+      }
+    }
+    .second {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .secondname {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .secondname1 {
+          font-size: 14px;
+        }
+        .secondname2 {
+          margin-top: 10px;
+          color: #f79120;
+          font-size: 30px;
+        }
+      }
+    }
+  }
+  .bodypad {
+    /deep/.el-card__body {
+      padding: 0 !important;
+      .piecontent {
+        height: 310px;
+        display: flex;
+        flex-direction: column;
+      }
+      .symbol {
+        font-size: 12px;
+        margin: 10px 0 10px 10px;
+        color: rgb(78, 77, 77);
+      }
+      .echart {
+        flex: 1;
+      }
+      .tabs {
+        height: 30px;
+        .el-tabs__content {
+          padding: 0;
+        }
+      }
+    }
+  }
+  .bottomcontent {
+    flex: 1;
+    // padding: 10px;
+    margin-top: 10px;
+    .el-card {
+      height: 100%;
+      /deep/.el-card__header {
+        padding: 0px 20px !important;
+        height: 40px;
+        .clearfix:before,
+        .clearfix:after {
+          display: table;
+          content: '';
+        }
+        .clearfix:after {
+          clear: both;
+        }
+      }
+      /deep/.el-card__body {
+        padding: 0px;
+        min-height: 350px;
+        height: calc(100% - 40px);
+      }
+    }
+  }
+}
 </style>
