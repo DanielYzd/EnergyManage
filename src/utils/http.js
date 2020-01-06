@@ -8,13 +8,19 @@ import Vue from 'vue'
 console.log(process.env.NODE_ENV)
 console.log(process.env)
 if (process.env.NODE_ENV === 'development') {
-  axios.defaults.baseURL = 'http://39.100.106.72:8080/multi-meter-fast-api'
+  // axios.defaults.baseURL = 'http://39.100.106.72:8080/multi-meter-fast-api'
+  // axios.defaults.baseURL = 'http://120.77.200.215:8888/multi-meter-fast-api'
+  axios.defaults.baseURL = 'http://192.168.0.100:8080/multi-meter-fast-api'
   // axios.defaults.baseURL = 'http://127.0.0.1:8080/multi-meter-fast-api'
 } else if (process.env.NODE_ENV === 'test') {
-  axios.defaults.baseURL = 'http://39.100.106.72:8080/multi-meter-fast-api'
+  // axios.defaults.baseURL = 'http://39.100.106.72:8080/multi-meter-fast-api'
+  // axios.defaults.baseURL = 'http://120.77.200.215:8888/multi-meter-fast-api'
+  axios.defaults.baseURL = 'http://192.168.0.100:8080/multi-meter-fast-api'
   // axios.defaults.baseURL = 'http://127.0.0.1:8080/multi-meter-fast-api'
 } else if (process.env.NODE_ENV === 'production') {
-  axios.defaults.baseURL = 'http://39.100.106.72:8080/multi-meter-fast-api'
+  // axios.defaults.baseURL = 'http://39.100.106.72:8080/multi-meter-fast-api'
+  // axios.defaults.baseURL = 'http://120.77.200.215:8888/multi-meter-fast-api'
+  axios.defaults.baseURL = 'http://192.168.0.100:8080/multi-meter-fast-api'
   // axios.defaults.baseURL = 'http://127.0.0.1:8080/multi-meter-fast-api'
 }
 console.log(axios.defaults.baseURL)

@@ -22,10 +22,21 @@ import VueLazyLoad from 'vue-lazyload'
 import '@/assets/scss/index.scss'
 import httpRequest from '@/utils/httpRequest' // api: https://github.com/axios/axios
 import sysConfig from '@/utils/sysConfig'
-import { isAuth, formatDate, randomName, getMoble, getRtuAddress, showSuccessMsgBox, stringFormat } from '@/utils'
+import moment from 'moment' //导入文件
+import {
+  isAuth,
+  formatDate,
+  randomName,
+  getMoble,
+  getRtuAddress,
+  showSuccessMsgBox,
+  stringFormat
+} from '@/utils'
 import utils from '@/utils/utils'
 import api from './utils/api' // 导入api接口
 Vue.prototype.$api = api
+Vue.prototype.$moment = moment //赋值使用
+moment.locale('zh-cn') //需要汉化
 Vue.use(VueLazyLoad)
 Vue.use(VueCookie)
 Vue.config.productionTip = false

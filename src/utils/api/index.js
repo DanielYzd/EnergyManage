@@ -4,6 +4,7 @@ import region from './region' //区域
 import transformer from './transformer' //档案接口
 import branchline from './branchline' //分线接口
 import building from './building'
+import energyhome from './energyhome'
 
 // 导出接口
 export default {
@@ -12,5 +13,6 @@ export default {
   region,
   transformer,
   branchline,
-  building
+  building,
+  energyhome
 }

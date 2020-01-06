@@ -51,6 +51,7 @@ export default {
             color: '#333'
           }
         },
+        title: {},
         // 触发类型
         tooltip: {
           trigger: 'axis'
@@ -183,6 +184,7 @@ export default {
         this.axisOption.series = this.chartData.series
         this.axisOption.tooltip = this.chartData.tooltip
         this.axisOption.legend = this.chartData.legend
+        this.axisOption.title = this.chartData.title
       } else {
         this.normalOption.series = this.chartData.series
         this.normalOption.tooltip = this.chartData.tooltip

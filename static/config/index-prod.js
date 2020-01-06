@@ -6,7 +6,9 @@
 
   // api接口请求地址
   window.SITE_CONFIG['baseUrl'] =
-    'http://39.100.106.72:8080/multi-meter-fast-api'
+    // 'http://39.100.106.72:8080/multi-meter-fast-api'
+    // 'http://120.77.200.215:8888/multi-meter-fast-api'
+    'http://192.168.0.100:8080/multi-meter-fast-api'
   // window.SITE_CONFIG['baseUrl'] = 'http://127.0.0.1:8080/multi-meter-fast-api'
 
   // cdn地址 = 域名 + 版本号
