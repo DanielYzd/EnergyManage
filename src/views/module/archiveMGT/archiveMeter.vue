@@ -7,12 +7,6 @@
       size="small"
       labelWidth="85px"
     >
-      <region-select-item
-        label="所属区域"
-        v-model="dataForm.regionName"
-        @getRegion="getSelectRegion"
-        class="queryFormItem"
-      ></region-select-item>
       <el-form-item label="计量标志" class="queryFormItem">
         <el-select
           v-model="dataForm.loopUsedType"

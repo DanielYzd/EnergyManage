@@ -57,13 +57,7 @@ export default {
         series: [
           {
             type: 'pie',
-            data: [
-              { value: 335, name: '空调' },
-              { value: 310, name: '电梯' },
-              { value: 234, name: '水表' },
-              { value: 135, name: '照明' },
-              { value: 1548, name: '弱电机房' }
-            ],
+            data: [],
             //饼图图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等
             label: {
               position: 'inside',
@@ -88,10 +82,10 @@ export default {
     handle() {
       switch (this.activeName) {
         case 'first': {
-          // let beginDate = time.yesterday
-          // let endDate = time.yesterday
-          let beginDate = '20200104'
-          let endDate = '20200104'
+          let beginDate = time.yesterday
+          let endDate = time.yesterday
+          // let beginDate = '20200104'
+          // let endDate = '20200104'
           this.purpose(beginDate, endDate)
           break
         }

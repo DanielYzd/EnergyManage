@@ -62,7 +62,7 @@ const mainRoutes = {
     {
       path: '/home',
       // component: () => import('@/views/common/home'),
-      component: _import('common/home'),
+      component: _import('module/consumptionMGT/home'),
       name: 'home',
       meta: { title: '首页', keepAlive: true }
     },

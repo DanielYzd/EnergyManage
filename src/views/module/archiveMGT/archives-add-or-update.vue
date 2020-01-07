@@ -515,25 +515,25 @@
 </template>
 
 <script>
-import { isMobile } from "@/utils/validate";
-import tool from "@/utils/tool";
-import { treeDataTranslate, randomName } from "@/utils";
-import regionSelect from "@/views/modules/pob/region-select";
+import { isMobile } from '@/utils/validate'
+import tool from '@/utils/tool'
+import { treeDataTranslate, randomName } from '@/utils'
+import regionSelect from '@/views/modules/pob/region-select'
 
-const PPF_STATUS_ON = 0;
-const PPF_AUTOCONTROL_ON = 0;
+const PPF_STATUS_ON = 0
+const PPF_AUTOCONTROL_ON = 0
 export default {
   data() {
     var validateMobile = (rule, value, callback) => {
       if (!isMobile(value)) {
-        callback(new Error("手机号格式错误"));
+        callback(new Error('手机号格式错误'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
-      activeNames: ["1", "2"],
-      activedTabName: "-1",
+      activeNames: ['1', '2'],
+      activedTabName: '-1',
       activedTabName_0: null,
       activedTabName_1: null,
       activedTabName_2: null,
@@ -543,17 +543,17 @@ export default {
       oldType: [0],
       isCanModify: true,
       schemeidList: [
-        { schemeid: 2, disc: "每天" },
-        { schemeid: 3, disc: "每月" }
+        { schemeid: 2, disc: '每天' },
+        { schemeid: 3, disc: '每月' }
       ],
       dataForm: {
         customerid: 0,
-        disc: "",
-        regionName: this.$cookie.get("regionName"),
-        regionid: this.$cookie.get("regionid"),
-        doorplate: "",
-        telephone: "",
-        address: "",
+        disc: '',
+        regionName: this.$cookie.get('regionName'),
+        regionid: this.$cookie.get('regionid'),
+        doorplate: '',
+        telephone: '',
+        address: '',
         rtuCommAddress: null,
         rtuid: null,
         eleMeters: [],
@@ -562,7 +562,7 @@ export default {
         hotMeters: [],
         isppf: false,
         ppfstatus: false,
-        starttime: tool.formatDate(new Date(), "yyyy-MM-dd 00:00:00"),
+        starttime: tool.formatDate(new Date(), 'yyyy-MM-dd 00:00:00'),
         autoControl: true,
         khje: 0,
         tzje: 0,
@@ -578,323 +578,323 @@ export default {
       unitPriceList: [],
       meterTypeList: this.$sysConfig.getMeterTypes(), // ,//,{key : '热',value : 3}
       energyEleTypeList: [
-        { value: 1, key: "照明与插座用电" },
-        { value: 2, key: "空调用电" },
-        { value: 3, key: "动力用电" },
-        { value: 4, key: "特殊用电" }
+        { value: 1, key: '照明与插座用电' },
+        { value: 2, key: '空调用电' },
+        { value: 3, key: '动力用电' },
+        { value: 4, key: '特殊用电' }
       ],
       energyWatTypeList: [
-        { value: 5, key: "厨卫生活用水" },
-        { value: 6, key: "道路景观用水" }
+        { value: 5, key: '厨卫生活用水' },
+        { value: 6, key: '道路景观用水' }
       ],
-      energyGasTypeList: [{ value: 7, key: "居民用气" }],
-      energyHotTypeList: [{ value: 8, key: "居民用热" }],
+      energyGasTypeList: [{ value: 7, key: '居民用气' }],
+      energyHotTypeList: [{ value: 8, key: '居民用热' }],
       ctList: [],
       ptList: [],
       dataRule: {
-        disc: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
+        disc: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
         regionName: [
-          { required: true, message: "所属区域不能为空", trigger: "blur" }
+          { required: true, message: '所属区域不能为空', trigger: 'blur' }
         ]
         //        ,telephone: [
         //          { required: true, message: '手机号不能为空', trigger: 'blur' },
         //          { validator: validateMobile, trigger: 'blur' }
         //        ]
       }
-    };
+    }
   },
   watch: {
     type: function(newVal, oldVal) {
-      this.oldType = oldVal;
+      this.oldType = oldVal
     },
     visible(newVal, oldVal) {
-      this.resetForm();
+      this.resetForm()
     }
   },
   components: {
-    "region-select-item": regionSelect
+    'region-select-item': regionSelect
   },
   computed: {
     eleUnitPriceList() {
       return this.unitPriceList.filter(item => {
-        return item.type === 0;
-      });
+        return item.type === 0
+      })
     },
     watUnitPriceList() {
       return this.unitPriceList.filter(item => {
-        return item.type === 1;
-      });
+        return item.type === 1
+      })
     },
     gasUnitPriceList() {
       return this.unitPriceList.filter(item => {
-        return item.type === 2;
-      });
+        return item.type === 2
+      })
     }
   },
   methods: {
     resetForm() {
-      let vm = this;
-      let refDataForm = vm.$refs["dataForm"];
+      let vm = this
+      let refDataForm = vm.$refs['dataForm']
       if (refDataForm) {
         setTimeout(function() {
-          refDataForm.resetFields();
-          vm.setInitData();
-        }, 20);
+          refDataForm.resetFields()
+          vm.setInitData()
+        }, 20)
       }
     },
     setInitData() {
-      this.dataForm.disc = "";
-      this.dataForm.regionid = 0;
-      this.dataForm.regionName = "";
-      this.dataForm.hh = "";
-      this.dataForm.rtuCommAddress = "";
-      this.dataForm.doorplate = "";
-      this.dataForm.telephone = "";
-      this.dataForm.telephone2 = "";
-      this.dataForm.address = "";
-      this.dataForm.eleMeters = [];
-      this.dataForm.watMeters = [];
-      this.dataForm.gasMeters = [];
-      this.dataForm.hotMeters = [];
+      this.dataForm.disc = ''
+      this.dataForm.regionid = 0
+      this.dataForm.regionName = ''
+      this.dataForm.hh = ''
+      this.dataForm.rtuCommAddress = ''
+      this.dataForm.doorplate = ''
+      this.dataForm.telephone = ''
+      this.dataForm.telephone2 = ''
+      this.dataForm.address = ''
+      this.dataForm.eleMeters = []
+      this.dataForm.watMeters = []
+      this.dataForm.gasMeters = []
+      this.dataForm.hotMeters = []
 
-      this.isCanModify = true;
-      this.dataForm.isppf = false;
-      this.dataForm.ppfstatus = false;
+      this.isCanModify = true
+      this.dataForm.isppf = false
+      this.dataForm.ppfstatus = false
       this.dataForm.starttime = tool.formatDate(
         new Date(),
-        "yyyy-MM-dd 00:00:00"
-      );
-      this.dataForm.checkOutTime = "";
-      this.dataForm.autoControl = false;
-      this.dataForm.khje = 0;
-      this.dataForm.tzje = 0;
-      this.dataForm.bjje = 0;
-      this.dataForm.unitPriceEle = null;
-      this.dataForm.unitPriceWat = null;
-      this.dataForm.unitPriceGas = null;
-      this.dataForm.jssj = 1;
-      this.dataForm.jszq = 2;
+        'yyyy-MM-dd 00:00:00'
+      )
+      this.dataForm.checkOutTime = ''
+      this.dataForm.autoControl = false
+      this.dataForm.khje = 0
+      this.dataForm.tzje = 0
+      this.dataForm.bjje = 0
+      this.dataForm.unitPriceEle = null
+      this.dataForm.unitPriceWat = null
+      this.dataForm.unitPriceGas = null
+      this.dataForm.jssj = 1
+      this.dataForm.jszq = 2
     },
     init(id) {
-      this.dataForm.customerid = id || 0;
-      this.visible = true;
+      this.dataForm.customerid = id || 0
+      this.visible = true
       this.$nextTick(() => {
-        this.dataForm.eleMeters = [];
-        this["activedTabName_0"] = "0";
-        this["activedTabName"] = "-1";
-        this.type = [];
-        this.dataForm.watMeters = [];
-        this.dataForm.gasMeters = [];
-        this.dataForm.hotMeters = [];
-        this.dataForm.isppf = false;
-        this.dataForm.ppfstatus = false;
-        this.isCanModify = true;
-        this.$refs["dataForm"].resetFields();
-      });
-      this.$http.ajaxGet("/common/ct/list/", {}, res => {
-        this.ctList = res.data;
-      });
-      this.$http.ajaxGet("/common/pt/list/", {}, res => {
-        this.ptList = res.data;
-      });
+        this.dataForm.eleMeters = []
+        this['activedTabName_0'] = '0'
+        this['activedTabName'] = '-1'
+        this.type = []
+        this.dataForm.watMeters = []
+        this.dataForm.gasMeters = []
+        this.dataForm.hotMeters = []
+        this.dataForm.isppf = false
+        this.dataForm.ppfstatus = false
+        this.isCanModify = true
+        this.$refs['dataForm'].resetFields()
+      })
+      this.$http.ajaxGet('/common/ct/list/', {}, res => {
+        this.ctList = res.data
+      })
+      this.$http.ajaxGet('/common/pt/list/', {}, res => {
+        this.ptList = res.data
+      })
       if (this.dataForm.customerid) {
         this.$http({
           url: this.$http.adornUrl(
             `/pob/customerUnion/info/${this.dataForm.customerid}`
           ),
-          method: "get",
+          method: 'get',
           params: this.$http.adornParams()
         }).then(({ data }) => {
           if (data && data.code === 0) {
-            this.loadUnitPrice(data.customer.regionid);
-            this.dataForm.disc = data.customer.disc;
-            this.dataForm.regionid = data.customer.regionid;
-            this.dataForm.regionName = data.customer.regionName;
-            this.dataForm.hh = data.customer.hh;
-            this.dataForm.rtuCommAddress = data.customer.rtuCommAddress;
-            this.dataForm.doorplate = data.customer.doorplate;
-            this.dataForm.telephone = data.customer.telephone;
-            this.dataForm.telephone2 = data.customer.telephone2;
-            this.dataForm.address = data.customer.address;
-            this.dataForm.eleMeters = data.customer.eleMeters;
-            this.dataForm.watMeters = data.customer.watMeters;
-            this.dataForm.gasMeters = data.customer.gasMeters;
-            this.dataForm.hotMeters = data.customer.hotMeters;
+            this.loadUnitPrice(data.customer.regionid)
+            this.dataForm.disc = data.customer.disc
+            this.dataForm.regionid = data.customer.regionid
+            this.dataForm.regionName = data.customer.regionName
+            this.dataForm.hh = data.customer.hh
+            this.dataForm.rtuCommAddress = data.customer.rtuCommAddress
+            this.dataForm.doorplate = data.customer.doorplate
+            this.dataForm.telephone = data.customer.telephone
+            this.dataForm.telephone2 = data.customer.telephone2
+            this.dataForm.address = data.customer.address
+            this.dataForm.eleMeters = data.customer.eleMeters
+            this.dataForm.watMeters = data.customer.watMeters
+            this.dataForm.gasMeters = data.customer.gasMeters
+            this.dataForm.hotMeters = data.customer.hotMeters
 
-            var ppfInfo = data.customer;
+            var ppfInfo = data.customer
             if (ppfInfo && ppfInfo.ppfstatus === PPF_STATUS_ON) {
-              this.isCanModify = false;
-              this.dataForm.isppf = true;
-              this.dataForm.ppfstatus = true;
-              this.dataForm.starttime = ppfInfo.starttime;
-              this.dataForm.checkOutTime = ppfInfo.checkOutTime;
+              this.isCanModify = false
+              this.dataForm.isppf = true
+              this.dataForm.ppfstatus = true
+              this.dataForm.starttime = ppfInfo.starttime
+              this.dataForm.checkOutTime = ppfInfo.checkOutTime
               this.dataForm.autoControl =
-                ppfInfo.autoControl === PPF_AUTOCONTROL_ON;
-              this.dataForm.khje = ppfInfo.khje;
-              this.dataForm.tzje = ppfInfo.tzje;
-              this.dataForm.bjje = ppfInfo.bjje;
-              this.dataForm.unitPriceEle = ppfInfo.unitPriceEle;
-              this.dataForm.unitPriceWat = ppfInfo.unitPriceWat;
-              this.dataForm.unitPriceGas = ppfInfo.unitPriceGas;
-              this.dataForm.jssj = ppfInfo.jssj;
-              this.dataForm.jszq = ppfInfo.jszq;
+                ppfInfo.autoControl === PPF_AUTOCONTROL_ON
+              this.dataForm.khje = ppfInfo.khje
+              this.dataForm.tzje = ppfInfo.tzje
+              this.dataForm.bjje = ppfInfo.bjje
+              this.dataForm.unitPriceEle = ppfInfo.unitPriceEle
+              this.dataForm.unitPriceWat = ppfInfo.unitPriceWat
+              this.dataForm.unitPriceGas = ppfInfo.unitPriceGas
+              this.dataForm.jssj = ppfInfo.jssj
+              this.dataForm.jszq = ppfInfo.jszq
             }
-            var type = [];
+            var type = []
             if (data.customer.eleMeters && data.customer.eleMeters.length > 0) {
-              type = type.concat([0]);
+              type = type.concat([0])
             }
             if (data.customer.watMeters && data.customer.watMeters.length > 0) {
-              type = type.concat([1]);
+              type = type.concat([1])
             }
             if (data.customer.gasMeters && data.customer.gasMeters.length > 0) {
-              type = type.concat([2]);
+              type = type.concat([2])
             }
             if (data.customer.hotMeters && data.customer.hotMeters.length > 0) {
-              type = type.concat([3]);
+              type = type.concat([3])
             }
-            this.type = type;
+            this.type = type
           } else {
-            this.$message.error(data.msg || "加载数据失败，请联系管理员");
+            this.$message.error(data.msg || '加载数据失败，请联系管理员')
           }
-        });
+        })
       }
     },
     loadUnitPrice() {
-      this.dataForm.unitPriceEle = null;
-      this.dataForm.unitPriceWat = null;
-      this.dataForm.unitPriceGas = null;
+      this.dataForm.unitPriceEle = null
+      this.dataForm.unitPriceWat = null
+      this.dataForm.unitPriceGas = null
       this.$http.ajaxGet(
-        "/ppf/unitprice/list/",
+        '/ppf/unitprice/list/',
         {
           regionid: this.dataForm.regionid || 0
         },
         res => {
-          this.unitPriceList = res.list;
+          this.unitPriceList = res.list
         }
-      );
+      )
     },
     getSelectRegion(data) {
-      this.dataForm.regionid = data.id;
-      this.dataForm.regionName = data.label;
-      this.loadUnitPrice(data.id);
+      this.dataForm.regionid = data.id
+      this.dataForm.regionName = data.label
+      this.loadUnitPrice(data.id)
     },
     dataFormSubmit2() {
-      this.dataForm.isppf = false;
+      this.dataForm.isppf = false
     },
     ppfSwitchChange(value) {
-      var vm = this;
+      var vm = this
       if (value) {
-        this.$refs["dataForm"].validate(valid => {
+        this.$refs['dataForm'].validate(valid => {
           if (!valid) {
             setTimeout(function() {
-              vm.dataForm.ppfstatus = false;
-              vm.dataForm.isppf = false;
-            }, 20);
-            return;
+              vm.dataForm.ppfstatus = false
+              vm.dataForm.isppf = false
+            }, 20)
+            return
           }
-          vm.dataForm.isppf = value;
+          vm.dataForm.isppf = value
           vm.meterTypeList.forEach(item => {
-            var meterType = item.value;
-            var tMeters = vm.getMeters(meterType);
+            var meterType = item.value
+            var tMeters = vm.getMeters(meterType)
             if (tMeters && tMeters.length > 0) {
               tMeters.forEach((meter, index) => {
-                meter.calcFlag = value;
-                vm.$set(tMeters, meter, index);
-              });
+                meter.calcFlag = value
+                vm.$set(tMeters, meter, index)
+              })
             }
-          });
-        });
+          })
+        })
       }
     },
     calcSchemeChange(value) {
       if (value === 2) {
         //计算方案为每天，默认结算时间为0点
-        this.dataForm.jssj = 0;
+        this.dataForm.jssj = 0
       }
     },
     meterTypeChange(value) {
-      this.type = value;
+      this.type = value
       this.meterTypeList.some(item => {
-        var meterType = item.value;
-        var tMeters = this.getMeters(meterType);
+        var meterType = item.value
+        var tMeters = this.getMeters(meterType)
         if (tMeters && value.indexOf(meterType) == -1 && tMeters.length > 0) {
-          this.type = this.oldType;
-          this.$message.error("请先删除表计档案");
-          return true;
+          this.type = this.oldType
+          this.$message.error('请先删除表计档案')
+          return true
         }
         if (tMeters && value.indexOf(meterType) > -1 && tMeters.length == 0) {
-          tMeters.push(this.getDefaultMeterObj(meterType));
-          this["activedTabName"] = meterType.toString();
-          this["activedTabName_" + meterType] = "0";
+          tMeters.push(this.getDefaultMeterObj(meterType))
+          this['activedTabName'] = meterType.toString()
+          this['activedTabName_' + meterType] = '0'
         }
-      });
+      })
     },
     removeMeter(index, meterType) {
-      var tMeters = this.getMeters(meterType);
+      var tMeters = this.getMeters(meterType)
       if (!tMeters[index].pointid) {
-        tMeters.splice(index, 1);
-        var m = this.type.indexOf(meterType);
+        tMeters.splice(index, 1)
+        var m = this.type.indexOf(meterType)
         if (tMeters.length == 0 && m > -1) {
-          this.type.splice(m, 1);
-          this["activedTabName"] = "-1";
+          this.type.splice(m, 1)
+          this['activedTabName'] = '-1'
         }
         if (tMeters.length > 1) {
-          this["activedTabName_" + meterType] = (tMeters.length - 1).toString();
+          this['activedTabName_' + meterType] = (tMeters.length - 1).toString()
         }
       } else {
         this.$confirm(
           `确定对[表名为${tMeters[index].disc}]进行<b style="color:red">删除</b>操作?`,
-          "提示",
+          '提示',
           {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
             dangerouslyUseHTMLString: true,
-            type: "warning"
+            type: 'warning'
           }
         ).then(() => {
           this.$http({
-            url: this.$http.adornUrl("/pob/meter/delete"),
-            method: "post",
+            url: this.$http.adornUrl('/pob/meter/delete'),
+            method: 'post',
             data: this.$http.adornData([tMeters[index].pointid], false)
           }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$message({
-                message: "操作成功",
-                type: "success",
+                message: '操作成功',
+                type: 'success',
                 duration: 1500,
                 onClose: () => {
-                  tMeters.splice(index, 1);
-                  var m = this.type.indexOf(meterType);
+                  tMeters.splice(index, 1)
+                  var m = this.type.indexOf(meterType)
                   if (tMeters.length == 0 && m > -1) {
-                    this.type.splice(m, 1);
-                    this["activedTabName"] = "-1";
+                    this.type.splice(m, 1)
+                    this['activedTabName'] = '-1'
                   }
-                  this["activedTabName_" + meterType] = (
+                  this['activedTabName_' + meterType] = (
                     tMeters.length - 1
-                  ).toString();
+                  ).toString()
                 }
-              });
+              })
             } else {
-              this.$message.error(data.msg);
+              this.$message.error(data.msg)
             }
-          });
-        });
+          })
+        })
       }
     },
     addMeter(meterType) {
-      var tMeters = this.getMeters(meterType);
-      var tab = tMeters.length;
-      tMeters.push(this.getDefaultMeterObj(meterType, tMeters.length + 1));
-      this["activedTabName_" + meterType] = tab.toString();
+      var tMeters = this.getMeters(meterType)
+      var tab = tMeters.length
+      tMeters.push(this.getDefaultMeterObj(meterType, tMeters.length + 1))
+      this['activedTabName_' + meterType] = tab.toString()
     },
     getDefaultMeterObj(meterType, numbers) {
-      let energyType = 1;
+      let energyType = 1
       if (meterType === 1) {
-        energyType = 5;
+        energyType = 5
       } else if (meterType === 2) {
-        energyType = 7;
+        energyType = 7
       } else if (meterType === 3) {
-        energyType = 8;
+        energyType = 8
       }
       return {
         type: meterType,
@@ -902,36 +902,36 @@ export default {
         disc:
           this.dataForm.disc +
           this.getMeterTypeName(meterType) +
-          (numbers ? numbers : "1"),
+          (numbers ? numbers : '1'),
         energyType: energyType,
         ctid: 1,
         ptid: 1,
         calcFlag: false,
         key: Date.now()
-      };
+      }
     },
     getMeterTypeName(meterType) {
       switch (meterType) {
         case 0:
-          return "电表";
+          return '电表'
         case 1:
-          return "水表";
+          return '水表'
         case 2:
-          return "气表";
+          return '气表'
         case 3:
-          return "热表";
+          return '热表'
       }
     },
     getMeters(meterType) {
       switch (meterType) {
         case 0:
-          return this.dataForm.eleMeters;
+          return this.dataForm.eleMeters
         case 1:
-          return this.dataForm.watMeters;
+          return this.dataForm.watMeters
         case 2:
-          return this.dataForm.gasMeters;
+          return this.dataForm.gasMeters
         case 3:
-          return this.dataForm.hotMeters;
+          return this.dataForm.hotMeters
       }
     },
     // 表单提交
@@ -943,26 +943,26 @@ export default {
         this.dataForm.gasMeters.length === 0 &&
         this.dataForm.hotMeters.length === 0
       ) {
-        this.$message.error("用户下没有关联任何表计，不能开启主站费控");
-        return;
+        this.$message.error('用户下没有关联任何表计，不能开启主站费控')
+        return
       }
       if (
         this.dataForm.ppfstatus &&
         this.dataForm.unitPriceEle === null &&
         this.dataForm.unitPriceWat === null
       ) {
-        this.$message.error("没有设置电价或水价，不能开启主站费控");
-        return;
+        this.$message.error('没有设置电价或水价，不能开启主站费控')
+        return
       }
-      this.$refs["dataForm"].validate(valid => {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
           this.$http({
             url: this.$http.adornUrl(
               `/pob/customerUnion/${
-                !this.dataForm.customerid ? "saveUnion" : "updateUnion"
+                !this.dataForm.customerid ? 'saveUnion' : 'updateUnion'
               }`
             ),
-            method: "post",
+            method: 'post',
             data: this.$http.adornData({
               customerid: this.dataForm.customerid || undefined,
               regionid: this.dataForm.regionid,
@@ -992,27 +992,27 @@ export default {
           }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$message({
-                message: "操作成功",
-                type: "success",
+                message: '操作成功',
+                type: 'success',
                 duration: 1500,
                 onClose: () => {
-                  this.visible = false;
-                  this.$emit("refreshDataList");
+                  this.visible = false
+                  this.$emit('refreshDataList')
                 }
-              });
+              })
             } else {
-              this.$message.error(data.msg);
+              this.$message.error(data.msg)
             }
-          });
+          })
         } else {
           this.$message({
-            message: "用户必填信息不完整，请正确填写",
-            type: "warning"
-          });
+            message: '用户必填信息不完整，请正确填写',
+            type: 'warning'
+          })
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 <style></style>

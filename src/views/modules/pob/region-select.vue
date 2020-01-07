@@ -133,7 +133,7 @@ export default {
     },
     // 区域树选中
     regionTreeCurrentChangeHandle(data, node) {
-      console.log(data)
+      // console.log(data)
       // this.value = data.
       this.$refs.regionIdsPopover.doClose()
       this.$cookie.set('regionid', data.id)
