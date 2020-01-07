@@ -44,7 +44,7 @@ export default {
           //图例组件展现了不同系列的标记(symbol)，颜色和名字。可以通过点击图例控制哪些系列不显示。
           show: true,
           orient: 'vertical',
-          left: 'right',
+          right: '20',
           textStyle: {
             color: '#333'
           }

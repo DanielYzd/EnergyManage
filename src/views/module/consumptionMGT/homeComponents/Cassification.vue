@@ -42,7 +42,7 @@ export default {
         title: {
           text: '',
           top: 15,
-          right: 300,
+          right: 200,
           textStyle: {
             color: '#333',
             fontSize: 16
