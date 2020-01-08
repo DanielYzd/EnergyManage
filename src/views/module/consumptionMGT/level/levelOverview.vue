@@ -1,5 +1,10 @@
 <template>
-  <div>
+  <div
+    class="overview"
+    v-loading="loading"
+    element-loading-text="加载中..."
+    element-loading-spinner="el-icon-loading"
+  >
     <el-form ref="ruleForm" :inline="true">
       <el-form-item>
         <region-select
@@ -59,18 +64,45 @@
       </el-form-item>
     </el-form>
     <el-divider></el-divider>
+    <div class="content">
+      <div class="left">
+        <div class="top">
+          <Proportion ref="proportion"></Proportion>
+        </div>
+        <div class="bottom">
+          <Summaryuse ref="summaryuse"></Summaryuse>
+        </div>
+      </div>
+      <div class="right">
+        <div class="top">
+          <Summarytime ref="summarytime"></Summarytime>
+        </div>
+        <div class="bottom">
+          <Summaryusetime ref="summaryusetime"></Summaryusetime>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 // import RegionSelect from '@/views/common/RegionSelect'
 import RegionSelect from '@/views/modules/pob/region-select'
+import Proportion from './components/proportion'
+import Summarytime from './components/summarytime'
+import Summaryuse from './components/summaryuse'
+import Summaryusetime from './components/summaryusetime'
 export default {
   components: {
-    RegionSelect
+    RegionSelect,
+    Proportion,
+    Summarytime,
+    Summaryuse,
+    Summaryusetime
   },
   data() {
     return {
+      loading: false,
       regionid: this.$cookie.get('regionid'),
       regionName: this.$cookie.get('regionName'),
       dimension: '3',
@@ -78,7 +110,11 @@ export default {
       type: '0'
     }
   },
-  created() {},
+  created() {
+    this.$nextTick(() => {
+      this.handle()
+    })
+  },
   watch: {
     dimension(newValue, oldValue) {
       switch (newValue) {
@@ -109,7 +145,21 @@ export default {
       //   this.getDataList()
     },
     handle() {
-      console.log(this.time)
+      this.loading = true
+      let body = {
+        deptId: this.regionid,
+        time: this.time,
+        dimension: this.dimension,
+        type: this.type
+      }
+      this.$refs.proportion.proportion(body)
+      this.$refs.summarytime.summarytime(body)
+      this.$refs.summaryuse.summaryuse(body)
+      this.$refs.summaryusetime.summaryusetime(body)
+      setTimeout(() => {
+        this.loading = false
+      }, 500)
+      //   console.log(this.time)
       //   console.log(this.dimension)
       //   console.log(this.regionid)
     }
@@ -118,7 +168,43 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-divider--horizontal {
-  margin: 0;
+.overview {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .el-divider--horizontal {
+    margin: 0;
+  }
+  .content {
+    height: calc(100% - 64px);
+    display: flex;
+    .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      margin-right: 10px;
+      .top {
+        margin-top: 10px;
+        flex: 1;
+      }
+      .bottom {
+        flex: 1;
+        margin-top: 10px;
+      }
+    }
+    .right {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      .top {
+        margin-top: 10px;
+        flex: 1;
+      }
+      .bottom {
+        flex: 1;
+        margin-top: 10px;
+      }
+    }
+  }
 }
 </style>

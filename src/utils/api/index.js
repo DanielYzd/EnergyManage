@@ -5,6 +5,7 @@ import transformer from './transformer' //档案接口
 import branchline from './branchline' //分线接口
 import building from './building'
 import energyhome from './energyhome'
+import classificationenergy from './classificationenergy'
 
 // 导出接口
 export default {
@@ -14,5 +15,6 @@ export default {
   transformer,
   branchline,
   building,
-  energyhome
+  energyhome,
+  classificationenergy
 }
