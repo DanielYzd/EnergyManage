@@ -148,9 +148,10 @@ export default {
   methods: {
     _handleNodeClick(data, node) {
       console.log(data)
-      if (data.archivetype === '2') {
+      if (data.archivetype === 2) {
         this.id = data.id
         this.type = 'edit'
+
         let body = {
           id: data.id
         }
@@ -211,8 +212,11 @@ export default {
           console.log(res)
 
           if (res.code === 0) {
-            this.id = res.id
-            this.queryallbuilding()
+            this.$nextTick(() => {
+              this.type = ''
+              this.id = res.id
+              this.queryallbuilding()
+            })
           }
         })
       } else if (this.type === 'edit') {
@@ -235,10 +239,8 @@ export default {
       this.loading = true
       this.defaultExpandedKeys = []
       this.defaultExpandedKeys.push(this.id)
-      console.log(this.defaultExpandedKeys)
       this.$api.building.queryallbuilding().then(res => {
-        console.log(res)
-        this.loop(res.data, [], '0')
+        this.loop(res.data, [], 0)
         this.loading = false
         if (this.id) {
           this.$refs.parentTree.setCurrentKey(this.id)
@@ -247,7 +249,7 @@ export default {
     },
     loop(list, data, pcode) {
       list.forEach(item => {
-        if (item.parentid === pcode) {
+        if (item.parentid.toString() === pcode.toString()) {
           let child = {
             label: item.buildingname,
             children: [],
@@ -328,6 +330,9 @@ export default {
   /deep/.el-dialog {
     .el-dialog__body {
       padding: 0 20px !important;
+      .el-pagination {
+        overflow: auto;
+      }
     }
   }
 }

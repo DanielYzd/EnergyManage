@@ -91,7 +91,7 @@ const building = {
   },
   // POST /archive/association/dismountitemmeter//卸载分项上的电表
   dismountitemmeter(data) {
-    return axios.post('/archive/association/dismountitemmeter', data)
+    return axios.post('/archive/transfromer/dismountitemmeter', data)
   },
   // POST /archive/transfromer/mountitemmeter 挂载分项上电表
   mountitemmeter(data) {

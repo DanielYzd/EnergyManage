@@ -50,8 +50,8 @@ export default {
   },
   methods: {
     // 获取数据列表
-    getDataList(callback) {
-      this.$api.region.getDataList().then(res => {
+    getDataList() {
+      this.$api.building.queryallbuilding().then(res => {
         console.log(res)
         this.loop(res.data, [], 0)
       })
@@ -74,15 +74,21 @@ export default {
     },
     loop(list, data, parentid) {
       list.forEach(item => {
-        if (item.parentid === parentid) {
+        if (item.parentid.toString() === parentid.toString()) {
           // console.log(item)
           let child = {
-            layer: item.layer,
-            id: item.regionId,
-            label: item.regionName,
-            children: []
+            // layer: item.layer,
+            // id: item.regionId,
+            // label: item.regionName,
+            // children: []
+            label: item.buildingname,
+            children: [],
+            id: item.id,
+            archivetype: item.archivetype,
+            parentid: item.parentid,
+            regionid: item.regionid
           }
-          this.loop(list, child.children, item.regionId)
+          this.loop(list, child.children, item.id)
           data.push(child)
           this.regionList = data
           // console.log(this.regionList)

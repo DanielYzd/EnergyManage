@@ -231,7 +231,8 @@ export default {
     queryenergyitemtarget() {
       let body = {
         id: this.itemrow.id,
-        archivetype: this.itemrow.archivetype
+        archivetype: this.itemrow.archivetype,
+        targetyear: this.targetyear
       }
       this.$api.building.queryenergyitemtarget(body).then(res => {
         console.log(res)

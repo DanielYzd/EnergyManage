@@ -43,7 +43,24 @@ export default {
   },
   methods: {
     summarytime(body) {
-      console.log(body)
+      switch (body.dimension) {
+        case '2':
+          this.chartData.xData = time.hour
+          break
+        case '3':
+          {
+            let number = this.$moment(body.time, 'YYYYMM').daysInMonth()
+            console.log(number)
+            this.chartData.xData = []
+            for (let i = 1; i < number + 1; i++) {
+              this.chartData.xData.push(i + '日')
+            }
+          }
+
+          break
+        case '4':
+          this.chartData.xData = time.month
+      }
       switch (body.type) {
         case '0':
           this.unit = '千克标准煤'

@@ -22,7 +22,7 @@
           <el-option
             v-for="item in typeList"
             :key="item.id"
-            :label="item.slabel"
+            :label="item.typetype"
             :value="item.id"
           ></el-option>
         </el-select>

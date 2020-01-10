@@ -34,6 +34,12 @@ const energyhome = {
     return axios.get('/index/energy/compare', {
       params: params
     })
+  },
+  // GET /classificationEnergy/statics/list
+  staticslist(params) {
+    return axios.get('/classificationEnergy/statics/list', {
+      params: params
+    })
   }
 }
 export default energyhome

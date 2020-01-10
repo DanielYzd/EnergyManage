@@ -35,6 +35,7 @@
         type="index"
         label="序号"
         width="50"
+        :fixed="tableoptions.indexfix"
         :index="indexMethod"
         align="center"
       >

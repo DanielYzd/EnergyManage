@@ -102,9 +102,10 @@ export default {
         id
       }
       this.$api.building.queryallenergyitem(body).then(res => {
+        console.log(res)
         if (res.code === 0) {
-          this.loop(res.data, [], 78)
           this.options.loading = false
+          this.loop(res.data, [], 78)
         }
       })
     },

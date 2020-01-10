@@ -269,6 +269,7 @@ export default {
   },
   watch: {
     parentData(newValue, oldValue) {
+      console.log(newValue)
       if (Object.keys(newValue).length > 0) {
         this.ruleForm = JSON.parse(JSON.stringify(newValue))
       }
@@ -276,8 +277,10 @@ export default {
   },
   methods: {
     getSelectRegion(data) {
-      this.ruleForm.regionid = data.id
+      console.log(data)
+      this.ruleForm.regionid = data.regionid
       this.ruleForm.regionName = data.label
+      console.log(this.ruleForm)
       // this.getDataList()
     },
     queryallbuildingkind() {

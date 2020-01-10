@@ -1,3 +1,5 @@
+import { resolve } from 'tsconfig'
+
 let moment = require('moment')
 //获取昨日时间
 let yesterday = moment()
@@ -36,6 +38,25 @@ let days = []
 for (let i = 1; i < diff + 1; i++) {
   days.push(i + '日')
 }
+// function(time,callback) {
+//   let number = moment(time, 'YYYYMM').daysInMonth()
+//   let arr = []
+//   for (let i = 1; i < number + 1; i++) {
+//     arr.push(i + '日')
+//   }
+
+// }
+
+// let getdays = params => {
+//   return new Promise((resolve, reject) => {
+//     let number = moment(params, 'YYYYMM').daysInMonth()
+//     let arr = []
+//     for (let i = 1; i <= number; i++) {
+//       arr.push(i + '日')
+//       resolve(arr)
+//     }
+//   })
+// }
 export default {
   yesterday,
   monthfirst,
@@ -45,4 +66,5 @@ export default {
   hour,
   month,
   days
+  // getdays
 }
