@@ -33,11 +33,11 @@ export default {
           label: '分项名称'
         },
         {
-          prop: 'differmeter',
+          prop: 'summeter',
           label: '＋公式'
         },
         {
-          prop: 'summeter',
+          prop: 'differmeter',
           label: '-公式'
         },
         {

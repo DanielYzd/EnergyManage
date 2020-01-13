@@ -37,11 +37,13 @@
             <energy-item
               v-if="activeName === 'first'"
               @itemedit="item_edit"
+              ref="tableItem"
             ></energy-item>
           </el-tab-pane>
           <el-tab-pane label="能源分类" name="second" :lazy="true">
             <energy-type
               v-if="activeName === 'second'"
+              ref="tableType"
               @editType="type_edit"
             ></energy-type>
           </el-tab-pane>
@@ -282,9 +284,11 @@ export default {
     },
     closeItemTable() {
       this.itemDialogVisible = false
+      console.log(this.$refs.tableItem.queryallenergyitem(this.id))
     },
     closeTypeTable() {
       this.typeDialogVisible = false
+      console.log(this.$refs.tableType.queryallenergytype(this.id))
     },
     contentConfirm(body) {
       console.log(body)
