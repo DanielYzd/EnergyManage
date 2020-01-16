@@ -40,6 +40,18 @@ const energyhome = {
     return axios.get('/classificationEnergy/statics/list', {
       params: params
     })
+  },
+  // GET /classificationEnergy/transverse/statics
+  statics(params) {
+    return axios.get('/classificationEnergy/transverse/statics', {
+      params: params
+    })
+  },
+  //GET /classificationEnergy/portrait/statics
+  portraitstatics(params) {
+    return axios.get('/classificationEnergy/portrait/statics', {
+      params: params
+    })
   }
 }
 export default energyhome

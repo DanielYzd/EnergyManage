@@ -189,7 +189,7 @@ export default {
           index + 1 + (this.pagination.pageNum - 1) * this.pagination.numPerPage
         )
       } else {
-        return index
+        return index + 1
       }
     },
     clearSelection() {
