@@ -112,36 +112,27 @@ export default {
       }
       this.$api.energyhome.category(body).then(res => {
         //根据水或者电遍历数组
-        let waterArr = res.data.filter(item => item.label === '88') //电
-        let electricArr = res.data.filter(item => item.label === '89') //水
-        this.formatEchartData(waterArr, 1, times)
-        this.formatEchartData(electricArr, 0, times)
+        let electricArr = res.data.filter(item => item.label === '88') //电
+        let waterArr = res.data.filter(item => item.label === '89') //水
+        this.formatEchartData(waterArr, 0, times)
+        this.formatEchartData(electricArr, 1, times)
       })
     },
     //arr 表示水或电的数组 type表示水或者电 水0 电1 times表示hours，days，month
     formatEchartData(arr, type, times) {
-      let tmp = []
-      for (let i = 1; i <= times.length; i++) {
-        i = i < 10 ? String('0' + i) : String(i)
-        tmp.push(i)
-      }
-      console.log(tmp) //得到字符串为月份的数组
-      let tmp2 = tmp.map(item => {
-        if (arr.length > 0) {
-          arr.forEach(element => {
-            if (element.x === item) {
-              item = element.strY
-            } else {
-              item = 0
-            }
-          })
-        } else {
-          item = 0
-        }
-        return item
+      let tmp = times.map(item => {
+        return 0
       })
-      console.log(tmp2) //得到echarts展示的数据
-      this.chartData.series[type].data = tmp2
+      arr.forEach(item => {
+        if (this.dimension === '1') {
+          let index = parseInt(item.x)
+          tmp[index] = item.strY
+        } else {
+          let index = parseInt(item.x)
+          tmp[index - 1] = item.strY
+        }
+      })
+      this.chartData.series[type].data = tmp
     }
   }
 }

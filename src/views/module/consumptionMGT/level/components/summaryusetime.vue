@@ -2,7 +2,7 @@
   <el-card>
     <div slot="header">
       <span>分类分时能耗</span>
-      <span style="font-size:12px;color:#999">(单位：{{ unit }})</span>
+      <span style="font-size:12px;color:#999">(单位：千克标准煤)</span>
       <!-- <div style="height:600px">11111111</div> -->
     </div>
     <Echart :isAxisChart="true" :chartData="chartData"></Echart>

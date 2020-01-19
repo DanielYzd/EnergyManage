@@ -52,6 +52,18 @@ const energyhome = {
     return axios.get('/classificationEnergy/portrait/statics', {
       params: params
     })
+  },
+  // GET /itemEnergy/summary/itemyoy
+  itemyoy(params) {
+    return axios.get('/itemEnergy/summary/itemyoy', {
+      params
+    })
+  },
+  // GET /itemEnergy/summary/itemtime 分项分时能耗
+  itemtime(params) {
+    return axios.get('/itemEnergy/summary/itemtime', {
+      params
+    })
   }
 }
 export default energyhome

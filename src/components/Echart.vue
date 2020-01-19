@@ -113,9 +113,9 @@ export default {
               type: ['line', 'bar'],
               show: true
             },
-            dataZoom: {
-              show: false
-            },
+            // dataZoom: {
+            //   show: true
+            // },
             dataView: {
               show: false
             },

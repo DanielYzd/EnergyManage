@@ -44,7 +44,7 @@
 export default {
   created() {
     let body = {
-      day: '20200104'
+      day: this.$moment().format('YYYYMMDD')
     }
     this.$api.energyhome.day(body).then(res => {
       console.log(res)
