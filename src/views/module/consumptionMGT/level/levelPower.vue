@@ -5,7 +5,7 @@
     element-loading-text="加载中..."
     element-loading-spinner="el-icon-loading"
   >
-    <el-form ref="ruleForm" :inline="true">
+    <el-form ref="ruleForm" :inline="true" style="height:50px;">
       <el-form-item>
         <el-select
           v-model="type"

@@ -63,6 +63,8 @@ export default {
 <style lang="scss" scoped>
 .el-card {
   height: 100%;
+  margin-top: 10px;
+  // box-sizing: border-box;
   /deep/.el-card__header {
     padding: 12.5px;
   }

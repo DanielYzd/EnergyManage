@@ -64,6 +64,18 @@ const energyhome = {
     return axios.get('/itemEnergy/summary/itemtime', {
       params
     })
+  },
+  // GET /itemEnergy/statics/itemstatics
+  itemstatics(params) {
+    return axios.get('/itemEnergy/statics/itemstatics', {
+      params
+    })
+  },
+  // GET /itemEnergy/portrait/statics 分项纵向对比
+  itemportraitstatics(params) {
+    return axios.get('/itemEnergy/portrait/statics', {
+      params
+    })
   }
 }
 export default energyhome
