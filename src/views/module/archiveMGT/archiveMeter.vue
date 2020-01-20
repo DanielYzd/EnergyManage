@@ -124,7 +124,7 @@ export default {
         isShowSelection: true,
         isShowRowIndex: true,
         rowButtonType: 1,
-        hasUpdateAuth: this.isAuth('pob:meter:update'),
+        hasUpdateAuth: this.isAuth('pob:customer:update'),
         hasDeleteAuth: this.isAuth('pob:meter:delete'),
         isShowPage: true
       },
