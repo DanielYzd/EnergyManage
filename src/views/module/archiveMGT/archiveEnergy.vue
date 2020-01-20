@@ -197,6 +197,10 @@ export default {
         .then(() => {
           this.$api.building.deletebuilding(this.id).then(res => {
             console.log(res)
+            this.type = ''
+            this.$api.building.queryallbuilding().then(res => {
+              this.loop(res.data, [], 0)
+            })
           })
         })
         .catch(() => {
@@ -215,8 +219,7 @@ export default {
 
           if (res.code === 0) {
             this.$nextTick(() => {
-              this.type = ''
-              this.id = res.id
+              this.id = res.data
               this.queryallbuilding()
             })
           }
@@ -227,8 +230,6 @@ export default {
           console.log(res)
           if (res.code === 0) {
             this.$nextTick(() => {
-              this.type = ''
-              // this.id = ''
               this.queryallbuilding()
             })
           }

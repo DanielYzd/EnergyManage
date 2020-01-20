@@ -94,7 +94,7 @@
         <div class="top">
           <el-card>
             <div slot="header">
-              <span>分类分时能耗</span>
+              <span>分项分时能耗</span>
               <span style="font-size:12px;color:#999">(单位：千瓦时)</span>
               <!-- <div style="height:600px">11111111</div> -->
             </div>
