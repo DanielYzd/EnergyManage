@@ -13,46 +13,26 @@
       nodeKey="id"
     >
       <template slot="tree-button">
-        <el-button type="text" icon="el-icon-plus" @click="addline()">
-          新增分线
-        </el-button>
+        <!-- 1代表进项 4代表变压器 10代表支路 -->
+        <el-button type="text" @click="queryallregionline()">刷新</el-button>
+        <el-button type="text" @click="add(1)">新增进线</el-button>
+        <el-button type="text" @click="add(10)">新增支路</el-button>
+        <el-button type="text" @click="add(4)">新增变压器</el-button>
       </template>
     </Tree>
     <section class="content">
-      <div v-if="type === 1">
-        <branchlineAddorUpdate
-          @confirm="confirm"
-          @cancle="cancle"
-          :branchlineData="branchlineData"
-          @deleteline="deleteline"
-          :id="id"
-        ></branchlineAddorUpdate>
-        <el-tabs
-          v-if="type === 1 && id"
-          v-model="activeName"
-          :stretch="true"
-          @tab-click="handleClick"
-        >
-          <el-tab-pane label="子级信息" name="first" :lazy="true">
-            <branchlineSublevel
-              @refresh="querytopline"
-              v-if="activeName === 'first'"
-            ></branchlineSublevel>
-          </el-tab-pane>
-          <el-tab-pane label="表计信息" name="second" :lazy="true">
-            <branchlineMeter
-              @refresh="querytopline"
-              v-if="activeName === 'second'"
-            ></branchlineMeter>
-          </el-tab-pane>
-        </el-tabs>
-      </div>
-
-      <branchlineTransform
+      <add-line
+        v-if="type === 1 || type === 10"
+        :node="node"
+        @refresh="refresh"
+        @empty="empty"
+      ></add-line>
+      <add-transform
+        :node="node"
+        @refresh="refresh"
+        @empty="empty"
         v-else-if="type === 4"
-        :transformData="transformData"
-      ></branchlineTransform>
-
+      ></add-transform>
       <empty v-else></empty>
     </section>
   </div>
@@ -60,22 +40,18 @@
 
 <script>
 import Tree from '@/views/common/tree.vue'
-import branchlineAddorUpdate from './components/branchline-add-or-update'
-import branchlineTransform from './components/branchline-transform'
-import branchlineSublevel from './components/branchline-sublevel'
-import branchlineMeter from './components/branchline-meter'
+// import UpdateLine from './components/branchline/updateline'
+import AddLine from './components/branchline/addline'
+import AddTransform from './components/branchline/addtransform'
 import empty from '@/views/common/Empty.vue'
 export default {
   components: {
     Tree,
-    branchlineAddorUpdate,
-    branchlineTransform,
-    branchlineSublevel,
-    branchlineMeter,
-    empty
+    AddLine,
+    empty,
+    AddTransform
   },
   data() {
-    // 档案类型0=区域，1=分线，2=建筑，3=用户，4=变压器，5=终端，6=分项，7=部门，8=表计 ,
     return {
       loading: false,
       defaultProps: {
@@ -86,130 +62,66 @@ export default {
       defaultExpandedKeys: [],
       id: '',
       type: 0,
-      branchlineData: [],
-      transformData: [],
-      activeName: 'first'
+      node: {}
     }
   },
   created() {
-    this.querytopline()
+    this.queryallregionline()
   },
   methods: {
-    _handleNodeClick(data, node) {
-      console.log(data)
-      this.id = data.id
-      console.log(data.id)
-
-      this.queryoneline(data.type, data.id)
-    },
-    queryoneline(type, id) {
-      let body = {
-        id
-      }
-      this.$api.branchline.queryoneline(body).then(res => {
-        if (type === 1) {
-          this.branchlineData = res.data
-          this.$nextTick(() => {
-            this.type = type
-          })
-        } else if (type === 4) {
-          this.transformData = res.data
-          this.$nextTick(() => {
-            this.type = type
-          })
-        }
-      })
-    },
-    addline() {
-      this.type = 0
-      this.id = ''
-      this.$nextTick(() => {
-        this.branchlineData = []
-        this.type = 1
-      })
-    },
-    querytopline() {
+    queryallregionline() {
       this.loading = true
       this.defaultExpandedKeys = []
       this.defaultExpandedKeys.push(this.id)
-      this.$api.branchline.querytopline().then(res => {
+      this.$api.newbranchline.queryallregionline().then(res => {
+        console.log(res)
         this.loop(res.data, [], '0')
-        this.loading = false
+        if (this.id) {
+          this.$refs.parentTree.setCurrentKey(this.id)
+        }
       })
     },
     loop(list, data, pcode) {
       list.forEach(item => {
-        if (item.parentcode === pcode) {
+        if (item.parentid === pcode) {
           let child = {
-            label: item.sname,
+            label: item.buildingname,
             children: [],
             id: item.id,
-            type: item.datatype,
-            parentcode: item.parentcode
+            archivetype: item.archivetype,
+            regionid: item.regionid,
+            parentid: item.parentid
           }
           this.loop(list, child.children, item.id)
           data.push(child)
           this.treeData = data
-          if (this.id) {
-            this.$refs.parentTree.setCurrentKey(this.id)
-          }
+          this.loading = false
         }
       })
     },
-    confirm(form, branchlineData) {
-      console.log(branchlineData)
-
-      if (branchlineData.length > 0) {
-        //更新
-        let temp = {
-          archivetype: 1,
-          id: this.id,
-          mountstatus: 0
-        }
-        let body = { ...temp, ...form }
-        this.$api.branchline.modifyline(body).then(res => {
-          console.log(res)
-          if (res.code === 0) {
-            this.querytopline()
-            this.$nextTick(() => {
-              this.type = 0
-            })
-          }
-        })
-      } else {
-        let temp = {
-          archivetype: 1,
-          id: 0,
-          mountstatus: 0
-        }
-        let body = { ...temp, ...form }
-        this.$api.branchline.addline(body).then(res => {
-          console.log(res)
-          if (res.code === 0) {
-            this.id = res.data
-            this.querytopline()
-            this.$nextTick(() => {
-              this.type = 0
-            })
-          }
-        })
+    _handleNodeClick(node, nodeEvent) {
+      this.id = node.id
+      this.type = node.archivetype
+      this.node = node
+    },
+    add(type) {
+      console.log(type)
+      this.node = {
+        archivetype: type
       }
+      this.type = type
     },
-    cancle() {
+    refresh(val) {
+      console.log(val)
+      if (val) {
+        this.id = val
+      }
+      this.queryallregionline()
+    },
+    empty() {
       this.type = 0
-    },
-    handleClick(tab, event) {
-      console.log(tab, event)
-      console.log(this.activeName)
-    },
-    deleteline(id) {
-      this.$api.branchline.deleteline(this.id).then(res => {
-        if (res.code === 0) {
-          this.querytopline()
-          this.id = ''
-          this.type = 0
-        }
-      })
+      this.id = ''
+      this.queryallregionline()
     }
   }
 }

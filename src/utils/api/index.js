@@ -6,6 +6,7 @@ import branchline from './branchline' //分线接口
 import building from './building'
 import energyhome from './energyhome'
 import classificationenergy from './classificationenergy'
+import newbranchline from './newbranchline'
 
 // 导出接口
 export default {
@@ -16,5 +17,6 @@ export default {
   branchline,
   building,
   energyhome,
-  classificationenergy
+  classificationenergy,
+  newbranchline
 }
