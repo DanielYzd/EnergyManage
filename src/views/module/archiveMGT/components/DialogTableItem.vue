@@ -291,7 +291,7 @@ export default {
       this.type === 'add' ? this.itemaddmeter() : this.itemsubmeter()
     },
     handleIndexChange(pageNum) {
-      this.pagination1.pageNum = pageNum
+      this.pagination.pageNum = pageNum
       this.type === 'add' ? this.itemaddmeter() : this.itemsubmeter()
     },
     handleSelectionChange(value) {

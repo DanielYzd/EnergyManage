@@ -3,6 +3,9 @@
     <el-card shadow="hover">
       <div slot="header" class="clearfix">
         <span>能耗日历</span>
+        <span style="font-size:16px;color:#f79120;float:right;">{{
+          this.$moment().format('YYYY-MM-DD')
+        }}</span>
         <!-- <el-dropdown @command="handleCommand" style="float:right">
           <icon-svg
             name="menu"
@@ -17,21 +20,21 @@
       <el-row :gutter="40" style="height:270px;">
         <el-col :span="12" class="second">
           <div class="secondname">
-            <div class="secondname1">水日用量</div>
+            <div class="secondname1">水日用量(m3)</div>
             <div class="secondname2">{{ day1 }}</div>
           </div>
           <div class="secondname">
-            <div class="secondname1">水月用量</div>
+            <div class="secondname1">水月用量(m3)</div>
             <div class="secondname2">{{ month1 }}</div>
           </div>
         </el-col>
         <el-col :span="12" class="second">
           <div class="secondname">
-            <div class="secondname1">电日用量</div>
+            <div class="secondname1">电日用量(kWh)</div>
             <div class="secondname2">{{ day2 }}</div>
           </div>
           <div class="secondname">
-            <div class="secondname1">电月用量</div>
+            <div class="secondname1">电月用量(kWh)</div>
             <div class="secondname2">{{ month2 }}</div>
           </div>
         </el-col>
