@@ -24,13 +24,13 @@ import httpRequest from '@/utils/httpRequest' // api: https://github.com/axios/a
 import sysConfig from '@/utils/sysConfig'
 import moment from 'moment' //导入文件
 import {
-  isAuth,
-  formatDate,
-  randomName,
-  getMoble,
-  getRtuAddress,
-  showSuccessMsgBox,
-  stringFormat
+    isAuth,
+    formatDate,
+    randomName,
+    getMoble,
+    getRtuAddress,
+    showSuccessMsgBox,
+    stringFormat
 } from '@/utils'
 import utils from '@/utils/utils'
 import api from './utils/api' // 导入api接口
@@ -43,7 +43,7 @@ Vue.config.productionTip = false
 
 // 非生产环境, 适配mockjs模拟数据                 // api: https://github.com/nuysoft/Mock
 if (process.env.NODE_ENV !== 'production') {
-  require('@/mock')
+    require('@/mock')
 }
 
 // 挂载全局
@@ -57,11 +57,11 @@ Vue.prototype.randomName = randomName
 Vue.prototype.getMoble = getMoble
 Vue.prototype.getRtuAddress = getRtuAddress
 Vue.prototype.showSuccessMsgBox = showSuccessMsgBox
-/* eslint-disable no-new */
+    /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  store,
-  template: '<App/>',
-  components: { App }
+    el: '#app',
+    router,
+    store,
+    template: '<App/>',
+    components: { App }
 })

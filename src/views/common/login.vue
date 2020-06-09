@@ -6,6 +6,7 @@
     element-loading-text="页面加载中,请耐心等候"
     element-loading-spinner="el-icon-loading"
   >
+    <particles-js />
     <el-card shadow="always">
       <div slot="header" class="head">
         <span>建筑能耗监测管理平台</span>
@@ -54,7 +55,7 @@
         </el-form-item>
         <el-form-item>
           <el-button
-            class="btnLogin"
+            style="margin-left:100px;margin-top:30px;"
             type="primary"
             icon="el-icon-user-solid"
             @click="dataFormSubmit()"
@@ -78,8 +79,12 @@
 <script>
 import { getUUID } from '@/utils'
 // let img = () => import('@/assets/img/login-background.jpg')
+import ParticlesJs from './ParticlesJS'
 let src = require('@/assets/img/login-background.jpg')
 export default {
+  components: {
+    ParticlesJs
+  },
   data() {
     return {
       homeLoading: true,
@@ -105,9 +110,7 @@ export default {
     }
   },
   created() {
-    setTimeout(() => {
-      this.homeLoading = false
-    }, 3000)
+    this.homeLoading = false
     let params = this.$route.params
     console.log(params)
     if (params.token) {
@@ -146,14 +149,14 @@ export default {
                 )
                 this.$cookie.set('accountRegionId', data.regionid)
                 this.$router.replace({ name: 'home' })
+
                 setTimeout(() => {
                   this.loading = false
-                }, 3000)
-                // this.loading = false
+                }, 1000)
               } else {
                 setTimeout(() => {
                   this.loading = false
-                }, 3000)
+                }, 1000)
                 this.getCaptcha()
                 this.$message.error(data.msg)
               }
@@ -200,7 +203,7 @@ export default {
     top: 20%;
     border: none;
     background-color: rgba(16, 33, 59, 0.5);
-    color: #fff;
+    color: rgb(185, 211, 221);
 
     .el-card__header {
       border-bottom: none;
@@ -219,7 +222,7 @@ export default {
   }
   .copyFooter {
     position: absolute;
-    color: #fff;
+    color: rgb(197, 203, 235);
     bottom: 5%;
     right: 10%;
   }

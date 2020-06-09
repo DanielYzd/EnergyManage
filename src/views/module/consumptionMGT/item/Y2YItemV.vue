@@ -6,8 +6,39 @@
     element-loading-spinner="el-icon-loading"
   >
     <el-form :inline="true" style="height:50px;">
-      <el-form-item>
+      <!-- <el-form-item>
         <el-input v-model="dictId" size="mini"></el-input>
+      </el-form-item> -->
+      <el-form-item :label="label" :prop="prop">
+        <el-popover
+          ref="regionIdsPopover"
+          placement="bottom-start"
+          trigger="click"
+        >
+          <el-tree
+            :data="regionList"
+            :props="regionListTreeProps"
+            node-key="id"
+            ref="regionListTree"
+            style="width:230px;max-height:500px;overflow-y:scroll;"
+            @current-change="regionTreeCurrentChangeHandle"
+            :default-expand-all="false"
+            :default-expanded-keys="[0, 9]"
+            :highlight-current="true"
+            :expand-on-click-node="false"
+          >
+          </el-tree>
+        </el-popover>
+        <el-input
+          v-model="selectValue"
+          class="formItem"
+          clearable
+          :size="size"
+          v-popover:regionIdsPopover
+          :readonly="true"
+          placeholder="点击选择"
+          @change="changeHandler"
+        ></el-input>
       </el-form-item>
       <el-form-item>
         <el-select size="mini" v-model="statictype" style="width:100px">
@@ -123,9 +154,11 @@ export default {
     Echart,
     CommonTable
   },
+  props: ['label', 'value', 'prop', 'size'],
   data() {
     return {
-      dictId: '102',
+      selectValue: '',
+      dictId: '',
       statictype: '1',
       time: this.$moment().format(),
       list: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
@@ -175,7 +208,13 @@ export default {
           label: '',
           prop: 'rate'
         }
-      ]
+      ],
+      regionList: [],
+      regionListTreeProps: {
+        id: 'id',
+        label: 'label',
+        children: 'children'
+      }
     }
   },
   watch: {
@@ -190,10 +229,62 @@ export default {
     },
     compareNum(newValue, oldValue) {
       this.handle()
+    },
+    dictId(newValue, oldValue) {
+      this.handle()
     }
   },
-  created() {},
+  created() {
+    this.getDataList()
+  },
   methods: {
+    regionTreeCurrentChangeHandle(data, node) {
+      console.log(data)
+      this.dictId = data.id
+      this.selectValue = data.label
+      this.$refs.regionIdsPopover.doClose()
+    },
+    changeHandler(value) {
+      if (!value) {
+        this.$emit('getRegion', { id: 0, label: '' })
+      }
+    },
+    getDataList() {
+      this.$api.energyhome.itemenergy().then(res => {
+        console.log(res)
+        this.loop(res.data, [], 78)
+      })
+    },
+    loop(list, data, parentid) {
+      list.forEach(item => {
+        if (item.pcode.toString() === parentid.toString()) {
+          console.log(item)
+          // console.log(item)
+          let child = {
+            id: item.id,
+            notes: item.notes,
+            label: item.slabel,
+            value: item.svalue,
+            children: [],
+            pcode: item.pcode
+            // layer: item.layer,
+            // id: item.regionId,
+            // label: item.regionName,
+            // children: []
+            // label: item.buildingname,
+            // children: [],
+            // id: item.id,
+            // archivetype: item.archivetype,
+            // parentid: item.parentid,
+            // regionid: item.regionid
+          }
+          this.loop(list, child.children, item.id)
+          data.push(child)
+          this.regionList = data
+          console.log(this.regionList)
+        }
+      })
+    },
     formattime() {
       switch (this.dimension) {
         case '1':

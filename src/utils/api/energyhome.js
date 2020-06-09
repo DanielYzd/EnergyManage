@@ -76,6 +76,13 @@ const energyhome = {
     return axios.get('/itemEnergy/portrait/statics', {
       params
     })
+  },
+  //GET /sys/itemenergy
+
+  itemenergy(params) {
+    return axios.get('/sys/itemenergy', {
+      params
+    })
   }
 }
 export default energyhome
