@@ -1,100 +1,43 @@
 <template>
   <div>
-    <el-form
-      :inline="true"
-      :model="dataForm"
-      @keyup.enter.native="getDataList()"
-      size="small"
-    >
-      <region-select
-        label="所属区域"
-        v-model="dataForm.regionName"
-        @getRegion="getSelectRegion"
-        clearable
-      ></region-select>
+    <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()" size="small">
+      <region-select label="所属单元" v-model="dataForm.regionName" @getRegion="getSelectRegion" clearable></region-select>
       <el-form-item>
-        <el-select
-          v-model="selectedItem"
-          placeholder="请选择"
-          @change="selectedChange"
-        >
-          <el-option
-            v-for="item in itemList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
+        <el-select v-model="selectedItem" placeholder="请选择" @change="selectedChange">
+          <el-option v-for="item in itemList" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-input
-          v-model="dataForm.searchWord"
-          placeholder="终端地址"
-          clearable
-        ></el-input>
+        <el-input v-model="dataForm.searchWord" placeholder="终端地址" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList()">查询</el-button>
-        <el-button
-          v-if="isAuth('pob:rtu:save')"
-          :disabled="selectedItem != 0"
-          type="primary"
-          @click="addOrUpdateHandle()"
-          icon="el-icon-circle-plus-outline"
-          >新增</el-button
-        >
-        <el-button
-          v-if="isAuth('pob:rtu:delete')"
-          :disabled="selectedItem != 0 || dataListSelections.length <= 0"
-          type="danger"
-          @click="deleteHandle()"
-          icon="el-icon-delete"
-          >删除</el-button
-        >
-        <el-button
-          v-if="isAuth('pob:rtu:save')"
-          :disabled="selectedItem == 0 || selectedItem == 2"
-          type="primary"
-          @click="bacthCallHandle()"
-          >召读</el-button
-        >
+        <el-button type="primary" @click="getDataList()">查询</el-button>
+
         <!--<el-button v-if="isAuth('pob:rtu:save')" :disabled="selectedItem==0" type="danger" @click="addOrUpdateHandle()">设置</el-button>-->
       </el-form-item>
     </el-form>
-    <hltable
-      v-bind:tburl="url"
-      v-bind:tbcols="cols"
-      ref="rtuTable"
-      v-bind:tbstyle="tbstyle"
-      v-bind:tbconfig="tbconfig"
-      @addOrUpdateHandle="addOrUpdateHandle"
-      @deleteHandle="deleteHandle"
-      @callHandle="callHandle"
-      @sendHandle="sendHandle"
-      @selections="
+    <hltable v-bind:tburl="url" v-bind:tbcols="cols" ref="rtuTable" v-bind:tbstyle="tbstyle" v-bind:tbconfig="tbconfig"
+      @addOrUpdateHandle="addOrUpdateHandle" @deleteHandle="deleteHandle" @callHandle="callHandle"
+      @sendHandle="sendHandle" @selections="
         data => {
           this.dataListSelections = data
         }
-      "
-    ></hltable>
-    <add-or-update
-      v-if="addOrUpdateVisible"
-      ref="addOrUpdate"
-      @refreshDataList="getDataList"
-    ></add-or-update>
-    <hl-progress
-      v-if="hlProgVisible"
-      ref="hlProg"
-      v-bind:url="remoteUrl"
-      v-on:backfunc="showProgResult"
-    ></hl-progress>
+      ">
+      <template slot="toolbar">
+        <el-button size="mini" v-if="isAuth('pob:rtu:save')" :disabled="selectedItem != 0" type="primary"
+          @click="addOrUpdateHandle()" icon="el-icon-circle-plus-outline">新增</el-button>
+        <el-button size="mini" v-if="isAuth('pob:rtu:delete')" :disabled="selectedItem != 0 || dataListSelections.length <= 0"
+          type="danger" @click="deleteHandle()" icon="el-icon-delete">删除</el-button>
+        <el-button size="mini" v-if="isAuth('pob:rtu:save')" :disabled="selectedItem == 0 || selectedItem == 2" type="primary"
+          @click="bacthCallHandle()">召读</el-button>
+
+      </template>
+    </hltable>
+    <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    <hl-progress v-if="hlProgVisible" ref="hlProg" v-bind:url="remoteUrl" v-on:backfunc="showProgResult"></hl-progress>
     <!--v-bind:message="rtuMsg" v-bind:taskid="taskid"  v-bind:rtucommaddr="rtuCommAddr"-->
-    <control-rtu-send
-      v-if="rtuSendVisible"
-      ref="rtuSend"
-      @sendAction="sendHandleAction"
-    ></control-rtu-send>
+    <control-rtu-send v-if="rtuSendVisible" ref="rtuSend" @sendAction="sendHandleAction"></control-rtu-send>
     <!--<rtu-task v-if="taskVisible" ref="rtuTask"></rtu-task>-->
   </div>
 </template>

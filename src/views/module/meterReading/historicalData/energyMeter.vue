@@ -13,7 +13,7 @@
       labelWidth="90px"
     >
       <region-select-item
-        label="所属区域"
+        label="所属单元"
         v-model="queryForm.regionName"
         @getRegion="getSelectRegion"
       ></region-select-item>
@@ -231,7 +231,7 @@ export default {
     },
     cols() {
       let cols = [
-        { prop: 'regionName', label: '所属区域' },
+        // { prop: 'regionName', label: '所属区域' },
         { prop: 'pointName', label: '表计名称' },
         { prop: 'commaddress', label: '表通信地址', width: 120 }
         //,{prop:"loopUsedTypeName", label:"计量回路标志",width:80}

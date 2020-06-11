@@ -7,7 +7,7 @@
       size="small"
     >
       <region-select-item
-        label="所属区域"
+        label="所属单元"
         v-model="dataForm.regionName"
         @getRegion="getSelectRegion"
       ></region-select-item>
@@ -36,7 +36,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList()">查询</el-button>
+        <el-button type="primary" @click="getDataList()">查询</el-button>
       </el-form-item>
     </el-form>
     <hltable
@@ -71,7 +71,7 @@ export default {
         time: '00:00'
       },
       tbCols: [
-        { prop: 'pointName', label: '表计名称', width: '60' },
+        { prop: 'pointName', label: '表计名称', width: '70' },
         { prop: 'commaddress', label: '表通信地址', width: '90' },
         { prop: 'hm', label: '户名', 'min-width': '120' },
         { prop: 'datatime', label: '时间', width: '90' },

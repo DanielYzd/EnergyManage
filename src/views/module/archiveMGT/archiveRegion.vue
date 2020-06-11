@@ -1,73 +1,41 @@
 <template>
   <div class="custom-tree-container">
-    <batch-add
-      v-if="batchAddVisible"
-      ref="batchAdd"
-      @refreshDataList="getDataList"
-    ></batch-add>
+    <batch-add v-if="batchAddVisible" ref="batchAdd" @refreshDataList="getDataList"></batch-add>
     <el-tabs v-model="activeName" type="border-card">
-      <el-tab-pane label="区域结构" name="regionStruts">
+      <el-tab-pane label="用能结构" name="regionStruts">
         <el-form :inline="true" :model="dataForm" size="small">
           <el-form-item>
-            <el-button
-              v-if="isAuth('pob:region:save')"
-              type="primary"
-              @click="appendRoot"
-              icon="el-icon-circle-plus-outline"
-              >新增区域</el-button
-            >
+            <el-button v-if="isAuth('pob:region:save')" type="primary" @click="appendRoot"
+              icon="el-icon-circle-plus-outline">新增单元</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button
-              v-if="isAuth('pob:region:save')"
-              type="primary"
-              @click="batchAddHandle()"
-              icon="el-icon-document"
-              >档案批量导入</el-button
-            >
+            <el-button v-if="isAuth('pob:region:save')" type="primary" @click="batchAddHandle()"
+              icon="el-icon-document">档案批量导入</el-button>
           </el-form-item>
         </el-form>
-        <el-tree
-          :data="regionList"
-          show-checkbox
-          node-key="id"
-          default-expand-all
-          :expand-on-click-node="false"
-        >
+        <el-tree :data="regionList" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false">
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ node.label }}</span>
             <span>
               <el-button type="text" size="mini" @click="() => append(data)">
                 增加子级
               </el-button>
-              <el-button
-                type="text"
-                size="mini"
-                @click="() => modify(node, data)"
-              >
+              <el-button type="text" size="mini" @click="() => modify(node, data)">
                 修改
               </el-button>
-              <el-button
-                type="text"
-                size="mini"
-                @click="() => remove(node, data)"
-              >
+              <el-button type="text" size="mini" @click="() => remove(node, data)">
                 删除
               </el-button>
             </span>
           </span>
         </el-tree>
       </el-tab-pane>
-      <el-tab-pane label="区域配置" name="second">
+      <el-tab-pane label="单元配置" name="second">
         <region-config></region-config>
       </el-tab-pane>
     </el-tabs>
     <div class="block">
-      <add-or-update
-        v-if="addOrUpdateVisible"
-        ref="addOrUpdate"
-        @refreshDataList="getDataList"
-      ></add-or-update>
+      <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
     </div>
   </div>
 </template>

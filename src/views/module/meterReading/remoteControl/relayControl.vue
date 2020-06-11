@@ -1,85 +1,57 @@
 <template>
   <div>
     <div>
-      <el-form
-        :inline="true"
-        :model="dataForm"
-        @keyup.enter.native="getDataList()"
-        size="small"
-      >
-        <region-select-item
-          label="所属区域"
-          v-model="dataForm.regionName"
-          @getRegion="getSelectRegion"
-          style="width: 25%;"
-        ></region-select-item>
-        <el-form-item label="表计类型" style="width: 25%;">
-          <el-select
-            v-model="dataForm.type"
-            placeholder="请选择"
-            style="width: 100%"
-          >
-            <el-option
-              v-for="(item, index) in meterTypeList"
-              :key="index"
-              :label="item.key"
-              :value="item.value"
-            ></el-option>
+      <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()" size="small">
+        <region-select-item label="所属单元" v-model="dataForm.regionName" @getRegion="getSelectRegion">
+        </region-select-item>
+        <el-form-item label="能源类型">
+          <el-select v-model="dataForm.type" placeholder="请选择" style="width: 100%">
+            <el-option v-for="(item, index) in meterTypeList" :key="index" :label="item.key" :value="item.value">
+            </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item style="float: right;">
-          <el-button @click="getDataList()">查询</el-button>
-          <el-button
-            v-if="isAuth('pob:meter:save')"
-            type="primary"
-            @click="batchHandler(1)"
-            >拉闸</el-button
-          >
-          <el-button
-            v-if="isAuth('pob:meter:save')"
-            type="primary"
-            @click="batchHandler(0)"
-            >合闸</el-button
-          >
+        <el-form-item>
+          <el-button type="primary" @click="getDataList()">查询</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <div style="display: flex;">
-      <div style="width: 250px;margin-right: 10px;min-height: 400px;">
-        <hltable
-          v-bind:tburl="rtuUrl"
-          v-bind:tbcols="rtuCols"
-          ref="rtuDataTable"
-          v-bind:tbconfig="rtuConfig"
-          @selections="selectChange"
-        ></hltable>
-      </div>
-      <div style="flex: 1;width: 100%;overflow-x: hidden;min-height: 400px;">
-        <hltable
-          v-bind:tburl="url"
-          v-bind:tbcols="cols"
-          ref="dataTable"
-          v-bind:tbconfig="tbconfig"
-          @selections="
+    <div>
+   
+        <el-collapse v-model="activeNames">
+          <el-collapse-item name="1">
+              
+            <template slot="title">
+               <el-tooltip content="点我展开与收缩" placement="left-start">
+              <span style="color:#1679bd;font-size:16px;">终端信息</span>
+               </el-tooltip>
+            </template>
+             
+            <div>
+              <hltable v-bind:tburl="rtuUrl" v-bind:tbcols="rtuCols" ref="rtuDataTable" v-bind:tbconfig="rtuConfig"
+                @selections="selectChange"></hltable>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+    
+
+      <div style="margin-top:20px;">
+        <hltable v-bind:tburl="url" v-bind:tbcols="cols" ref="dataTable" v-bind:tbconfig="tbconfig" @selections="
             data => {
               this.dataListSelections = data
             }
-          "
-        ></hltable>
+          ">
+          <template slot="toolbar">
+            <el-button v-if="isAuth('pob:meter:save')" size="mini" type="primary" @click="batchHandler(1)">拉闸
+            </el-button>
+            <el-button v-if="isAuth('pob:meter:save')" size="mini" type="primary" @click="batchHandler(0)">合闸
+            </el-button>
+          </template>
+        </hltable>
       </div>
     </div>
-    <point-switch-update
-      v-if="addOrUpdateVisible"
-      ref="meterAdd"
-      @refreshDataList="loadPoint"
-      @sendAction="sendAction"
-    ></point-switch-update>
-    <hl-progress
-      v-if="hlProgVisible"
-      ref="hlProg"
-      v-bind:url="remoteUrl"
-      v-on:backfunc="showProgResult"
-    ></hl-progress>
+    <point-switch-update v-if="addOrUpdateVisible" ref="meterAdd" @refreshDataList="loadPoint" @sendAction="sendAction">
+    </point-switch-update>
+    <hl-progress v-if="hlProgVisible" ref="hlProg" v-bind:url="remoteUrl" v-on:backfunc="showProgResult"></hl-progress>
   </div>
 </template>
 
@@ -93,6 +65,7 @@ const SWITCH_ON = 0,
 export default {
   data() {
     return {
+      activeNames: ['1'],
       meterTypeList: this.$sysConfig.getAllMeterTypes(),
       loading: false,
       rtuLoading: false,
@@ -150,14 +123,14 @@ export default {
       },
       cols: [
         // {prop:"rtuAddr", label:"终端地址",width:"120"},
-        { prop: 'disc', label: '表计名称', width: '150' },
-        { prop: 'commaddress', label: '表通讯地址', width: '120' },
-        { prop: 'numberid', label: '表序号', width: '60' },
-        { prop: 'comDesc', label: '通讯端口号', width: '80' },
-        { prop: 'bpsDesc', label: '通讯速率', width: '80' },
-        { prop: 'protocolDesc', label: '通讯规约类型', width: '120' },
-        { prop: 'secretLevel', label: '密级', width: '60' },
-        { prop: 'secretCode', label: '拉合闸密码', width: '80' },
+        { prop: 'disc', label: '表计名称'  },
+        { prop: 'commaddress', label: '表通讯地址' },
+        // { prop: 'numberid', label: '表序号',  },
+        // { prop: 'comDesc', label: '通讯端口号' },
+        // { prop: 'bpsDesc', label: '通讯速率' },
+        // { prop: 'protocolDesc', label: '通讯规约类型'},
+        // { prop: 'secretLevel', label: '密级' },
+        // { prop: 'secretCode', label: '拉合闸密码' },
         {
           prop: 'useenergyStatusName',
           label: '当前开关状态',

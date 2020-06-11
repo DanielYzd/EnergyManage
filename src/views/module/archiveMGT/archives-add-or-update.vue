@@ -1,317 +1,117 @@
 <template>
-  <el-dialog
-    :title="!dataForm.customerid ? '新增' : '修改'"
-    :close-on-click-modal="false"
-    :visible.sync="visible"
-    @close="resetForm"
-  >
-    <el-form
-      :model="dataForm"
-      :rules="dataRule"
-      ref="dataForm"
-      @keyup.enter.native="dataFormSubmit()"
-      label-width="120px"
-      size="small"
-    >
+  <el-dialog :title="!dataForm.customerid ? '新增' : '修改'" :close-on-click-modal="false" :visible.sync="visible"
+    @close="resetForm">
+    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()"
+      label-width="120px" size="small">
       <el-tabs v-model="activedTabName" tab-position="left">
         <el-tab-pane label="用户信息" name="-1">
-          <region-select-item
-            label="所属区域"
-            v-model="dataForm.regionName"
-            @getRegion="getSelectRegion"
-            prop="regionName"
-          ></region-select-item>
-          <el-form-item
-            label="用户信息"
-            prop="disc"
-            style="display: inline-block;"
-          >
+          <region-select-item label="所属单元" v-model="dataForm.regionName" @getRegion="getSelectRegion" prop="regionName">
+          </region-select-item>
+          <el-form-item label="用户信息" prop="disc" style="display: inline-block;">
             <el-input v-model="dataForm.disc" placeholder="户名"></el-input>
           </el-form-item>
-          <el-form-item
-            label="门牌号"
-            prop="doorplate"
-            style="display: inline-block;"
-          >
-            <el-input
-              v-model="dataForm.doorplate"
-              placeholder="门牌号"
-              style="width:100%"
-            ></el-input>
+          <el-form-item label="门牌号" prop="doorplate" style="display: inline-block;">
+            <el-input v-model="dataForm.doorplate" placeholder="门牌号" style="width:100%"></el-input>
           </el-form-item>
           <el-form-item label="用户地址" prop="address">
             <el-input v-model="dataForm.address" placeholder="地址"></el-input>
           </el-form-item>
-          <el-form-item
-            label="手机号码"
-            prop="telephone"
-            style="display: inline-block;"
-          >
-            <el-input
-              v-model="dataForm.telephone"
-              placeholder="联系电话"
-            ></el-input>
+          <el-form-item label="手机号码" prop="telephone" style="display: inline-block;">
+            <el-input v-model="dataForm.telephone" placeholder="联系电话"></el-input>
           </el-form-item>
-          <el-form-item
-            label="手机号码2"
-            prop="telephone2"
-            style="display: inline-block;"
-          >
-            <el-input
-              v-model="dataForm.telephone2"
-              placeholder="联系电话2"
-            ></el-input>
+          <el-form-item label="手机号码2" prop="telephone2" style="display: inline-block;">
+            <el-input v-model="dataForm.telephone2" placeholder="联系电话2"></el-input>
           </el-form-item>
-          <el-form-item label="表计类型" prop="type">
+          <el-form-item label="能源类型" prop="type">
             <el-checkbox-group v-model="type" @change="meterTypeChange">
-              <el-checkbox
-                v-for="item in meterTypeList"
-                :key="item.value"
-                :label="item.value"
-                >{{ item.key }}</el-checkbox
-              >
+              <el-checkbox v-for="item in meterTypeList" :key="item.value" :label="item.value">{{ item.key }}
+              </el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="主站费控" prop="ppfstatus">
-            <el-switch
-              v-model="dataForm.ppfstatus"
-              @change="ppfSwitchChange"
-              active-color="#13ce66"
-              active-text="开启"
-            ></el-switch>
+            <el-switch v-model="dataForm.ppfstatus" @change="ppfSwitchChange" active-color="#13ce66" active-text="开启">
+            </el-switch>
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="计费参数" v-if="dataForm.isppf" name="4">
-          <el-form-item
-            label="计费开始日期"
-            style="display: inline-block;"
-            prop="starttime"
-          >
-            <el-date-picker
-              v-model="dataForm.starttime"
-              style="width: 160px;"
-              type="date"
-              value="yyyy-MM-dd"
-              placeholder="开户日期"
-              value-format="yyyy-MM-dd 00:00:00"
-            ></el-date-picker>
+          <el-form-item label="计费开始日期" style="display: inline-block;" prop="starttime">
+            <el-date-picker v-model="dataForm.starttime" style="width: 160px;" type="date" value="yyyy-MM-dd"
+              placeholder="开户日期" value-format="yyyy-MM-dd 00:00:00"></el-date-picker>
           </el-form-item>
-          <el-form-item
-            label="计费结束日期"
-            prop="checkOutTime"
-            style="display: inline-block;"
-          >
-            <el-date-picker
-              v-model="dataForm.checkOutTime"
-              value-format="yyyy-MM-dd"
-              align="right"
-              type="date"
-              placeholder="选择日期"
-              style="width: 160px;"
-            >
+          <el-form-item label="计费结束日期" prop="checkOutTime" style="display: inline-block;">
+            <el-date-picker v-model="dataForm.checkOutTime" value-format="yyyy-MM-dd" align="right" type="date"
+              placeholder="选择日期" style="width: 160px;">
             </el-date-picker>
           </el-form-item>
-          <el-form-item
-            label="结算周期"
-            prop="jszq"
-            style="display: inline-block;"
-          >
-            <el-select
-              v-model="dataForm.jszq"
-              placeholder="请选择电价"
-              @change="calcSchemeChange"
-              style="width: 160px;"
-            >
-              <el-option
-                v-for="item in schemeidList"
-                :key="item.schemeid"
-                :label="item.disc"
-                :value="item.schemeid"
-              ></el-option>
+          <el-form-item label="结算周期" prop="jszq" style="display: inline-block;">
+            <el-select v-model="dataForm.jszq" placeholder="请选择电价" @change="calcSchemeChange" style="width: 160px;">
+              <el-option v-for="item in schemeidList" :key="item.schemeid" :label="item.disc" :value="item.schemeid">
+              </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item
-            label="结算时间"
-            prop="jssj"
-            v-if="dataForm.jszq === 3"
-            style="display: inline-block;"
-          >
-            <el-input-number
-              v-model="dataForm.jssj"
-              :min="1"
-              :max="28"
-              style="width: 160px;"
-            ></el-input-number>
+          <el-form-item label="结算时间" prop="jssj" v-if="dataForm.jszq === 3" style="display: inline-block;">
+            <el-input-number v-model="dataForm.jssj" :min="1" :max="28" style="width: 160px;"></el-input-number>
             <label>号</label>
           </el-form-item>
           <br />
-          <el-form-item
-            label="预充金额"
-            style="display: inline-block;"
-            prop="khje"
-          >
-            <el-input-number
-              v-model="dataForm.khje"
-              :disabled="!isCanModify"
-              :min="0"
-              :max="50000"
-              label="请输入预充金额"
-              style="width: 140px;"
-            ></el-input-number>
+          <el-form-item label="预充金额" style="display: inline-block;" prop="khje">
+            <el-input-number v-model="dataForm.khje" :disabled="!isCanModify" :min="0" :max="50000" label="请输入预充金额"
+              style="width: 140px;"></el-input-number>
             <label>元</label>
           </el-form-item>
-          <el-form-item
-            label="催费金额"
-            style="display: inline-block;"
-            prop="bjje"
-          >
-            <el-input-number
-              v-model="dataForm.bjje"
-              :min="0"
-              :max="5000"
-              label="请输入催费金额"
-              style="width: 160px;"
-            ></el-input-number>
+          <el-form-item label="催费金额" style="display: inline-block;" prop="bjje">
+            <el-input-number v-model="dataForm.bjje" :min="0" :max="5000" label="请输入催费金额" style="width: 160px;">
+            </el-input-number>
             <label>元</label>
           </el-form-item>
           <br />
-          <el-form-item
-            label="自动拉闸"
-            style="display: inline-block;"
-            prop="autoControl"
-          >
-            <el-switch
-              v-model="dataForm.autoControl"
-              active-color="#13ce66"
-              active-text="开启"
-              style="width: 160px;"
-            ></el-switch>
+          <el-form-item label="自动拉闸" style="display: inline-block;" prop="autoControl">
+            <el-switch v-model="dataForm.autoControl" active-color="#13ce66" active-text="开启" style="width: 160px;">
+            </el-switch>
           </el-form-item>
-          <el-form-item
-            label="自动拉闸金额"
-            style="display: inline-block;"
-            prop="tzje"
-          >
-            <el-input-number
-              v-model="dataForm.tzje"
-              label="请输入拉闸金额"
-              style="width: 160px;"
-            ></el-input-number>
+          <el-form-item label="自动拉闸金额" style="display: inline-block;" prop="tzje">
+            <el-input-number v-model="dataForm.tzje" label="请输入拉闸金额" style="width: 160px;"></el-input-number>
             <label>元</label>
           </el-form-item>
-          <el-form-item
-            label="电价"
-            prop="unitPriceEle"
-            style="display: inline-block;"
-          >
-            <el-select
-              v-model="dataForm.unitPriceEle"
-              placeholder="请选择电价"
-              style="width: 160px;"
-            >
-              <el-option
-                v-for="item in eleUnitPriceList"
-                :key="item.priceid"
-                :label="item.disc"
-                :value="item.priceid"
-              ></el-option>
+          <el-form-item label="电价" prop="unitPriceEle" style="display: inline-block;">
+            <el-select v-model="dataForm.unitPriceEle" placeholder="请选择电价" style="width: 160px;">
+              <el-option v-for="item in eleUnitPriceList" :key="item.priceid" :label="item.disc" :value="item.priceid">
+              </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item
-            label="水价"
-            prop="unitPriceWat"
-            style="display: inline-block;"
-          >
-            <el-select
-              v-model="dataForm.unitPriceWat"
-              placeholder="请选择水价"
-              style="width: 160px;"
-            >
-              <el-option
-                v-for="item in watUnitPriceList"
-                :key="item.priceid"
-                :label="item.disc"
-                :value="item.priceid"
-              ></el-option>
+          <el-form-item label="水价" prop="unitPriceWat" style="display: inline-block;">
+            <el-select v-model="dataForm.unitPriceWat" placeholder="请选择水价" style="width: 160px;">
+              <el-option v-for="item in watUnitPriceList" :key="item.priceid" :label="item.disc" :value="item.priceid">
+              </el-option>
             </el-select>
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="电表信息" v-if="type.indexOf(0) > -1" name="0">
           <div style="display:flex;">
-            <el-tabs
-              v-model="activedTabName_0"
-              type="border-card"
-              style="flex:1;max-width: 750px;"
-              closable
-              @tab-remove="removeMeter($event, 0)"
-            >
-              <el-tab-pane
-                v-for="(meter, index) in dataForm.eleMeters"
-                :label="index + 1 + '号电表'"
-                :key="meter.key"
-                :name="index.toString()"
-              >
-                <el-form-item
-                  label="表计名称"
-                  prop="disc"
-                  style="margin-bottom: 15px;"
-                >
-                  <el-input
-                    v-model="meter.disc"
-                    placeholder="请输入电表名称"
-                  ></el-input>
+            <el-tabs v-model="activedTabName_0" type="border-card" style="flex:1;max-width: 750px;" closable
+              @tab-remove="removeMeter($event, 0)">
+              <el-tab-pane v-for="(meter, index) in dataForm.eleMeters" :label="index + 1 + '号电表'" :key="meter.key"
+                :name="index.toString()">
+                <el-form-item label="表计名称" prop="disc" style="margin-bottom: 15px;">
+                  <el-input v-model="meter.disc" placeholder="请输入电表名称"></el-input>
                 </el-form-item>
                 <el-form-item label="表计通信地址" prop="commaddress">
-                  <el-input
-                    v-model="meter.commaddress"
-                    placeholder="请输入电表通信地址"
-                  ></el-input>
+                  <el-input v-model="meter.commaddress" placeholder="请输入电表通信地址"></el-input>
                 </el-form-item>
-                <el-form-item
-                  label="CT(电流互感器)"
-                  prop="ctid"
-                  style="margin-bottom: 15px;"
-                >
-                  <el-select
-                    v-model="meter.ctid"
-                    placeholder="CT"
-                    style="width: 100%;"
-                  >
-                    <el-option
-                      v-for="item in ctList"
-                      :key="item.id"
-                      :label="item.disc"
-                      :value="item.id"
-                    ></el-option>
+                <el-form-item label="CT(电流互感器)" prop="ctid" style="margin-bottom: 15px;">
+                  <el-select v-model="meter.ctid" placeholder="CT" style="width: 100%;">
+                    <el-option v-for="item in ctList" :key="item.id" :label="item.disc" :value="item.id"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="PT(电压互感器)" prop="ptid">
-                  <el-select
-                    v-model="meter.ptid"
-                    placeholder="PT"
-                    style="width: 100%;"
-                  >
-                    <el-option
-                      v-for="item in ptList"
-                      :key="item.id"
-                      :label="item.disc"
-                      :value="item.id"
-                    ></el-option>
+                  <el-select v-model="meter.ptid" placeholder="PT" style="width: 100%;">
+                    <el-option v-for="item in ptList" :key="item.id" :label="item.disc" :value="item.id"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="能耗用途" prop="energyType">
-                  <el-select
-                    v-model="meter.energyType"
-                    clearable
-                    placeholder="能耗用途"
-                    style="width: 100%;"
-                  >
-                    <el-option
-                      v-for="item in energyEleTypeList"
-                      :key="item.value"
-                      :label="item.key"
-                      :value="item.value"
-                    ></el-option>
+                  <el-select v-model="meter.energyType" clearable placeholder="能耗用途" style="width: 100%;">
+                    <el-option v-for="item in energyEleTypeList" :key="item.value" :label="item.key"
+                      :value="item.value"></el-option>
                   </el-select>
                 </el-form-item>
               </el-tab-pane>
@@ -319,58 +119,28 @@
             <div style="width:100px;">
               <el-tooltip effect="dark" placement="top-start">
                 <div slot="content">增加</div>
-                <el-button
-                  v-if="isAuth('pob:meter:save')"
-                  @click.prevent="addMeter(0)"
-                  icon="el-icon-circle-plus"
-                ></el-button>
+                <el-button v-if="isAuth('pob:meter:save')" @click.prevent="addMeter(0)" icon="el-icon-circle-plus">
+                </el-button>
               </el-tooltip>
             </div>
           </div>
         </el-tab-pane>
         <el-tab-pane label="水表信息" v-if="type.indexOf(1) > -1" name="1">
           <div style="display:flex;">
-            <el-tabs
-              v-model="activedTabName_1"
-              type="border-card"
-              style="flex:1"
-              closable
-              @tab-remove="removeMeter($event, 1)"
-            >
-              <el-tab-pane
-                v-for="(meter, index) in dataForm.watMeters"
-                :label="index + 1 + '号水表'"
-                :name="index.toString()"
-                :key="meter.key"
-              >
-                <el-form-item
-                  label="表计名称"
-                  prop="disc"
-                  style="margin-bottom: 15px;"
-                >
-                  <el-input
-                    v-model="meter.disc"
-                    placeholder="请输入电表名称"
-                  ></el-input>
+            <el-tabs v-model="activedTabName_1" type="border-card" style="flex:1" closable
+              @tab-remove="removeMeter($event, 1)">
+              <el-tab-pane v-for="(meter, index) in dataForm.watMeters" :label="index + 1 + '号水表'"
+                :name="index.toString()" :key="meter.key">
+                <el-form-item label="表计名称" prop="disc" style="margin-bottom: 15px;">
+                  <el-input v-model="meter.disc" placeholder="请输入电表名称"></el-input>
                 </el-form-item>
                 <el-form-item label="表计通信地址" prop="commaddress">
-                  <el-input
-                    v-model="meter.commaddress"
-                    placeholder="请输入电表通信地址"
-                  ></el-input>
+                  <el-input v-model="meter.commaddress" placeholder="请输入电表通信地址"></el-input>
                 </el-form-item>
                 <el-form-item label="能耗用途" prop="energyType">
-                  <el-select
-                    v-model="meter.energyType"
-                    placeholder="能耗用途"
-                    style="width: 100%;"
-                  >
-                    <el-option
-                      v-for="item in energyWatTypeList"
-                      :key="item.value"
-                      :label="item.key"
-                      :value="item.value"
-                    ></el-option>
+                  <el-select v-model="meter.energyType" placeholder="能耗用途" style="width: 100%;">
+                    <el-option v-for="item in energyWatTypeList" :key="item.value" :label="item.key"
+                      :value="item.value"></el-option>
                   </el-select>
                 </el-form-item>
               </el-tab-pane>
@@ -378,58 +148,28 @@
             <div style="width:100px;">
               <el-tooltip effect="dark" placement="top-start">
                 <div slot="content">增加</div>
-                <el-button
-                  v-if="isAuth('pob:meter:save')"
-                  @click.prevent="addMeter(1)"
-                  icon="el-icon-circle-plus"
-                ></el-button>
+                <el-button v-if="isAuth('pob:meter:save')" @click.prevent="addMeter(1)" icon="el-icon-circle-plus">
+                </el-button>
               </el-tooltip>
             </div>
           </div>
         </el-tab-pane>
         <el-tab-pane label="气表信息" v-if="type.indexOf(2) > -1" name="2">
           <div style="display:flex;">
-            <el-tabs
-              v-model="activedTabName_2"
-              type="border-card"
-              style="flex:1"
-              closable
-              @tab-remove="removeMeter($event, 2)"
-            >
-              <el-tab-pane
-                v-for="(meter, index) in dataForm.gasMeters"
-                :label="index + 1 + '号气表'"
-                :name="index.toString()"
-                :key="meter.key"
-              >
-                <el-form-item
-                  label="表计名称"
-                  prop="disc"
-                  style="margin-bottom: 15px;"
-                >
-                  <el-input
-                    v-model="meter.disc"
-                    placeholder="请输入电表名称"
-                  ></el-input>
+            <el-tabs v-model="activedTabName_2" type="border-card" style="flex:1" closable
+              @tab-remove="removeMeter($event, 2)">
+              <el-tab-pane v-for="(meter, index) in dataForm.gasMeters" :label="index + 1 + '号气表'"
+                :name="index.toString()" :key="meter.key">
+                <el-form-item label="表计名称" prop="disc" style="margin-bottom: 15px;">
+                  <el-input v-model="meter.disc" placeholder="请输入电表名称"></el-input>
                 </el-form-item>
                 <el-form-item label="表计通信地址" prop="commaddress">
-                  <el-input
-                    v-model="meter.commaddress"
-                    placeholder="请输入电表通信地址"
-                  ></el-input>
+                  <el-input v-model="meter.commaddress" placeholder="请输入电表通信地址"></el-input>
                 </el-form-item>
                 <el-form-item label="能耗用途" prop="energyType">
-                  <el-select
-                    v-model="meter.energyType"
-                    placeholder="能耗用途"
-                    style="width: 100%;"
-                  >
-                    <el-option
-                      v-for="item in energyGasTypeList"
-                      :key="item.value"
-                      :label="item.key"
-                      :value="item.value"
-                    ></el-option>
+                  <el-select v-model="meter.energyType" placeholder="能耗用途" style="width: 100%;">
+                    <el-option v-for="item in energyGasTypeList" :key="item.value" :label="item.key"
+                      :value="item.value"></el-option>
                   </el-select>
                 </el-form-item>
               </el-tab-pane>
@@ -437,58 +177,28 @@
             <div style="width:100px;">
               <el-tooltip effect="dark" placement="top-start">
                 <div slot="content">增加</div>
-                <el-button
-                  v-if="isAuth('pob:meter:save')"
-                  @click.prevent="addMeter(2)"
-                  icon="el-icon-circle-plus"
-                ></el-button>
+                <el-button v-if="isAuth('pob:meter:save')" @click.prevent="addMeter(2)" icon="el-icon-circle-plus">
+                </el-button>
               </el-tooltip>
             </div>
           </div>
         </el-tab-pane>
         <el-tab-pane label="热表信息" v-if="type.indexOf(3) > -1" name="3">
           <div style="display:flex;">
-            <el-tabs
-              v-model="activedTabName_3"
-              type="border-card"
-              style="flex:1"
-              closable
-              @tab-remove="removeMeter($event, 3)"
-            >
-              <el-tab-pane
-                v-for="(meter, index) in dataForm.hotMeters"
-                :label="index + 1 + '号热表'"
-                :name="index.toString()"
-                :key="meter.key"
-              >
-                <el-form-item
-                  label="表计名称"
-                  prop="disc"
-                  style="margin-bottom: 15px;"
-                >
-                  <el-input
-                    v-model="meter.disc"
-                    placeholder="请输入电表名称"
-                  ></el-input>
+            <el-tabs v-model="activedTabName_3" type="border-card" style="flex:1" closable
+              @tab-remove="removeMeter($event, 3)">
+              <el-tab-pane v-for="(meter, index) in dataForm.hotMeters" :label="index + 1 + '号热表'"
+                :name="index.toString()" :key="meter.key">
+                <el-form-item label="表计名称" prop="disc" style="margin-bottom: 15px;">
+                  <el-input v-model="meter.disc" placeholder="请输入电表名称"></el-input>
                 </el-form-item>
                 <el-form-item label="表计通信地址" prop="commaddress">
-                  <el-input
-                    v-model="meter.commaddress"
-                    placeholder="请输入电表通信地址"
-                  ></el-input>
+                  <el-input v-model="meter.commaddress" placeholder="请输入电表通信地址"></el-input>
                 </el-form-item>
                 <el-form-item label="能耗用途" prop="energyType">
-                  <el-select
-                    v-model="meter.energyType"
-                    placeholder="能耗用途"
-                    style="width: 100%;"
-                  >
-                    <el-option
-                      v-for="item in energyHotTypeList"
-                      :key="item.value"
-                      :label="item.key"
-                      :value="item.value"
-                    ></el-option>
+                  <el-select v-model="meter.energyType" placeholder="能耗用途" style="width: 100%;">
+                    <el-option v-for="item in energyHotTypeList" :key="item.value" :label="item.key"
+                      :value="item.value"></el-option>
                   </el-select>
                 </el-form-item>
               </el-tab-pane>
@@ -496,11 +206,8 @@
             <div style="width:100px;">
               <el-tooltip effect="dark" placement="top-start">
                 <div slot="content">增加</div>
-                <el-button
-                  v-if="isAuth('pob:meter:save')"
-                  @click.prevent="addMeter(3)"
-                  icon="el-icon-circle-plus"
-                ></el-button>
+                <el-button v-if="isAuth('pob:meter:save')" @click.prevent="addMeter(3)" icon="el-icon-circle-plus">
+                </el-button>
               </el-tooltip>
             </div>
           </div>

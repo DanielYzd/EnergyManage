@@ -2,204 +2,94 @@
   <div v-bind:style="tbstyle" class="gContent">
     <!--<el-row :gutter="20">
 		<el-col :span="24">-->
-    <el-table
-      :id="tableId"
-      v-loading="dataListLoading"
-      ref="multipleTable"
-      :data="tableData"
-      @selection-change="selectionChangeHandle"
-      border
-      stripe
-      tooltip-effect="dark"
-      :show-overflow-tooltip="true"
-      highlight-current-row
-      size="small"
-      :height="tableHeight"
-      style="width:100%;"
-    >
-      <el-table-column
-        v-if="tbconfig.isShowSelection"
-        type="selection"
-        header-align="center"
-        align="center"
-        width="50"
-      ></el-table-column>
-      <el-table-column
-        v-if="tbconfig.isShowRowIndex"
-        type="index"
-        header-align="center"
-        align="center"
-        width="60"
-        :fixed="tbcols[0].fixed"
-        label="序号"
-      ></el-table-column>
-      <el-table-column
-        v-for="(item, index) in tbcols"
-        :key="index"
-        :prop="item.prop"
-        :label="item.label"
-        :fixed="item.fixed"
-        :min-width="item.width ? item.width : 120"
-        show-overflow-tooltip
-        align="center"
-        sortable
-      >
-        <el-table-column
-          v-for="(child, tc) in item.children"
-          :key="tc"
-          :prop="child.prop"
-          :label="child.label"
-          :min-width="child.width ? child.width : 120"
-          show-overflow-tooltip
-          align="center"
-        >
+    <div style="display:flex;margin-bottom:10px;">
+        <div v-if="!tbconfig.hideShowExcel">
+          <!-- <el-tooltip effect="dark" content="导出为Excel" placement="top-start"> -->
+            <el-button size="mini" type="primary" @click="outExeclDialog">
+              <!-- <icon-svg style="font-size:20px" name="excel"></icon-svg> -->
+              导出
+            </el-button>
+          <!-- </el-tooltip> -->
+         </div>
+         <div style="margin-left:10px;">
+             <slot name="toolbar"> </slot>
+         </div>
+    </div>
+  
+    <el-table :id="tableId" v-loading="dataListLoading" ref="multipleTable" :data="tableData"
+      @selection-change="selectionChangeHandle" border stripe tooltip-effect="dark" :show-overflow-tooltip="true"
+      highlight-current-row size="small" :height="tableHeight" style="width:100%;">
+      <el-table-column v-if="tbconfig.isShowSelection" type="selection" header-align="center" align="center" width="50">
+      </el-table-column>
+      <el-table-column v-if="tbconfig.isShowRowIndex" type="index" header-align="center" align="center" width="60"
+        :fixed="tbcols[0].fixed" label="序号"></el-table-column>
+      <el-table-column v-for="(item, index) in tbcols" :key="index" :prop="item.prop" :label="item.label"
+        :fixed="item.fixed" :min-width="item.width ? item.width : 120" show-overflow-tooltip align="center" sortable>
+        <el-table-column v-for="(child, tc) in item.children" :key="tc" :prop="child.prop" :label="child.label"
+          :min-width="child.width ? child.width : 120" show-overflow-tooltip align="center">
         </el-table-column>
         <template slot-scope="scope">
-          <el-tag
-            size="small"
-            :type="item.getColor(scope.row) || 'success'"
-            v-if="item.tag === true"
-            >{{ scope.row[item.prop] }}</el-tag
-          >
+          <el-tag size="small" :type="item.getColor(scope.row) || 'success'" v-if="item.tag === true">
+            {{ scope.row[item.prop] }}</el-tag>
           <label v-if="item.tag !== true">{{ scope.row[item.prop] }}</label>
         </template>
       </el-table-column>
-      <el-table-column
-        v-if="
+      <el-table-column v-if="
           tbconfig.rowButtonType === 1 &&
             (config.hasUpdateAuth || config.hasDeleteAuth)
-        "
-        fixed="right"
-        header-align="center"
-        align="center"
-        width="150"
-        label="操作"
-      >
+        " fixed="right" header-align="center" align="center" width="150" label="操作">
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            v-if="config.hasUpdateAuth"
-            size="small"
-            @click="addOrUpdateHandle(scope.row)"
-            >修改</el-button
-          >
-          <el-button
-            type="text"
-            v-if="config.hasDeleteAuth"
-            size="small"
-            @click="deleteHandle(scope.row)"
-            >删除</el-button
-          >
+          <el-button type="text" v-if="config.hasUpdateAuth" size="small" @click="addOrUpdateHandle(scope.row)">修改
+          </el-button>
+          <el-button type="text" v-if="config.hasDeleteAuth" size="small" @click="deleteHandle(scope.row)">删除
+          </el-button>
         </template>
       </el-table-column>
-      <el-table-column
-        v-if="tbconfig.rowButtonType === 2"
-        fixed="right"
-        header-align="center"
-        align="center"
-        width="120"
-        label="操作"
-      >
+      <el-table-column v-if="tbconfig.rowButtonType === 2" fixed="right" header-align="center" align="center"
+        width="120" label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="mini" @click="callHandle(scope.row)"
-            >召读</el-button
-          >
-          <el-button type="text" size="mini" @click="sendHandle(scope.row)"
-            >设置</el-button
-          >
+          <el-button type="text" size="mini" @click="callHandle(scope.row)">召读</el-button>
+          <el-button type="text" size="mini" @click="sendHandle(scope.row)">设置</el-button>
         </template>
       </el-table-column>
-      <el-table-column
-        v-if="tbconfig.rowButtonType === 3"
-        fixed="right"
-        header-align="center"
-        label="操作"
-        align="center"
-        width="80"
-      >
+      <el-table-column v-if="tbconfig.rowButtonType === 3" fixed="right" header-align="center" label="操作" align="center"
+        width="80">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="dataDetail(scope.row)"
-            >更多</el-button
-          >
+          <el-button type="text" size="small" @click="dataDetail(scope.row)">更多</el-button>
         </template>
       </el-table-column>
-      <el-table-column
-        label="操作"
-        v-if="tbconfig.rowButtonType === 4"
-        fixed="right"
-        header-align="center"
-        align="center"
-        :width="tbconfig.btnWidth"
-      >
+      <el-table-column label="操作" v-if="tbconfig.rowButtonType === 4" fixed="right" header-align="center" align="center"
+        :width="tbconfig.btnWidth">
         <template slot-scope="scope">
-          <el-button
-            type="primary"
-            plain
-            size="mini"
-            round
-            v-for="(item, index) in tbconfig.buttons"
-            :key="index"
-            @click="item.handler(scope.row, $refs)"
-            >{{ item.label }}</el-button
-          >
+          <el-button type="primary" plain size="mini" round v-for="(item, index) in tbconfig.buttons" :key="index"
+            @click="item.handler(scope.row, $refs)">{{ item.label }}</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div style="display: inline-block;width: 100%;">
-      <el-pagination
-        background
-        v-if="paginationShow && tbconfig.isShowPage && this.pageMode === 0"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage"
-        :page-sizes="[15, 20, 30, 200, 500]"
-        :page-size="pageSize"
-        @click="jumpPage(currentPage)"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="totalCount"
-        style="float: right;"
-      >
+      <el-pagination background v-if="paginationShow && tbconfig.isShowPage && this.pageMode === 0"
+        @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage"
+        :page-sizes="[10, 20, 50, 200, 500]" :page-size="pageSize" @click="jumpPage(currentPage)"
+        layout="total, sizes, prev, pager, next, jumper" :total="totalCount" style="float: right;">
       </el-pagination>
-      <el-pagination
-        v-if="tbconfig.isShowPage && this.pageMode === 1"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-size="pageSize"
-        small
-        layout="prev, pager, next"
-        :total="totalCount"
-        style="float: right;"
-      ></el-pagination>
-      <div style="float: right;margin-top:5px;" v-if="!tbconfig.hideShowExcel">
-        <el-tooltip effect="dark" content="导出为Excel" placement="top-start">
-          <el-button style="border:0px;" @click="outExeclDialog">
-            <icon-svg style="font-size:20px" name="excel"></icon-svg>
-          </el-button>
-        </el-tooltip>
-      </div>
+      <el-pagination v-if="tbconfig.isShowPage && this.pageMode === 1" @current-change="handleCurrentChange"
+        :current-page="currentPage" :page-size="pageSize" small layout="prev, pager, next" :total="totalCount"
+        style="float: right;"></el-pagination>
+
     </div>
     <!--</el-col>-->
     <div>
       <el-dialog title="数据导出类型" :visible.sync="dialogVisible">
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="exportExcel(0)">全部导出</el-button>
-          <el-button type="primary" @click="exportExcel(1)"
-            >当前页导出</el-button
-          >
+          <el-button type="primary" @click="exportExcel(1)">当前页导出</el-button>
           <el-button @click="dialogVisible = false">取 消</el-button>
         </span>
       </el-dialog>
     </div>
     <div class="gt-hidden">
-      <form
-        style="MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 0px; PADDING-RIGHT: 0px; HEIGHT: 0px; PADDING-TOP: 0px"
-        :id="excelFormId"
-        name="export_form"
-        action=""
-        target="export_iframe"
-        height="0"
-        width="0"
-      >
+      <form style="MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 0px; PADDING-RIGHT: 0px; HEIGHT: 0px; PADDING-TOP: 0px"
+        :id="excelFormId" name="export_form" action="" target="export_iframe" height="0" width="0">
         <input id="isExport" value="true" type="hidden" name="isExport" />
         <input id="excelHeads" value="" type="hidden" name="excelHeads" />
         <input type="hidden" name="fileName" value=" " />
@@ -208,16 +98,8 @@
           <input type="hidden" :name="key" :value="value" />
         </template>
       </form>
-      <iframe
-        style="WIDTH: 0px; HEIGHT: 0px"
-        id="export_iframe"
-        height="0"
-        border="0"
-        frameBorder="0"
-        width="0"
-        name="export_iframe"
-        scrolling="no"
-      >
+      <iframe style="WIDTH: 0px; HEIGHT: 0px" id="export_iframe" height="0" border="0" frameBorder="0" width="0"
+        name="export_iframe" scrolling="no">
       </iframe>
     </div>
     <!--</el-row>-->
@@ -266,7 +148,7 @@ export default {
       dataListSelections: [],
       tbparams: {},
       //默认每页数据量
-      pageSize: 15,
+      pageSize: 10,
       //当前页码
       currentPage: 1,
       //查询的页码

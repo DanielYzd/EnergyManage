@@ -1,103 +1,42 @@
 <template>
   <div>
-    <el-form
-      :inline="true"
-      :model="dataForm"
-      @keyup.enter.native="getDataList()"
-      size="small"
-      labelWidth="85px"
-    >
+    <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()" size="small" labelWidth="85px">
       <el-form-item label="计量标志" class="queryFormItem">
-        <el-select
-          v-model="dataForm.loopUsedType"
-          clearable
-          placeholder="计量标志"
-          @change="getDataList"
-          class="formItem"
-        >
-          <el-option
-            v-for="item in loopUsedTypeList"
-            :key="item.value"
-            :label="item.key"
-            :value="item.value"
-          ></el-option>
+        <el-select v-model="dataForm.loopUsedType" clearable placeholder="计量标志" @change="getDataList" class="formItem">
+          <el-option v-for="item in loopUsedTypeList" :key="item.value" :label="item.key" :value="item.value">
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="表通信地址" class="queryFormItem">
-        <el-input
-          v-model="dataForm.commaddress"
-          placeholder="表通信地址"
-          class="formItem"
-          clearable
-        ></el-input>
+        <el-input v-model="dataForm.commaddress" placeholder="表通信地址" class="formItem" clearable></el-input>
       </el-form-item>
       <el-form-item label="表计类型" class="queryFormItem">
-        <el-select
-          v-model="dataForm.type"
-          placeholder="请选择"
-          class="formItem"
-          @change="getDataList()"
-        >
-          <el-option
-            v-for="item in meterTypeList"
-            :key="item.value"
-            :label="item.key"
-            :value="item.value"
-          ></el-option>
+        <el-select v-model="dataForm.type" placeholder="请选择" class="formItem" @change="getDataList()">
+          <el-option v-for="item in meterTypeList" :key="item.value" :label="item.key" :value="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList()">查询</el-button>
-        <el-button
-          v-if="isAuth('pob:meter:save')"
-          type="primary"
-          @click="addOrUpdateHandle()"
-          >新增</el-button
-        >
-        <el-button
-          v-if="isAuth('pob:meter:delete')"
-          type="danger"
-          @click="deleteHandle()"
-          :disabled="dataListSelections.length <= 0"
-          >批量删除</el-button
-        >
-        <!--<el-button v-if="isAuth('pob:customer:save')" type="primary" @click="batchAddHandle()" icon="el-icon-document">批量导入</el-button>-->
-        <el-button
-          v-if="isAuth('pob:meter:save')"
-          type="warning"
-          @click="changeCustomer()"
-          >移户</el-button
-        >
+        <el-button type="primary" @click="getDataList()">查询</el-button>
       </el-form-item>
     </el-form>
-    <hltable
-      v-bind:tburl="tburl"
-      v-bind:tbcols="tbcols"
-      ref="dataTable"
-      v-bind:tbconfig="tbconfig"
-      @addOrUpdateHandle="addOrUpdateHandle"
-      @deleteHandle="deleteHandle"
-      @selections="
+    <hltable v-bind:tburl="tburl" v-bind:tbcols="tbcols" ref="dataTable" v-bind:tbconfig="tbconfig"
+      @addOrUpdateHandle="addOrUpdateHandle" @deleteHandle="deleteHandle" @selections="
         data => {
           this.dataListSelections = data
         }
-      "
-    ></hltable>
-    <add-or-update
-      v-if="addOrUpdateVisible"
-      ref="addOrUpdate"
-      @refreshDataList="getDataList"
-    ></add-or-update>
-    <meter-change-customer
-      v-if="addOrUpdateVisible"
-      ref="customerChange"
-      @refreshDataList="getDataList"
-    ></meter-change-customer>
-    <batch-add
-      v-if="batchAddVisible"
-      ref="batchAdd"
-      @refreshDataList="getDataList"
-    ></batch-add>
+      ">
+      <template slot="toolbar">
+         <el-button size="mini" v-if="isAuth('pob:meter:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button size="mini" v-if="isAuth('pob:meter:delete')" type="danger" @click="deleteHandle()"
+          :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <!--<el-button v-if="isAuth('pob:customer:save')" type="primary" @click="batchAddHandle()" icon="el-icon-document">批量导入</el-button>-->
+        <el-button size="mini" v-if="isAuth('pob:meter:save')" type="warning" @click="changeCustomer()">移户</el-button>
+      </template>
+      </hltable>
+    <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    <meter-change-customer v-if="addOrUpdateVisible" ref="customerChange" @refreshDataList="getDataList">
+    </meter-change-customer>
+    <batch-add v-if="batchAddVisible" ref="batchAdd" @refreshDataList="getDataList"></batch-add>
   </div>
 </template>
 
@@ -130,7 +69,7 @@ export default {
       },
       loopUsedTypeList: globals.loopUsedTypeList,
       tbcols: [
-        { prop: 'regionName', label: '所属区域' },
+        { prop: 'regionName', label: '所属单元' },
         { prop: 'disc', label: '表计名称', width: 220 },
         { prop: 'commaddress', label: '表通信地址', width: 120 },
         { prop: 'typeName', label: '表类型' },

@@ -1,151 +1,70 @@
 <template>
   <div>
     <div>
-      <el-form
-        :inline="true"
-        :model="dataForm"
-        @keyup.enter.native="getDataList()"
-        size="small"
-        label-width="85px"
-      >
-        <region-select-item
-          label="所属区域"
-          v-model="dataForm.regionName"
-          @getRegion="getSelectRegion"
-        ></region-select-item>
-        <!-- <el-form-item label="终端地址" style="width: 25%;" prop="rtuid">
-          <el-select
-            v-model="dataForm.rtuid"
-            filterable
-            remote
-            clearable
-            reserve-keyword
-            placeholder="输入终端地址"
-            :remote-method="remoteMethod"
-            @change="rtuTypeChange"
-            :loading="rtuLoading"
-            style="width: 100%"
-          >
-            <el-option
-              v-for="item in rtuList"
-              :key="item.rtuid"
-              :label="item.commaddress"
-              :value="item.rtuid"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item> -->
+      <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()" size="small" label-width="85px">
+        <region-select-item label="所属单元" v-model="dataForm.regionName" @getRegion="getSelectRegion">
+        </region-select-item>
         <el-form-item label="表计类型">
-          <el-select
-            v-model="type"
-            clearable
-            placeholder="请选择"
-            class="formItem"
-            @change="colsTypeChange"
-          >
-            <el-option
-              v-for="item in meterTypeList"
-              :key="item.value"
-              :label="item.key"
-              :value="item.value"
-            ></el-option>
+          <el-select v-model="type" clearable placeholder="请选择" class="formItem" @change="colsTypeChange">
+            <el-option v-for="item in meterTypeList" :key="item.value" :label="item.key" :value="item.value">
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="表通信地址">
-          <el-input
-            v-model="dataForm.commaddress"
-            placeholder="表通信地址"
-            class="formItem"
-            clearable
-          ></el-input>
+          <el-input v-model="dataForm.commaddress" placeholder="表通信地址" class="formItem" clearable></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button @click="getDataList()" type="primary" icon="el-icon-search"
-            >查询</el-button
-          >
-          <el-button
-            v-if="isAuth('meterCommunication:operation1')"
-            type="warning"
-            icon="el-icon-arrow-up"
-            @click="batchCallHandle()"
-            >批量召读</el-button
-          >
-          <el-button
-            v-if="isAuth('meterCommunication:operation2')"
-            type="warning"
-            icon="el-icon-arrow-down"
-            @click="batchSendHandle()"
-            >批量下发</el-button
-          >
-          <el-button
-            v-if="isAuth('pob:meter:save')"
-            type="success"
-            icon="el-icon-download"
-            @click="outExcel"
-            >导出模板</el-button
-          >
-          <el-upload
-            style="display: inline-block;"
-            :action="upLoadUrl"
-            :file-list="upLoadFileList"
-            :onSuccess="handlerSuccess"
-            accept=".xls"
-            :auto-upload="true"
-            :show-file-list="false"
-          >
-            <el-button size="small" type="success" icon="el-icon-upload2"
-              >批量导入</el-button
-            >
-          </el-upload>
+          <el-button @click="getDataList()" type="primary" icon="el-icon-search">查询</el-button>
+
           <!-- <el-button v-if="isAuth('pob:meter:save')" type="primary" @click="callNumberid(0)">召读表序号</el-button>
           <el-button v-if="isAuth('pob:meter:save')" type="warning" @click="callNumberid(1)">清除表地址</el-button>-->
         </el-form-item>
       </el-form>
     </div>
-    <div style="display: flex;">
-      <div style="width: 250px;margin-right: 10px;min-height: 400px;">
-        <hltable
-          v-bind:tburl="rtuUrl"
-          v-bind:tbcols="rtuCols"
-          ref="rtuDataTable"
-          v-bind:tbconfig="rtuConfig"
-          @selections="selectChange"
-        ></hltable>
+    <div>
+         <el-collapse v-model="activeNames">
+          <el-collapse-item name="1">
+              
+            <template slot="title">
+               <el-tooltip content="点我展开与收缩" placement="left-start">
+              <span style="color:#1679bd;font-size:16px;">终端信息</span>
+               </el-tooltip>
+            </template>
+      <div>
+        <hltable v-bind:tburl="rtuUrl" v-bind:tbcols="rtuCols" ref="rtuDataTable" v-bind:tbconfig="rtuConfig"
+          @selections="selectChange"></hltable>
       </div>
-      <div style="flex: 1;width: 100%;overflow-x: hidden;min-height: 400px;">
-        <hltable
-          v-bind:tburl="url"
-          v-bind:tbcols="cols"
-          ref="dataTable"
-          v-bind:tbconfig="tbconfig"
-          @callHandle="callHandle"
-          @sendHandle="sendHandle"
-          @selections="
+        </el-collapse-item>
+        </el-collapse>
+      <div style="margin-top:20px;">
+        <hltable v-bind:tburl="url" v-bind:tbcols="cols" ref="dataTable" v-bind:tbconfig="tbconfig"
+          @callHandle="callHandle" @sendHandle="sendHandle" @selections="
             data => {
               this.dataListSelections = data
             }
-          "
-        ></hltable>
+          ">
+          <template slot="toolbar">
+             <el-upload style="display: inline-block;" :action="upLoadUrl" :file-list="upLoadFileList"
+              :onSuccess="handlerSuccess" accept=".xls" :auto-upload="true" :show-file-list="false">
+              <el-button size="mini" type="primary" icon="el-icon-upload2">批量导入</el-button>
+            </el-upload>
+            <el-button size="mini" v-if="isAuth('meterCommunication:operation1')" type="warning" icon="el-icon-arrow-up"
+              @click="batchCallHandle()">批量召读</el-button>
+            <el-button size="mini" v-if="isAuth('meterCommunication:operation2')" type="warning" icon="el-icon-arrow-down"
+              @click="batchSendHandle()">批量下发</el-button>
+            <el-button size="mini" v-if="isAuth('pob:meter:save')" type="primary" icon="el-icon-download" @click="outExcel">导出模板
+            </el-button>
+           
+
+          </template>
+        </hltable>
       </div>
     </div>
-    <meter-params-add
-      v-if="addOrUpdateVisible"
-      ref="meterAdd"
-      @refreshDataList="loadMeterGrid"
-      @sendAction="sendAction"
-    ></meter-params-add>
-    <meter-params-call
-      v-if="callVisible"
-      ref="meterCall"
-      @refreshDataList="loadMeterGrid"
-      @sendAction="rtuCallNumberidAction"
-    ></meter-params-call>
-    <hl-progress
-      v-if="hlProgVisible"
-      ref="hlProg"
-      v-bind:url="remoteUrl"
-      v-on:backfunc="showProgResult"
-    ></hl-progress>
+    <meter-params-add v-if="addOrUpdateVisible" ref="meterAdd" @refreshDataList="loadMeterGrid"
+      @sendAction="sendAction"></meter-params-add>
+    <meter-params-call v-if="callVisible" ref="meterCall" @refreshDataList="loadMeterGrid"
+      @sendAction="rtuCallNumberidAction"></meter-params-call>
+    <hl-progress v-if="hlProgVisible" ref="hlProg" v-bind:url="remoteUrl" v-on:backfunc="showProgResult"></hl-progress>
   </div>
 </template>
 
@@ -158,6 +77,7 @@ import hltable from '@/components/hltable'
 export default {
   data() {
     return {
+      activeNames: ['1'],
       meterTypeList: this.$sysConfig.getAllMeterTypes(),
       loading: false,
       rtuLoading: false,

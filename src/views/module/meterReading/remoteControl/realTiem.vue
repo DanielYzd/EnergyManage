@@ -7,7 +7,7 @@
       size="small"
     >
       <region-select-item
-        label="所属区域"
+        label="所属单元"
         v-model="dataForm.regionName"
         @getRegion="getSelectRegion"
       ></region-select-item>
@@ -31,7 +31,7 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="表计类型">
+      <el-form-item label="能源类型">
         <el-select
           v-model="type"
           clearable
@@ -57,24 +57,39 @@
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('pob:meter:save')" @click="selectAll"
+        <!-- <el-button v-if="isAuth('pob:meter:save')" @click="selectAll"
           >全选</el-button
-        >
-        <el-button
+        > -->
+       
+      </el-form-item>
+    </el-form>
+    <common-table
+      :dataSource="dataList"
+      :options="options"
+      :pagination="pagination"
+      :columns="columns"
+      @handleSizeChange="sizeChangeHandle"
+      @handleIndexChange="currentChangeHandle"
+      @selection-change="handleSelectionChange"
+    >
+    <template slot="toolbar">
+       <el-button
           v-if="isAuth('pob:meter:save')"
           type="primary"
+          size="mini"
           @click="batchCallHandle(129)"
           >召读当前表码</el-button
         >
         <el-button
           v-if="isAuth('pob:meter:save')"
           type="primary"
+          size="mini"
           @click="batchCallHandle(25)"
           >召读当前负荷</el-button
         >
-      </el-form-item>
-    </el-form>
-    <div v-loading="loading">
+    </template>
+    </common-table>
+    <!-- <div v-loading="loading">
       <ul class="meter-list">
         <li v-for="(item, index) in dataList" :key="index">
           <el-checkbox
@@ -98,9 +113,6 @@
               @click="addCounter(item, index)"
             ></el-button>
           </el-button-group>
-          <!--<div class="customer-info"><span>终端地址： </span> {{item.rtuAddr}}</div>
-			    <div class="customer-info"><span>表通讯地址：</span>{{item.commaddress}}</div>
-          <div class="customer-info"><span>表序号： </span> {{item.numberid}}</div>-->
           <table border="0" style="margin-left: 60px;margin-top: 15px;">
             <tr>
               <td>终端地址 :</td>
@@ -125,8 +137,8 @@
           >
         </li>
       </ul>
-    </div>
-    <el-pagination
+    </div> -->
+    <!-- <el-pagination
       background
       @size-change="sizeChangeHandle"
       @current-change="currentChangeHandle"
@@ -135,7 +147,7 @@
       :page-size="pageSize"
       :total="totalPage"
       layout="total, sizes, prev, pager, next, jumper"
-    ></el-pagination>
+    ></el-pagination> -->
     <hl-progress
       v-if="hlProgVisible"
       ref="hlProg"
@@ -148,6 +160,7 @@
 <script>
 import hlProgress from '@/components/hl-progress'
 import regionSelect from '@/views/modules/pob/region-select'
+import CommonTable from '@/views/common/Table.vue'
 export default {
   data() {
     return {
@@ -179,27 +192,80 @@ export default {
       dataListSelections: [],
       addOrUpdateVisible: false,
       hlProgVisible: false,
-      rtuSendVisible: false
+      rtuSendVisible: false,
+      options: {
+        loading: false,
+        index: false,
+        maxHeight: 650,
+        mutiSelect: true
+      },
+      pagination: {
+        total: 0,
+        pageNum: 1,
+        numPerPage: 10
+      },
+      columns: [
+        {
+          prop: 'rtuAddr',
+          label: '终端地址',
+          width:'160'
+        },
+        {
+          prop: 'numberid',
+          label: '表序号',
+          width:'100'
+        },
+        {
+          prop: 'commaddress',
+          label: '表通讯地址',
+          width:'200'
+        },
+        {
+          prop: 'val',
+          label: '返回值'
+        },
+        {
+          button: true,
+          label: '操作',
+          width: '200px',
+          fixed: 'right',
+          group: [
+            {
+              // you can props => type size icon disabled plain
+              name: '召读',
+              type: 'success',
+              icon: 'el-icon-edit',
+              value: '召读',
+              plain: true,
+              onClick: (row, index) => {
+                // 箭头函数写法的 this 代表 Vue 实例
+                this.callHandle([row])
+              }
+            }
+          ]
+        }
+      ]
     }
   },
   components: {
     hlProgress,
-    'region-select-item': regionSelect
+    'region-select-item': regionSelect,
+    CommonTable
   },
   mounted() {
     this.getDataList()
   },
   methods: {
     getDataList() {
-      this.pageSize = parseInt(this.$el.offsetWidth / 280) * 2
-      this.loading = true
+      // this.pageSize = parseInt(this.$el.offsetWidth / 280) * 2
+      this.options.loading = true
       this.dataListSelections = []
       this.$http({
         url: this.$http.adornUrl('/pob/point/list'),
         method: 'get',
         params: this.$http.adornParams({
-          page: this.pageIndex,
-          limit: this.pageSize,
+          page: this.pagination.pageNum,
+          limit: this.pagination.numPerPage,
           regionid: this.dataForm.regionid,
           commaddress: this.dataForm.commaddress,
           rtuid: this.dataForm.rtuid ? this.dataForm.rtuid : null,
@@ -209,16 +275,16 @@ export default {
         .then(({ data }) => {
           if (data && data.code === 0) {
             this.dataList = data.page.list
-            this.totalPage = data.page.totalCount
+            this.pagination.total = data.page.totalCount
           } else {
             this.dataList = []
-            this.totalPage = 0
+            this.pagination.total = 0
           }
-          this.loading = false
+          this.options.loading = false
         })
         .catch(error => {
           console.log(error)
-          this.loading = false
+          this.options.loading = false
         })
     },
     selectionChangeHandle(val) {
@@ -258,15 +324,19 @@ export default {
     },
     callHandle(rows, fn) {
       var tmp = []
-      var tableData = this.dataList
+      // var tableData = this.dataList
+      // console.log(tableData)
       var checked = rows.forEach((row, index) => {
+        console.log('遍历数组。row。。。')
+        console.log(row)
         this.copyPointProperty(row, '')
         if (row.rtuid) {
           tmp.push(row.pointid)
-          var i = tableData.indexOf(row)
-          this.$set(tableData, i, row)
+          var i = this.dataList.indexOf(row)
+          this.$set(this.dataList, i, row)
         }
       })
+      console.log(checked)
       if (!checked) {
         this.callAction(tmp, fn)
       }
@@ -334,15 +404,28 @@ export default {
         this.$set(this.dataList, index2, row)
       }
     },
-    sizeChangeHandle(val) {
-      this.pageSize = val
-      this.pageIndex = 1
+    sizeChangeHandle(numPerPage) {
+      this.pagination.numPerPage = numPerPage
       this.getDataList()
     },
-    currentChangeHandle(val) {
-      this.pageIndex = val
+    // 跳转下一页或指定页
+    currentChangeHandle(pageNum) {
+      this.pagination.pageNum = pageNum
       this.getDataList()
     },
+    handleSelectionChange(val) {
+      console.log(val)
+      this.dataListSelections=val
+    },
+    // sizeChangeHandle(val) {
+    //   this.pageSize = val
+    //   this.pageIndex = 1
+    //   this.getDataList()
+    // },
+    // currentChangeHandle(val) {
+    //   this.pageIndex = val
+    //   this.getDataList()
+    // },
     addCounter(item, index) {
       if (!item.val) {
         return

@@ -1,47 +1,19 @@
 <template>
   <div>
-    <common-table
-      :dataSource="tableData"
-      :options="options"
-      :pagination="pagination"
-      :columns="columns"
-      @handleSizeChange="handleSizeChange"
-      @handleIndexChange="handleIndexChange"
-    >
+    <common-table :dataSource="tableData" :options="options" :pagination="pagination" :columns="columns"
+      @handleSizeChange="handleSizeChange" @handleIndexChange="handleIndexChange">
       <template slot="toolbar">
-        <el-input
-          size="mini"
-          clearable
-          v-model="transname"
-          prefix-icon="el-icon-search"
-          placeholder="输入名称搜索"
-          style="width:150px;margin-right:10px;"
-          @keyup.enter.native="query"
-        ></el-input>
-        <el-button size="mini" type="primary" icon="el-icon-plus" @click="add()"
-          >新增</el-button
-        >
-        <el-button size="mini" type="danger" icon="el-icon-delete" @click
-          >删除</el-button
-        >
+        <el-input size="mini" clearable v-model="transname" prefix-icon="el-icon-search" placeholder="输入名称搜索"
+          style="width:150px;margin-right:10px;" @keyup.enter.native="query"></el-input>
+        <el-button size="mini" type="primary" icon="el-icon-plus" @click="add()">新增</el-button>
+        <el-button size="mini" type="danger" icon="el-icon-delete" @click>删除</el-button>
       </template>
     </common-table>
     <Dialog :dialogVisible="dialogVisible" :showFoot="showFoot" :title="title">
-      <transformerAddorUpdate
-        :parentForm="parentForm"
-        @back="back"
-        @confirm="confirm"
-      ></transformerAddorUpdate>
+      <transformerAddorUpdate :parentForm="parentForm" @back="back" @confirm="confirm"></transformerAddorUpdate>
     </Dialog>
-    <Dialog
-      :width="width"
-      :dialogVisible="operateVisible"
-      :title="operateTitle"
-      @close="operateclose"
-      :showClose="false"
-      :showFoot="false"
-      :showFootClose="true"
-    >
+    <Dialog :width="width" :dialogVisible="operateVisible" :title="operateTitle" @close="operateclose"
+      :showClose="false" :showFoot="false" :showFootClose="true">
       <transformerOperate :row="row"></transformerOperate>
     </Dialog>
   </div>
@@ -185,7 +157,7 @@ export default {
       })
     },
     handleSizeChange(numPerPage) {
-      this.pagination.numPerPage = numPerPage
+           this.pagination.numPerPage = numPerPage
       this.query()
     },
     // 跳转下一页或指定页

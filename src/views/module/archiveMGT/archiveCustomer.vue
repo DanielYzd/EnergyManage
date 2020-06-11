@@ -5,90 +5,42 @@
 -->
 <template>
   <div>
-    <el-form
-      :inline="true"
-      :model="dataForm"
-      @keyup.enter.native="getDataList()"
-      size="small"
-    >
-      <region-select-item
-        label="所属区域"
-        v-model="dataForm.regionName"
-        @getRegion="getSelectRegion"
-      ></region-select-item>
+    <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()" size="small">
+      <region-select-item label="所属单元" v-model="dataForm.regionName" @getRegion="getSelectRegion"></region-select-item>
       <el-form-item>
-        <el-input
-          style="width:400px;"
-          placeholder="请输入"
-          v-model="dataForm.searchWord"
-          class="input-with-select"
-          clearable
-        >
-          <el-select
-            v-model="searchSelect"
-            slot="prepend"
-            placeholder="请选择"
-            style="width: 130px;"
-          >
+        <el-input style="width:400px;" placeholder="请输入" v-model="dataForm.searchWord" class="input-with-select"
+          clearable>
+          <el-select v-model="searchSelect" slot="prepend" placeholder="请选择" style="width: 130px;">
             <el-option label="户名" value="1"></el-option>
             <el-option label="手机号" value="2"></el-option>
           </el-select>
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button icon="el-icon-search" @click="getDataList()">查询</el-button>
-        <el-button
-          v-if="isAuth('pob:customer:save')"
-          @click="addOrUpdateHandle()"
-          icon="el-icon-circle-plus-outline"
-          type="primary"
-          >新增</el-button
-        >
-        <el-button
-          v-if="isAuth('pob:customer:save')"
-          type="primary"
-          @click="batchAddHandle()"
-          icon="el-icon-document"
-          >批量导入</el-button
-        >
-        <el-button
-          v-if="isAuth('pob:customer:delete')"
-          type="danger"
-          @click="deleteHandle()"
-          :disabled="dataListSelections.length <= 0"
-          icon="el-icon-delete"
-          >批量删除</el-button
-        >
+        <el-button type="primary" icon="el-icon-search" @click="getDataList()">查询</el-button>
+
         <!--<el-button type="info" :icon="isShoreMode?'el-icon-arrow-up':'el-icon-arrow-down'" @click="isShoreMode = !isShoreMode">更多</el-button>-->
       </el-form-item>
     </el-form>
-    <hltable
-      v-bind:tburl="tburl"
-      v-bind:tbcols="tbcols"
-      ref="dataTable"
-      v-bind:tbstyle="tbstyle"
-      v-bind:tbconfig="tbconfig"
-      @addOrUpdateHandle="addOrUpdateHandle"
-      @deleteHandle="deleteHandle"
-      @selections="
+    <hltable v-bind:tburl="tburl" v-bind:tbcols="tbcols" ref="dataTable" v-bind:tbstyle="tbstyle"
+      v-bind:tbconfig="tbconfig" @addOrUpdateHandle="addOrUpdateHandle" @deleteHandle="deleteHandle" @selections="
         data => {
           this.dataListSelections = data
         }
-      "
-    ></hltable>
-    <add-or-update
-      v-if="addOrUpdateVisible"
-      ref="addOrUpdate"
-      @refreshDataList="getDataList"
-    ></add-or-update>
-    <batch-add
-      v-if="batchAddVisible"
-      ref="batchAdd"
-      @refreshDataList="getDataList"
-    ></batch-add>
+      ">
+      <template slot="toolbar">
+        <el-button size="mini" v-if="isAuth('pob:customer:save')" @click="addOrUpdateHandle()" icon="el-icon-circle-plus-outline"
+          type="primary">新增</el-button>
+        <el-button size="mini" v-if="isAuth('pob:customer:save')" type="primary" @click="batchAddHandle()" icon="el-icon-document">
+          批量导入</el-button>
+        <el-button size="mini" v-if="isAuth('pob:customer:delete')" type="danger" @click="deleteHandle()"
+          :disabled="dataListSelections.length <= 0" icon="el-icon-delete">批量删除</el-button>
+      </template>
+    </hltable>
+    <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    <batch-add v-if="batchAddVisible" ref="batchAdd" @refreshDataList="getDataList"></batch-add>
   </div>
 </template>
-
 <script>
 import regionSelect from '@/views/modules/pob/region-select'
 import AddOrUpdate from './archives-add-or-update'
@@ -134,7 +86,7 @@ export default {
         isShowPage: true
       },
       tbcols: [
-        { prop: 'regionName', label: '所属区域' },
+        // { prop: 'regionName', label: '所属区域' },
         { prop: 'disc', label: '户名', width: 220 },
         //,{prop:"doorplate", label:"门牌号",width:200}
         { prop: 'telephone', label: '手机号', width: 130 },

@@ -10,7 +10,7 @@
       size="small"
     >
       <region-select-item
-        label="所属区域"
+        label="所属单元"
         v-model="dataForm.regionName"
         @getRegion="getSelectRegion"
       ></region-select-item>
@@ -195,7 +195,7 @@ export default {
     },
     tbCols() {
       let cols = [
-        { prop: 'regionName', label: '所属区域', 'min-width': '120' },
+        // { prop: 'regionName', label: '所属区域', 'min-width': '120' },
         { prop: 'disc', label: '表计名称', width: '60' },
         { prop: 'commaddress', label: '表通信地址', width: '110' },
         { prop: 'hm', label: '户名', 'min-width': '120' },

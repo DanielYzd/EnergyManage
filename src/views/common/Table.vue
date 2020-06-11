@@ -3,69 +3,32 @@
     <div style="display:flex; padding:10px 0px;">
       <slot name="toolbar"> </slot>
     </div>
-    <el-table
-      ref="table"
-      style="width:100%;"
-      v-loading="tableoptions.loading"
-      element-loading-text="加载中..."
-      :data="dataSource"
-      :max-height="tableoptions.maxHeight"
-      :stripe="tableoptions.stripe"
-      :border="tableoptions.border"
-      :row-style="rowStyle"
-      @sort-change="tableSortChange"
-      @row-click="handleRowClick"
-      @selection-change="handleSelectionChange"
-      @current-change="handleCurrentChange"
-      header-row-class-name="table-header-row"
-      :tree-props="treeProps"
-      :row-key="rowKey"
-    >
+    <el-table ref="table" style="width:100%;" v-loading="tableoptions.loading" element-loading-text="加载中..."
+      :data="dataSource" :max-height="tableoptions.maxHeight" :stripe="tableoptions.stripe"
+      :border="tableoptions.border" :row-style="rowStyle" @sort-change="tableSortChange" @row-click="handleRowClick"
+      @selection-change="handleSelectionChange" @current-change="handleCurrentChange"
+      header-row-class-name="table-header-row" :tree-props="treeProps" :row-key="rowKey">
       <!-- selection选择框 -->
-      <el-table-column
-        v-if="tableoptions.mutiSelect"
-        type="selection"
-        style="width:50px"
-        align="center"
-      >
+      <el-table-column v-if="tableoptions.mutiSelect" type="selection" style="width:50px" align="center">
       </el-table-column>
       <!-- 序号 -->
-      <el-table-column
-        v-if="tableoptions.index"
-        type="index"
-        label="序号"
-        width="50"
-        :fixed="tableoptions.indexfix"
-        :index="indexMethod"
-        align="center"
-      >
+      <el-table-column v-if="tableoptions.index" type="index" label="序号" width="50" :fixed="tableoptions.indexfix"
+        :index="indexMethod" align="center">
       </el-table-column>
       <!-- 数据列
             prop:列的值
             label:列的表头
             fixed:列是否固定在左侧或者右侧，true表示固定在左侧 -->
       <template v-for="(column, index) in columns">
-        <el-table-column
-          :key="index"
-          :sortable="column.sortable"
-          :prop="column.prop"
-          :label="column.label"
-          :align="column.align || 'center'"
-          :width="column.width"
-          :fixed="column.fixed"
-          :show-overflow-tooltip="true"
-        >
+        <el-table-column :key="index" :sortable="column.sortable" :prop="column.prop" :label="column.label"
+          :align="column.align || 'center'" :width="column.width" :fixed="column.fixed" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <template v-if="!column.render">
               {{ scope.row[column.prop] }}
             </template>
             <!-- render -->
             <template v-else>
-              <RenderDom
-                :row="scope.row"
-                :index="index"
-                :render="column.render"
-              />
+              <RenderDom :row="scope.row" :index="index" :render="column.render" />
             </template>
 
             <!-- render button -->
@@ -73,20 +36,13 @@
             <!-- @click.stop 阻止点击事件继续传播 -->
             <template v-if="column.button">
               <template>
-                <el-button
-                  v-for="(btn, id) in column.group"
-                  :key="id"
-                  :type="btn.type"
-                  :size="btn.size || 'mini'"
-                  :icon="btn.icon"
-                  :disabled="
+                <el-button v-for="(btn, id) in column.group" :key="id" :type="btn.type" :size="btn.size || 'mini'"
+                  :icon="btn.icon" :disabled="
                     typeof btn.disabled === 'function'
                       ? btn.disabled(scope.row)
                       : btn.disabled
-                  "
-                  :plain="btn.plain"
-                  @click.stop="btn.onClick(scope.row, scope.$index)"
-                  >{{ btn.value ? btn.value : undefined }}
+                  " :plain="btn.plain" @click.stop="btn.onClick(scope.row, scope.$index)">
+                  {{ btn.value ? btn.value : undefined }}
                 </el-button>
               </template>
             </template>
@@ -96,18 +52,10 @@
       </template>
     </el-table>
     <!-- 分页 -->
-    <el-pagination
-      v-if="pagination"
-      :total="pagination.total"
-      background
-      :page-sizes="[10, 20, 50, 100, 500, 1000]"
-      :page-size="pagination.numPerPage"
-      layout="total, sizes, prev, pager, next, jumper"
-      @size-change="handleSizeChange"
-      @current-change="handleIndexChange"
-      :small="pagination.small"
-      style="margin-top: 20px;text-align: right"
-    >
+    <el-pagination v-if="pagination" :total="pagination.total" background :page-sizes="[10, 20, 50, 100, 500, 1000]"
+      :page-size="pagination.numPerPage" layout="total, sizes, prev, pager, next, jumper"
+      @size-change="handleSizeChange" @current-change="handleIndexChange" :small="pagination.small"
+      style="margin-top: 20px;text-align: right">
     </el-pagination>
   </div>
 </template>
