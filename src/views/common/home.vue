@@ -7,17 +7,9 @@
             <span>档案信息</span>
           </div>
           <div class="num" v-loading="loading">
-            <el-card
-              shadow="always"
-              :body-style="{ display: 'flex', padding: 0 }"
-              v-for="item in countData"
-              :key="item.name"
-            >
-              <icon-svg
-                class="icon"
-                :name="item.icon"
-                :style="{ background: item.color }"
-              ></icon-svg>
+            <el-card shadow="always" :body-style="{ display: 'flex', padding: 0 }" v-for="item in countData"
+              :key="item.name">
+              <icon-svg class="icon" :name="item.icon" :style="{ background: item.color }"></icon-svg>
               <div class="detail">
                 <p class="num">{{ item.value }}</p>
                 <p class="txt">{{ item.name }}</p>
@@ -69,19 +61,9 @@
           </div>
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-card
-                shadow="hover"
-                :body-style="{ display: 'flex', padding: 0 }"
-                class="itemstyle"
-                v-for="item in controlData"
-                :key="item.index"
-                style="min-width:170px"
-              >
-                <icon-svg
-                  class="icon"
-                  :name="item.icon"
-                  :style="{ background: item.color }"
-                ></icon-svg>
+              <el-card shadow="hover" :body-style="{ display: 'flex', padding: 0 }" class="itemstyle"
+                v-for="item in controlData" :key="item.index" style="min-width:170px">
+                <icon-svg class="icon" :name="item.icon" :style="{ background: item.color }"></icon-svg>
                 <div class="detail">
                   <p class="num">
                     {{ item.value }}
@@ -93,45 +75,24 @@
               </el-card>
             </el-col>
             <el-col :span="12">
-              <el-progress
-                type="circle"
-                :stroke-width="16"
-                :percentage="payPerc"
-                color="#ea686e"
-                style="color: #fff;"
-              ></el-progress>
-              <el-card
-                shadow="hover"
-                :body-style="{ padding: 0, background: '#ea686e' }"
-                class="itemstyle"
-              >
+              <el-progress type="circle" :stroke-width="16" :percentage="payPerc" color="#ea686e" style="color: #fff;">
+              </el-progress>
+              <el-card shadow="hover" :body-style="{ padding: 0, background: '#ea686e' }" class="itemstyle">
                 <div>
-                  <p
-                    style="font-size:26px;text-align:center;line-height:30px;color:#ffffff"
-                  >
+                  <p style="font-size:26px;text-align:center;line-height:30px;color:#ffffff">
                     {{ payPerc }}
                   </p>
-                  <p
-                    style="font-size:20px;text-align:center;line-height:30px;color:#ffffff"
-                  >
+                  <p style="font-size:20px;text-align:center;line-height:30px;color:#ffffff">
                     欠费户占比
                   </p>
                 </div>
               </el-card>
-              <el-card
-                shadow="hover"
-                :body-style="{ padding: 0, background: '#ea686e' }"
-                class="itemstyle"
-              >
+              <el-card shadow="hover" :body-style="{ padding: 0, background: '#ea686e' }" class="itemstyle">
                 <div>
-                  <p
-                    style="font-size:26px;text-align:center;line-height:30px;color:#ffffff"
-                  >
+                  <p style="font-size:26px;text-align:center;line-height:30px;color:#ffffff">
                     {{ noPayCustomerNum }}
                   </p>
-                  <p
-                    style="font-size:20px;text-align:center;line-height:30px;color:#ffffff"
-                  >
+                  <p style="font-size:20px;text-align:center;line-height:30px;color:#ffffff">
                     欠费户数
                   </p>
                 </div>

@@ -5,8 +5,8 @@
       <div class="site-navbar__header">
         <h1 class="site-navbar__brand" @click="$router.push({ name: 'home' })">
           <a class="site-navbar__brand-lg" href="javascript:;">
-            <icon-svg name="run"></icon-svg>&nbsp;建筑能耗管理平台</a
-          >
+            <icon-svg name="run"></icon-svg>&nbsp;建筑能耗管理平台
+          </a>
           <a class="site-navbar__brand-mini" href="javascript:;">
             <icon-svg name="run"></icon-svg>
           </a>
@@ -21,44 +21,31 @@
             type="plain"
             @click="sidebarFold = !sidebarFold"
           ></el-button> -->
-          <i
-            v-if="!sidebarFold"
-            class="el-icon-s-fold"
-            style="color:#f4f3f7;font-size:30px;cursor:pointer;"
-            @click="sidebarFold = !sidebarFold"
-          ></i>
-          <i
-            v-else-if="sidebarFold"
-            class="el-icon-s-unfold"
-            style="color:#f4f3f7;font-size:30px;cursor:pointer;"
-            @click="sidebarFold = !sidebarFold"
-          ></i>
+          <i v-if="!sidebarFold" class="el-icon-s-fold" style="color:#f4f3f7;font-size:30px;cursor:pointer;"
+            @click="sidebarFold = !sidebarFold"></i>
+          <i v-else-if="sidebarFold" class="el-icon-s-unfold" style="color:#f4f3f7;font-size:30px;cursor:pointer;"
+            @click="sidebarFold = !sidebarFold"></i>
         </div>
         <div class="rcontent">
           <el-dropdown :show-timeout="0" placement="bottom">
-            <span class="el-dropdown-link"
-              ><img src="~@/assets/img/avatar5.png" class="user"
-            /></span>
+            <span class="el-dropdown-link">
+              <!-- <img src="~@/assets/img/avatar5.png" class="user" /> -->
+              <icon-svg name="admin" class="user" style="color:#fff;"></icon-svg>
+            </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="updatePasswordHandle()"
-                >修改密码</el-dropdown-item
-              >
-              <el-dropdown-item @click.native="updateThemeHandle()"
-                >主题切换</el-dropdown-item
-              >
-              <el-dropdown-item @click.native="logoutHandle()"
-                >退出</el-dropdown-item
-              >
+              <el-dropdown-item @click.native="updatePasswordHandle()">修改密码</el-dropdown-item>
+              <el-dropdown-item @click.native="updateThemeHandle()">主题切换</el-dropdown-item>
+              <el-dropdown-item @click.native="logoutHandle()">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <div style="color:#fff;margin-right:15px;">
             登录用户：{{ userName }}
           </div>
-          <div class="help" @click="showHelp">
-            <!-- <i class="el-icon-question"></i> -->
+          <!-- <div class="help" @click="showHelp">
+          
             <icon-svg name="help"></icon-svg>
             <span style="color:#fff;font-size:14px;">帮助</span>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- <div class="site-navbar__body clearfix">
@@ -102,10 +89,7 @@
         </el-menu>
       </div> -->
       <!-- 弹窗, 修改密码 -->
-      <update-password
-        v-if="updatePassowrdVisible"
-        ref="updatePassowrd"
-      ></update-password>
+      <update-password v-if="updatePassowrdVisible" ref="updatePassowrd"></update-password>
       <!-- 弹窗, 主题切换 -->
       <update-theme ref="updateTheme"></update-theme>
     </nav>
@@ -223,8 +207,8 @@ export default {
   display: flex;
   align-items: center;
   .user {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     cursor: pointer;
     margin-right: 20px;

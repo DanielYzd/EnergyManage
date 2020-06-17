@@ -12,12 +12,7 @@
     />
     <div class="tableTitle">
       <span>采集方案明细</span>
-      <el-button
-        style="float: right; padding-right: 10px;"
-        type="text"
-        @click="addOrUpdateHandle()"
-        >新增</el-button
-      >
+     
     </div>
     <hltable
       v-bind:tburl="detailUrl"
@@ -26,7 +21,16 @@
       v-bind:tbconfig="detailConfig"
       @addOrUpdateHandle="addOrUpdateHandle"
       @deleteHandle="deleteHandle"
-    />
+    >
+      <template slot="toolbar">
+ <el-button
+        type="primary"
+        size="mini"
+        @click="addOrUpdateHandle()"
+        >新增</el-button
+      >
+      </template>
+    </hltable>
     <add-or-update
       v-if="addOrUpdateVisible"
       ref="addOrUpdate"

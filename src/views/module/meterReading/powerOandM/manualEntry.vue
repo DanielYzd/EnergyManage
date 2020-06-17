@@ -16,41 +16,38 @@
           <el-option v-for="item in meterTypeList" :key="item.value" :label="item.key" :value="item.value"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="计量标志">
-        <el-select v-model="queryForm.loopUsedType" clearable placeholder="计量标志" style="width: 220px;"
-          @change="getDataList">
-          <el-option v-for="item in loopUsedTypeList" :key="item.value" :label="item.key" :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="表通信地址">
-        <el-input v-model="queryForm.commaddress" placeholder="表通信地址" style="width: 220px;" clearable></el-input>
-      </el-form-item>
-      <el-form-item label="数据属性">
-        <el-select v-model="queryForm.dataattribute" placeholder="数据属性" style="width: 220px;" clearable>
-          <el-option v-for="item in dataTypeList" :key="item.value" :label="item.key" :value="item.value"></el-option>
-        </el-select>
-      </el-form-item>
       <el-form-item>
-        <el-button-group>
-          <el-button type="primary" @click.prevent="getDataList()" icon="el-icon-search">查询</el-button>
-
-        </el-button-group>
-        <!--<el-button type="primary" @click="inputExcel()">excel导入</el-button>-->
+        <el-button type="primary" @click.prevent="getDataList()" icon="el-icon-search">查询</el-button>
+        <el-button type="text" @click="searchVisible=!searchVisible">高级筛选</el-button>
       </el-form-item>
-
+      <br />
+      <div v-show="searchVisible">
+        <el-form-item label="计量标志">
+          <el-select v-model="queryForm.loopUsedType" clearable placeholder="计量标志" style="width: 220px;"
+            @change="getDataList">
+            <el-option v-for="item in loopUsedTypeList" :key="item.value" :label="item.key" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="表通信地址">
+          <el-input v-model="queryForm.commaddress" placeholder="表通信地址" style="width: 220px;" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="数据属性">
+          <el-select v-model="queryForm.dataattribute" placeholder="数据属性" style="width: 220px;" clearable>
+            <el-option v-for="item in dataTypeList" :key="item.value" :label="item.key" :value="item.value"></el-option>
+          </el-select>
+        </el-form-item>
+      </div>
     </el-form>
     <hltable v-bind:tburl="url" v-bind:tbcols="cols" ref="dataTable" v-bind:tbconfig="tbconfig">
       <template slot="toolbar">
         <div>
-          <el-button size="mini" type="primary">批量导入</el-button>
           <el-button type="primary" size="mini" @click="downTemplate()">下载模板</el-button>
           <el-upload style="display: inline-block;" :action="upLoadUrl" :file-list="upLoadFileList"
             :onSuccess="handlerSuccess" accept=".xls" :auto-upload="true" :show-file-list="false">
-
+            <el-button size="mini" type="primary">批量导入</el-button>
           </el-upload>
         </div>
-
       </template>
     </hltable>
   </div>
@@ -73,6 +70,7 @@ export default {
         { key: '自动采集', value: 0 },
         { key: '手动录入', value: 2 }
       ],
+      searchVisible:false,
       queryForm: {
         dataattribute: '',
         commaddress: '',

@@ -5,151 +5,56 @@
 -->
 <template>
   <div>
-    <el-form
-      :inline="true"
-      :model="queryForm"
-      @keyup.enter.native="getDataList()"
-      size="small"
-      labelWidth="90px"
-    >
-      <region-select-item
-        label="所属单元"
-        v-model="queryForm.regionName"
-        @getRegion="getSelectRegion"
-      ></region-select-item>
+    <el-form :inline="true" :model="queryForm" @keyup.enter.native="getDataList()" size="small" labelWidth="90px">
+      <region-select-item label="所属单元" v-model="queryForm.regionName" @getRegion="getSelectRegion"></region-select-item>
 
       <el-form-item label="统计周期">
-        <el-select
-          v-model="queryForm.schemeid"
-          placeholder="请选择"
-          class="formItem"
-        >
+        <el-select v-model="queryForm.schemeid" placeholder="请选择" class="formItem">
           <el-option :key="1" label="小时" :value="1"></el-option>
           <el-option :key="2" label="日" :value="2"></el-option>
           <el-option :key="3" label="月" :value="3"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="数据时间">
-        <div style="display: inline-block;">
-          <el-date-picker
-            v-if="queryForm.schemeid === 1"
-            v-model="queryForm.datatime"
-            type="date"
-            placeholder="选择日期与时间"
-            style="width: 140px;"
-            size="small"
-          ></el-date-picker>
-          <el-time-select
-            v-if="queryForm.schemeid === 1"
-            style="width: 100px;"
-            v-model="queryForm.time"
-            :picker-options="{ start: '00:00', step: '01:00', end: '23:00' }"
-            placeholder="选择时间"
-          ></el-time-select>
-        </div>
-        <el-date-picker
-          v-if="queryForm.schemeid === 2"
-          v-model="queryForm.datatime"
-          type="date"
-          placeholder="选择日期"
-          style="width: 220px;"
-          value-format="yyyy-MM-dd"
-          format="yyyy-MM-dd"
-          size="small"
-        ></el-date-picker>
-        <el-date-picker
-          v-if="queryForm.schemeid === 3"
-          v-model="queryForm.monthDate"
-          type="month"
-          placeholder="选择月份"
-          style="width: 220px;"
-          value-format="yyyy-MM"
-          format="yyyy-MM"
-          size="small"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="表计类型">
-        <el-select
-          v-model="queryForm.type"
-          placeholder="请选择"
-          class="formItem"
-          @change="getDataList()"
-        >
-          <el-option
-            v-for="item in meterTypeList"
-            :key="item.value"
-            :label="item.key"
-            :value="item.value"
-          ></el-option>
+      <el-form-item label="能源类型">
+        <el-select v-model="queryForm.type" placeholder="请选择" class="formItem" @change="getDataList()">
+          <el-option v-for="item in meterTypeList" :key="item.value" :label="item.key" :value="item.value"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="计量标志">
-        <el-select
-          v-model="queryForm.loopUsedType"
-          clearable
-          placeholder="计量标志"
-          class="formItem"
-          @change="getDataList"
-        >
-          <el-option
-            v-for="item in loopUsedTypeList"
-            :key="item.value"
-            :label="item.key"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <!-- <el-col :span="6">
-        <el-form-item label="用户名称">
-          <el-input
-            v-model="queryForm.hm"
-            placeholder="用户名称"
-            style="width: 200px;"
-            clearable
-          ></el-input>
-        </el-form-item>
-      </el-col> -->
-      <el-form-item label="表通信地址">
-        <el-input
-          v-model="queryForm.commaddress"
-          placeholder="表通信地址"
-          class="formItem"
-          clearable
-        ></el-input>
-      </el-form-item>
-      <!-- 
-      <el-col :span="6">
-        <el-form-item label="数据属性">
-          <el-select
-            v-model="queryForm.dataattribute"
-            placeholder="数据属性"
-            style="width: 220px;"
-            clearable
-          >
-            <el-option
-              v-for="item in dataTypeList"
-              :key="item.value"
-              :label="item.key"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-      </el-col> -->
       <el-form-item>
-        <el-button
-          type="primary"
-          @click.prevent="getDataList()"
-          icon="el-icon-search"
-          >查询</el-button
-        >
+        <el-button type="primary" @click.prevent="getDataList()" icon="el-icon-search">查询</el-button>
+        <el-button type="text" @click="searchVisible=!searchVisible">高级筛选</el-button>
       </el-form-item>
+      <br />
+      <el-collapse-transition>
+        <div v-show="searchVisible">
+          <el-form-item label="数据时间">
+            <div style="display: inline-block;">
+              <el-date-picker v-if="queryForm.schemeid === 1" v-model="queryForm.datatime" type="date"
+                placeholder="选择日期与时间" style="width: 140px;" size="small"></el-date-picker>
+              <el-time-select v-if="queryForm.schemeid === 1" style="width: 100px;" v-model="queryForm.time"
+                :picker-options="{ start: '00:00', step: '01:00', end: '23:00' }" placeholder="选择时间"></el-time-select>
+            </div>
+            <el-date-picker v-if="queryForm.schemeid === 2" v-model="queryForm.datatime" type="date" placeholder="选择日期"
+              style="width: 220px;" value-format="yyyy-MM-dd" format="yyyy-MM-dd" size="small"></el-date-picker>
+            <el-date-picker v-if="queryForm.schemeid === 3" v-model="queryForm.monthDate" type="month"
+              placeholder="选择月份" style="width: 220px;" value-format="yyyy-MM" format="yyyy-MM" size="small">
+            </el-date-picker>
+          </el-form-item>
+
+          <el-form-item label="计量标志">
+            <el-select v-model="queryForm.loopUsedType" clearable placeholder="计量标志" class="formItem"
+              @change="getDataList">
+              <el-option v-for="item in loopUsedTypeList" :key="item.value" :label="item.key" :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="表通信地址">
+            <el-input v-model="queryForm.commaddress" placeholder="表通信地址" class="formItem" clearable></el-input>
+          </el-form-item>
+        </div>
+      </el-collapse-transition>
     </el-form>
-    <hltable
-      v-bind:tburl="url"
-      v-bind:tbcols="cols"
-      ref="dataTable"
-      v-bind:tbconfig="tbconfig"
-    ></hltable>
+    <hltable v-bind:tburl="url" v-bind:tbcols="cols" ref="dataTable" v-bind:tbconfig="tbconfig"></hltable>
   </div>
 </template>
 
@@ -164,6 +69,7 @@ export default {
     return {
       inputAddVisible: false,
       meterList: [],
+       searchVisible:false,
       meterTypeList: this.$sysConfig.getMeterTypes(),
       dataTypeList: [
         { key: '自动采集', value: 0 },

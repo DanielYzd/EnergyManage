@@ -5,29 +5,11 @@
 -->
 <template>
   <div>
-    <el-form
-      ref="form"
-      :inline="true"
-      :model="dataForm"
-      @keyup.enter.native="getDataList()"
-      size="small"
-    >
-      <region-select-item
-        label="所属单元"
-        v-model="dataForm.regionName"
-        @getRegion="getSelectRegion"
-      ></region-select-item>
+    <el-form ref="form" :inline="true" :model="dataForm" @keyup.enter.native="getDataList()" size="small">
+      <region-select-item label="所属单元" v-model="dataForm.regionName" @getRegion="getSelectRegion"></region-select-item>
       <el-form-item label="发生时间">
-        <el-date-picker
-          v-model="dataForm.datatime"
-          type="daterange"
-          style="width: 220px;"
-          value-format="yyyy-MM-dd"
-          format="yyyy-MM-dd"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :default-time="['00:00:00', '00:00:00']"
-        >
+        <el-date-picker v-model="dataForm.datatime" type="daterange" style="width: 220px;" value-format="yyyy-MM-dd"
+          format="yyyy-MM-dd" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00', '00:00:00']">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -35,10 +17,7 @@
       </el-form-item>
     </el-form>
     <div style="width: 100%;height: 300px;" id="chartDate"></div>
-    <div
-      style="width: 100%;height: 300px;margin-top: 15px;"
-      id="chartEvtItem"
-    ></div>
+    <div style="width: 100%;height: 300px;margin-top: 15px;" id="chartEvtItem"></div>
   </div>
 </template>
 

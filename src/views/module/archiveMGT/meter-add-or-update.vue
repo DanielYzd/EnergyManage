@@ -13,7 +13,7 @@
       size="small"
       label-width="140px"
     >
-      <el-form-item label="表计类型">
+      <el-form-item label="能源类型">
         <!-- <el-radio-group
           v-model="dataForm.type"
           @change="meterTypeChange"
@@ -56,7 +56,7 @@
         ></el-input>
       </el-form-item>
       <region-select-item
-        label="所属区域"
+        label="所属单元"
         v-model="dataForm.regionName"
         @getRegion="getSelectRegion"
         prop="regionName"

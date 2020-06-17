@@ -233,7 +233,7 @@ export default {
             {
               // you can props => type size icon disabled plain
               name: '召读',
-              type: 'success',
+              type: 'primary',
               icon: 'el-icon-edit',
               value: '召读',
               plain: true,

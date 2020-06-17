@@ -4,6 +4,7 @@
     :close-on-click-modal="false"
     :visible.sync="visible"
     @close="stopProg"
+    :modal="false"
   >
     <el-card id="dialog" class="box-card">
       <div slot="header" class="clearfix">
@@ -315,4 +316,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss">
+
+</style>
+
+

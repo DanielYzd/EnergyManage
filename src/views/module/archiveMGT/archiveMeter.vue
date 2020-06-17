@@ -10,7 +10,7 @@
       <el-form-item label="表通信地址" class="queryFormItem">
         <el-input v-model="dataForm.commaddress" placeholder="表通信地址" class="formItem" clearable></el-input>
       </el-form-item>
-      <el-form-item label="表计类型" class="queryFormItem">
+      <el-form-item label="能源类型" class="queryFormItem">
         <el-select v-model="dataForm.type" placeholder="请选择" class="formItem" @change="getDataList()">
           <el-option v-for="item in meterTypeList" :key="item.value" :label="item.key" :value="item.value"></el-option>
         </el-select>

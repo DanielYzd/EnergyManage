@@ -3,132 +3,68 @@
 -->
 <template>
   <div>
-    <el-form
-      :inline="true"
-      :model="dataForm"
-      @keyup.enter.native="getDataList()"
-      size="small"
-    >
-      <region-select-item
-        label="所属单元"
-        v-model="dataForm.regionName"
-        @getRegion="getSelectRegion"
-      ></region-select-item>
-      <el-form-item>
-        <el-select
-          v-model="dataForm.type"
-          placeholder="请选择表类型"
-          style="width:80px;"
-        >
+    <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()" size="small">
+      <region-select-item label="所属单元" v-model="dataForm.regionName" @getRegion="getSelectRegion"></region-select-item>
+      <el-form-item label="能源类型">
+        <el-select v-model="dataForm.type" placeholder="请选择能源类型" style="width:80px;">
           <!--multiple-->
-          <el-option
-            v-for="item in meterTypeList"
-            :key="item.value"
-            :label="item.key"
-            :value="item.value"
-          >
+          <el-option v-for="item in meterTypeList" :key="item.value" :label="item.key" :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item>
-        <el-select
-          v-model="dataForm.schemeid"
-          placeholder="请选择统计周期"
-          style="width: 115px;"
-        >
+      <el-form-item label="统计周期">
+        <el-select v-model="dataForm.schemeid" placeholder="请选择统计周期" style="width: 115px;">
           <el-option :key="1" label="小时" :value="1"></el-option>
           <el-option :key="2" label="日" :value="2"></el-option>
           <el-option :key="3" label="月" :value="3"></el-option>
           <el-option :key="4" label="自定义时段" :value="4"></el-option>
         </el-select>
       </el-form-item>
-      <hl-date-picker
-        v-if="dataForm.schemeid === 1 || dataForm.schemeid === 2"
-        v-model="dataForm.datatime"
-      ></hl-date-picker>
-      <el-time-select
-        v-if="dataForm.schemeid === 1"
-        v-model="dataForm.time"
-        style="width: 115px;"
-        size="small"
+      <hl-date-picker v-if="dataForm.schemeid === 1 || dataForm.schemeid === 2" v-model="dataForm.datatime">
+      </hl-date-picker>
+      <el-time-select v-if="dataForm.schemeid === 1" v-model="dataForm.time" style="width: 115px;" size="small"
         :picker-options="{
           start: '00:00',
           step: '01:00',
           end: '23:00'
-        }"
-        placeholder="选择时刻"
-      >
+        }" placeholder="选择时刻">
       </el-time-select>
-      <el-date-picker
-        v-if="dataForm.schemeid === 3"
-        v-model="dataForm.datatime"
-        type="month"
-        placeholder="选择月份"
-        style="width: 130px;"
-        value-format="yyyy-MM"
-        format="yyyy-MM"
-        size="small"
-      >
+      <el-date-picker v-if="dataForm.schemeid === 3" v-model="dataForm.datatime" type="month" placeholder="选择月份"
+        style="width: 130px;" value-format="yyyy-MM" format="yyyy-MM" size="small">
       </el-date-picker>
-      <el-date-picker
-        v-model="dataForm.dates"
-        type="daterange"
-        v-if="dataForm.schemeid === 4"
-        style="width: 220px;"
-        value-format="yyyy-MM-dd"
-        format="yyyy-MM-dd"
-        size="small"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        :default-time="['00:00:00', '00:00:00']"
-      >
+      <el-date-picker v-model="dataForm.dates" type="daterange" v-if="dataForm.schemeid === 4" style="width: 220px;"
+        value-format="yyyy-MM-dd" format="yyyy-MM-dd" size="small" start-placeholder="开始日期" end-placeholder="结束日期"
+        :default-time="['00:00:00', '00:00:00']">
       </el-date-picker>
-      <el-form-item>
-        <el-select
-          v-model="dataForm.dataFilterType"
-          placeholder="请选择"
-          style="width: 115px;"
-        >
-          <el-option :key="0" label="全部显示" :value="0"></el-option>
-          <el-option :key="1" label="只显示有数" :value="1"></el-option>
-          <el-option :key="2" label="只显示缺数" :value="2"></el-option>
-        </el-select>
-      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="getDataList()">查询</el-button>
+        <el-button type="text" @click="searchmore()">高级筛选</el-button>
       </el-form-item>
       <br />
-      <el-form-item label="用户名称">
-        <el-input
-          v-model="dataForm.hm"
-          placeholder="用户名称"
-          clearable
-          style="width:160px"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="手机号码">
-        <el-input
-          v-model="dataForm.telephone"
-          placeholder="手机号码"
-          style="width: 160px;"
-          clearable
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="表通信地址">
-        <el-input
-          v-model="dataForm.commaddress"
-          placeholder="表通信地址"
-          clearable
-        ></el-input>
-      </el-form-item>
+      <transition name="el-fade-in-linear">
+        <div v-show="searchVisible">
+          <el-form-item>
+            <el-select v-model="dataForm.dataFilterType" placeholder="请选择" style="width: 115px;">
+              <el-option :key="0" label="全部显示" :value="0"></el-option>
+              <el-option :key="1" label="只显示有数" :value="1"></el-option>
+              <el-option :key="2" label="只显示缺数" :value="2"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="用户名称">
+            <el-input v-model="dataForm.hm" placeholder="用户名称" clearable style="width:160px"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号码">
+            <el-input v-model="dataForm.telephone" placeholder="手机号码" style="width: 160px;" clearable></el-input>
+          </el-form-item>
+          <el-form-item label="表通信地址">
+            <el-input v-model="dataForm.commaddress" placeholder="表通信地址" clearable></el-input>
+          </el-form-item>
+        </div>
+      </transition>
     </el-form>
-    <hltable
-      v-bind:tburl="tbUrl"
-      v-bind:tbcols="tbCols"
-      ref="dataTable"
-      v-bind:tbconfig="tbConfig"
-      @dataDetail="energyDetail"
-    />
+    <hltable v-bind:tburl="tbUrl" v-bind:tbcols="tbCols" ref="dataTable" v-bind:tbconfig="tbConfig"
+      @dataDetail="energyDetail" />
   </div>
 </template>
 
@@ -146,6 +82,7 @@ export default {
         rowButtonType: 3,
         isShowPage: true
       },
+      searchVisible:false,
       meterTypeList: this.$sysConfig.getMeterTypes(),
       dataForm: {
         datatime: tool.formatDate(tool.addDay(new Date(), -1), 'yyyy-MM-dd'),
@@ -199,7 +136,7 @@ export default {
         { prop: 'disc', label: '表计名称', width: '60' },
         { prop: 'commaddress', label: '表通信地址', width: '110' },
         { prop: 'hm', label: '户名', 'min-width': '120' },
-        { prop: 'datatimestr', label: '时间', width: '90' },
+        // { prop: 'datatimestr', label: '时间', width: '90' },
         { prop: 'datatime', label: '时间', width: '100' },
         { prop: 'startBm', label: '起始读数', width: '80' },
         { prop: 'endBm', label: '结束读数', width: '80' }
@@ -224,6 +161,9 @@ export default {
     this.getDataList()
   },
   methods: {
+    searchmore(){
+      this.searchVisible =!this.searchVisible
+    },
     getDataList() {
       let queryDate = this.dataForm.datatime
       if (this.dataForm.schemeid === 1) {

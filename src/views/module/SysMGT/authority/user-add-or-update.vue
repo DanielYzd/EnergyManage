@@ -60,7 +60,7 @@
           <el-radio :label="1">正常</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="所属区域" prop="regionName">
+      <el-form-item label="所属单元" prop="regionName">
         <el-popover
           ref="regionIdsPopover"
           placement="bottom-start"

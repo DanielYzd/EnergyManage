@@ -4,7 +4,7 @@
       <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()" size="small" label-width="85px">
         <region-select-item label="所属单元" v-model="dataForm.regionName" @getRegion="getSelectRegion">
         </region-select-item>
-        <el-form-item label="表计类型">
+        <el-form-item label="能源类型">
           <el-select v-model="type" clearable placeholder="请选择" class="formItem" @change="colsTypeChange">
             <el-option v-for="item in meterTypeList" :key="item.value" :label="item.key" :value="item.value">
             </el-option>

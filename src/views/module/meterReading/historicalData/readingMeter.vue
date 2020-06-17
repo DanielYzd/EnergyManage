@@ -12,15 +12,20 @@
         <el-date-picker v-model="dataForm.datatime" type="daterange" style="width: 220px;" value-format="yyyy-MM-dd"
           format="yyyy-MM-dd" :default-time="['00:00:00', '00:00:00']"></el-date-picker>
       </el-form-item>
-      <el-form-item label="表通信地址">
+       <el-form-item>
+        <el-button @click="getDataList()" type="primary">查询</el-button>
+        <el-button type="text" @click="searchVisible=!searchVisible">高级筛选</el-button>
+      </el-form-item>
+      <div v-show="searchVisible">
+            <el-form-item label="表通信地址">
         <el-input v-model="dataForm.commaddress" placeholder="表通信地址" class="formItem" clearable></el-input>
       </el-form-item>
       <el-form-item label="终端地址">
         <el-input v-model="dataForm.rtuAddr" class="formItem"></el-input>
       </el-form-item>
-      <el-form-item style="float:right;">
-        <el-button @click="getDataList()" type="primary">查询</el-button>
-      </el-form-item>
+      </div>
+    
+     
     </el-form>
     <hltable v-bind:tburl="tbUrl" v-bind:tbcols="tbCols" ref="dataTable" v-bind:tbconfig="tbConfig"
       @dataDetail="dataDetail" />
@@ -35,6 +40,7 @@ import tool from '@/utils/tool'
 export default {
   data() {
     return {
+      searchVisible:false,
       loading: false,
       meterTypeList: this.$sysConfig.getMeterTypes(),
       dataForm: {

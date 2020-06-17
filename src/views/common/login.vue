@@ -54,13 +54,14 @@
           </el-row>
         </el-form-item>
         <el-form-item>
+           
           <el-button
             style="margin-left:100px;margin-top:30px;"
             type="primary"
-            icon="el-icon-user-solid"
             @click="dataFormSubmit()"
             :loading="loading"
           >
+            <icon-svg name="admin"></icon-svg>
             <span v-if="!loading">登 录</span>
             <span v-else>登 录 中...</span>
           </el-button>
@@ -70,7 +71,7 @@
 
     <el-footer>
       <div class="copyFooter">
-        Copyright@2018-2019 杭州杰特瑞科技有限责任公司
+        Copyright@2019-2020 宁波美格电力自动化工程有限公司
       </div></el-footer
     >
   </div>

@@ -13,7 +13,7 @@
               icon="el-icon-document">档案批量导入</el-button>
           </el-form-item>
         </el-form>
-        <el-tree :data="regionList" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false">
+        <el-tree :data="regionList" node-key="id" default-expand-all :expand-on-click-node="false">
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ node.label }}</span>
             <span>
@@ -53,30 +53,6 @@ export default {
   data() {
     // eslint-disable-next-line no-unused-vars
     const id = 1000
-    // const data = [
-    //   {
-    //     id: 1,
-    //     label: '一级 1',
-    //     children: [
-    //       {
-    //         id: 4,
-    //         label: '二级 1-1',
-    //         children: [
-    //           {
-    //             id: 9,
-    //             label: '三级 1-1-1',
-    //             children: [
-    //               {
-    //                 id: 10,
-    //                 label: '四级 1-1-1-1'
-    //               }
-    //             ]
-    //           }
-    //         ]
-    //       }
-    //     ]
-    //   }
-    // ]
     return {
       activeName: 'regionStruts',
       dataForm: {},
@@ -148,41 +124,12 @@ export default {
       this.$nextTick(() => {
         this.$refs.addOrUpdate.init(null, 0, 1)
       })
-      /*this.$prompt('请输入跟节点名称', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputPattern: /.{2}$/,
-          inputErrorMessage: '至少输入2个字符'
-        }).then(({ value }) => {
-          this.appendDo(value,0,1)
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入'
-          });       
-        });*/
     },
     append(data) {
       this.addOrUpdateVisible = true
       this.$nextTick(() => {
         this.$refs.addOrUpdate.init(null, data.id, data.layer + 1)
       })
-      /*        this.$prompt('请输入子区域节点名称', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputPattern: /.{2}$/,
-          inputErrorMessage: '至少输入2个字符'
-        }).then(({ value }) => {
-          if (!data.children) {
-          	this.$set(data, 'children', []);
-        	}
-          this.appendDo(value,data.id,data.layer+1)
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入'
-          });       
-        });*/
     },
     appendDo(regionName, parentid, layer) {
       this.$http({

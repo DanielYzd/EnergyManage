@@ -1,10 +1,10 @@
 <template>
   <div class="communication">
     <el-form :inline="true" :model="ruleForm">
-      <el-form-item label="所属区域">
+      <el-form-item label="所属单元">
         <el-input size="mini"></el-input>
       </el-form-item>
-      <el-form-item label="表计类型">
+      <el-form-item label="能源类型">
         <el-select size="mini"></el-select>
       </el-form-item>
       <el-form-item label="表通信地址">

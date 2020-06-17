@@ -16,7 +16,7 @@
           :props="menuListTreeProps"
           node-key="menuId"
           ref="menuListTree"
-          :default-expand-all="true"
+          :default-expand-all="false"
           show-checkbox>
         </el-tree>
       </el-form-item>
