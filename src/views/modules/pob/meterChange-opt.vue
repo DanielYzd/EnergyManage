@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="表计更换" :close-on-click-modal="false" :visible.sync="visible">
+  <el-dialog title="表计更换" custom-class="dialogcommon" :close-on-click-modal="false" :visible.sync="visible">
     
 		<el-steps :active="active" finish-status="success">
 			<el-step title="设置换表信息"></el-step>

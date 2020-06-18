@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+  custom-class="dialogcommon"
     title="迁移到指定用户"
     :close-on-click-modal="false"
     :visible.sync="visible"

@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+  custom-class="dialogcommon"
     title="批量设置区域下计费单价"
     :close-on-click-modal="false"
     :visible.sync="visible"

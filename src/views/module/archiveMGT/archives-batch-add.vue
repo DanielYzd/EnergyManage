@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+  custom-class="dialogcommon"
     title="批量导入"
     :close-on-click-modal="false"
     :visible.sync="visible"

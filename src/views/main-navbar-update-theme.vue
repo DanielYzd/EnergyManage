@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-dialog
+    custom-class="dialogcommon"
       title="主题选择"
       class="theme"
       :visible.sync="visible"

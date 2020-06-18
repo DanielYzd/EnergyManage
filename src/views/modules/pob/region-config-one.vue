@@ -1,5 +1,5 @@
 <template>
-	<el-dialog :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" :visible.sync="visible">
+	<el-dialog custom-class="dialogcommon" :title="!dataForm.id ? '新增' : '修改'" :close-on-click-modal="false" :visible.sync="visible">
 		<el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" size="small" label-width="140px">
 			<region-select-item label="应用区域" v-model="dataForm.regionName" @getRegion="getSelectRegion" prop="regionName"></region-select-item>
 			<el-form-item label="结算周期">

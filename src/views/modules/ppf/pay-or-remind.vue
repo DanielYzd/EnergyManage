@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+  custom-class="dialogcommon"
     :title="title"
     :close-on-click-modal="false"
     :visible.sync="visible"

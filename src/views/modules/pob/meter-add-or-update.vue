@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+  custom-class="dialogcommon"
     :title="!dataForm.pointid ? '新增' : '修改'"
     :close-on-click-modal="false"
     :visible.sync="visible"

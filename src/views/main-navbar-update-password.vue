@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="修改密码" :visible.sync="visible" :append-to-body="true">
+  <el-dialog title="修改密码"  custom-class="dialogcommon" :visible.sync="visible" :append-to-body="true">
     <el-form
       :model="dataForm"
       :rules="dataRule"

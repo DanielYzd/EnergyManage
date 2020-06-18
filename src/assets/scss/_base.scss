@@ -5,6 +5,14 @@
     box-sizing: border-box;
 }
 
+.dialogcommon {
+    float: right;
+    width: auto;
+    min-width: 500px;
+    max-width: 80%;
+    background-color: rgb(228, 242, 245);
+}
+
 body {
     font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
     font-size: 15px;
@@ -15,8 +23,8 @@ body {
 
 @keyframes dialog-fade-in {
     0% {
-        transform: translate3d(100%, 0, 0);
-        opacity: 1;
+        transform: translate3d(0, 100%, 0);
+        opacity: 0;
     }
     100% {
         transform: translate3d(0, 0, 0);
@@ -30,7 +38,7 @@ body {
         opacity: 1;
     }
     100% {
-        transform: translate3d(100%, 0, 0);
+        transform: translate3d(0, 100%, 0);
         opacity: 0;
     }
 }

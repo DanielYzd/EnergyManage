@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+  custom-class="dialogcommon"
     title="日志列表"
     :close-on-click-modal="false"
     :visible.sync="visible"

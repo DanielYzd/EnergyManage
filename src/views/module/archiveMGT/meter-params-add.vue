@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="下发" :close-on-click-modal="false" :visible.sync="visible">
+  <el-dialog title="下发" custom-class="dialogcommon" :close-on-click-modal="false" :visible.sync="visible">
     <el-form
       :model="dataForm"
       :inline="true"

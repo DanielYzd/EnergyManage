@@ -12,11 +12,23 @@
             <el-button v-if="isAuth('pob:region:save')" type="primary" @click="batchAddHandle()"
               icon="el-icon-document">档案批量导入</el-button>
           </el-form-item>
+           <el-form-item>
+            <el-button type="primary"
+              icon="el-icon-plus" :disabled="btndisabled" @click="() => append(selectData)">增加子级</el-button>
+          </el-form-item>
+           <el-form-item>
+            <el-button type="primary"
+              icon="el-icon-edit" :disabled="btndisabled" @click="() => modify(selectData)">修改</el-button>
+          </el-form-item>
+           <el-form-item>
+            <el-button type="primary"
+              icon="el-icon-delete" :disabled="btndisabled" @click="() => remove(selectData)">删除</el-button>
+          </el-form-item>
         </el-form>
-        <el-tree :data="regionList" node-key="id" default-expand-all :expand-on-click-node="false">
+        <el-tree style="width:500px;"  highlight-current :data="regionList" @node-click="handleClick" node-key="id" default-expand-all :expand-on-click-node="false">
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ node.label }}</span>
-            <span>
+            <!-- <span>
               <el-button type="text" size="mini" @click="() => append(data)">
                 增加子级
               </el-button>
@@ -26,7 +38,7 @@
               <el-button type="text" size="mini" @click="() => remove(node, data)">
                 删除
               </el-button>
-            </span>
+            </span> -->
           </span>
         </el-tree>
       </el-tab-pane>
@@ -54,8 +66,10 @@ export default {
     // eslint-disable-next-line no-unused-vars
     const id = 1000
     return {
+      selectData:'',
       activeName: 'regionStruts',
       dataForm: {},
+      btndisabled:true,
       dataList: [],
       dataListLoading: false,
       regionList: [], //JSON.parse(JSON.stringify(data)),
@@ -67,9 +81,15 @@ export default {
     this.getDataList()
   },
   methods: {
+    handleClick(data){
+      this.btndisabled=false
+     this.selectData = data
+     
+    },
     // 获取数据列表
     getDataList(callback) {
       this.dataListLoading = true
+      this.btndisabled=true
       this.$http({
         url: this.$http.adornUrl('/pob/region/list'),
         method: 'get',
@@ -126,6 +146,7 @@ export default {
       })
     },
     append(data) {
+      console.log(data)
       this.addOrUpdateVisible = true
       this.$nextTick(() => {
         this.$refs.addOrUpdate.init(null, data.id, data.layer + 1)
@@ -155,7 +176,7 @@ export default {
         }
       })
     },
-    remove(node, data) {
+    remove(data) {
       if (data.children && data.children.length > 0) {
         this.$message({
           type: 'warning',
@@ -198,7 +219,8 @@ export default {
         }
       })
     },
-    modify(node, data) {
+    modify(data) {
+      console.log(data)
       this.addOrUpdateVisible = true
       this.$nextTick(() => {
         this.$refs.addOrUpdate.init(data.id)

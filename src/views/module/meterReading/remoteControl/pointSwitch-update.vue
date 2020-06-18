@@ -1,6 +1,7 @@
 <template>
-  <el-dialog title="下发" :close-on-click-modal="false" :visible.sync="visible">
+  <el-dialog custom-class="dialogcommon" title="下发" :close-on-click-modal="false" :visible.sync="visible">
     <el-form
+    style="width:400px;"
       :model="dataForm"
       :inline="true"
       :rules="dataRule"

@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+  custom-class="dialogcommon"
     title="上传文件"
     :close-on-click-modal="false"
     @close="closeHandle"

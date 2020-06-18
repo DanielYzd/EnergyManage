@@ -33,7 +33,7 @@
           v-model="selectValue"
           class="formItem"
           clearable
-          :size="size"
+          size="mini"
           v-popover:regionIdsPopover
           :readonly="true"
           placeholder="点击选择"

@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+  custom-class="dialogcommon"
     :title="this.flag === 0 ? '召读指定表序号' : '清除表地址'"
     :close-on-click-modal="false"
     :visible.sync="visible"

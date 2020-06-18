@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+  custom-class="dialogcommon"
     title="远程拉闸合闸"
     :close-on-click-modal="false"
     :visible.sync="visible"

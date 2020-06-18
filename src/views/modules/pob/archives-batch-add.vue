@@ -1,5 +1,5 @@
 <template>
-	<el-dialog title="批量导入" :close-on-click-modal="false" :visible.sync="visible">
+	<el-dialog custom-class="dialogcommon" title="批量导入" :close-on-click-modal="false" :visible.sync="visible">
 		<el-steps :active="active" finish-status="success">
 			<el-step title="选择应用场景"></el-step>
 			<el-step title="下载Excel模板"></el-step>

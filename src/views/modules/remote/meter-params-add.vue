@@ -1,89 +1,80 @@
 <template>
-  <el-dialog
-    title="下发"
-    :close-on-click-modal="false"
-    :visible.sync="visible">
-    <el-form :model="dataForm" :inline="true" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="180px" size="small">
-      	<el-form-item label="表名">
-        		<el-input v-model="dataForm.disc" disabled  style="width: 200px;"></el-input>
-      	</el-form-item>
-      	<el-form-item label="表类型">
-        		<el-input v-model="dataForm.typeName" disabled style="width: 200px;"></el-input>
-      	</el-form-item>
-      		<el-form-item label="终端地址" prop="rtuid">
-      			<el-select style="width: 200px;"
-					    v-model="dataForm.rtuid"
-					    filterable
-					    clearable 
-					    reserve-keyword
-					    placeholder="请输入终端地址"
-					    :loading="loading">
-					    <el-option
-					      v-for="item in rtuList"
-					      :key="item.rtuid"
-					      :label="item.commaddress"
-					      :value="item.rtuid">
-					    </el-option>
-					  </el-select>
-      		</el-form-item>
-				<el-form-item label="表序号" prop="numberid">
-	        	<el-input-number v-model="dataForm.numberid" require :min="1" :max="1000" label="请输入表序号" style="width: 200px;"></el-input-number>
-				</el-form-item>
-				<el-form-item label="表通信地址" prop="commaddress">
-	    		<el-input v-model="dataForm.commaddress" placeholder="表通信地址" clearable style="width: 200px;"></el-input>
-	  		</el-form-item>
-	    	<el-form-item label="通信端口号">
-	        <el-select v-model="dataForm.com">
-			      <el-option v-for="item in portTypeList" :key="item.value" :label="item.key" :value="item.value"></el-option>
-			    </el-select>
-	      </el-form-item>
-	    	<el-form-item label="通信速率">
-	        <el-select v-model="dataForm.bps">
-			      <el-option v-for="item in commRateList" :key="item.value" :label="item.key" :value="item.value"></el-option>
-			    </el-select>
-	     </el-form-item>
-	    	<el-form-item label="通信规约">
-	        <el-select v-model="dataForm.protocol">
-			      <el-option v-for="item in protocolList" :key="item.value" :label="item.key" :value="item.value"></el-option>
-			    </el-select>
-	     </el-form-item>
-				<el-form-item label="表通信密码">
-	    		<el-input v-model="dataForm.meterPwd" placeholder="表通信地址" style="width: 200px;"></el-input>
-	  		</el-form-item>
-				<el-form-item label="费率数">
-	    		<el-input v-model="dataForm.tariffNum" placeholder="费率数" style="width: 200px;"></el-input>
-	  		</el-form-item>
-				<el-form-item label="电能示值整数位个数">
-	    		<el-input v-model="dataForm.integernum" placeholder="电能示值整数位个数" style="width: 200px;"></el-input>
-	  		</el-form-item>
-				<el-form-item label="电能示值小数位个数">
-	    		<el-input v-model="dataForm.decimalnum" placeholder="电能示值小数位个数" style="width: 200px;"></el-input>
-	  		</el-form-item>
-				<el-form-item label="用户大类号">
-	    		<el-input-number v-model="dataForm.bigclass"  :min="0" style="width: 200px;"></el-input-number>
-	  		</el-form-item>
-				<el-form-item label="用户小类号">
-	    		<el-input-number v-model="dataForm.subclass"  :min="0" style="width: 200px;"></el-input-number>
-	  		</el-form-item>
-				<el-form-item label="拉合闸密级">
-    			<el-input-number v-model="dataForm.secretLevel"  :min="0" :max="100" label="拉合闸密级" style="width: 200px;"></el-input-number>
-	  		</el-form-item>
-				<el-form-item label="拉合闸密码">
-    			<el-input v-model="dataForm.secretCode" placeholder="拉合闸密码" style="width: 200px;"></el-input>
-	  		</el-form-item>
-				<el-form-item label="采集器通信地址">
-	    		<el-input v-model="dataForm.colAddr" placeholder="采集器通信地址" style="width: 200px;"></el-input>
-	  		</el-form-item>
-	  		<el-form-item label="用户名称">
-        		<el-input v-model="dataForm.hm" disabled style="width: 200px;"></el-input>
-      	</el-form-item>
-	  		<el-form-item style="margin-left: 35%;">
-        		<el-button @click="visible = false">取消</el-button>
-      			<el-button type="primary" @click="dataFormSubmit(0)">保存</el-button>
-      			<el-button type="primary" @click="dataFormSubmit(1)">保存并下发</el-button>
-      	</el-form-item>
-</el-collapse>
-</el-form>
+  <el-dialog title="下发" custom-class="dialogcommon" :close-on-click-modal="false" :visible.sync="visible">
+    <el-form :model="dataForm" :inline="true" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()"
+      label-width="180px" size="small">
+      <el-form-item label="表名">
+        <el-input v-model="dataForm.disc" disabled style="width: 200px;"></el-input>
+      </el-form-item>
+      <el-form-item label="表类型">
+        <el-input v-model="dataForm.typeName" disabled style="width: 200px;"></el-input>
+      </el-form-item>
+      <el-form-item label="终端地址" prop="rtuid">
+        <el-select style="width: 200px;" v-model="dataForm.rtuid" filterable clearable reserve-keyword
+          placeholder="请输入终端地址" :loading="loading">
+          <el-option v-for="item in rtuList" :key="item.rtuid" :label="item.commaddress" :value="item.rtuid">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="表序号" prop="numberid">
+        <el-input-number v-model="dataForm.numberid" require :min="1" :max="1000" label="请输入表序号" style="width: 200px;">
+        </el-input-number>
+      </el-form-item>
+      <el-form-item label="表通信地址" prop="commaddress">
+        <el-input v-model="dataForm.commaddress" placeholder="表通信地址" clearable style="width: 200px;"></el-input>
+      </el-form-item>
+      <el-form-item label="通信端口号">
+        <el-select v-model="dataForm.com">
+          <el-option v-for="item in portTypeList" :key="item.value" :label="item.key" :value="item.value"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="通信速率">
+        <el-select v-model="dataForm.bps">
+          <el-option v-for="item in commRateList" :key="item.value" :label="item.key" :value="item.value"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="通信规约">
+        <el-select v-model="dataForm.protocol">
+          <el-option v-for="item in protocolList" :key="item.value" :label="item.key" :value="item.value"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="表通信密码">
+        <el-input v-model="dataForm.meterPwd" placeholder="表通信地址" style="width: 200px;"></el-input>
+      </el-form-item>
+      <el-form-item label="费率数">
+        <el-input v-model="dataForm.tariffNum" placeholder="费率数" style="width: 200px;"></el-input>
+      </el-form-item>
+      <el-form-item label="电能示值整数位个数">
+        <el-input v-model="dataForm.integernum" placeholder="电能示值整数位个数" style="width: 200px;"></el-input>
+      </el-form-item>
+      <el-form-item label="电能示值小数位个数">
+        <el-input v-model="dataForm.decimalnum" placeholder="电能示值小数位个数" style="width: 200px;"></el-input>
+      </el-form-item>
+      <el-form-item label="用户大类号">
+        <el-input-number v-model="dataForm.bigclass" :min="0" style="width: 200px;"></el-input-number>
+      </el-form-item>
+      <el-form-item label="用户小类号">
+        <el-input-number v-model="dataForm.subclass" :min="0" style="width: 200px;"></el-input-number>
+      </el-form-item>
+      <el-form-item label="拉合闸密级">
+        <el-input-number v-model="dataForm.secretLevel" :min="0" :max="100" label="拉合闸密级" style="width: 200px;">
+        </el-input-number>
+      </el-form-item>
+      <el-form-item label="拉合闸密码">
+        <el-input v-model="dataForm.secretCode" placeholder="拉合闸密码" style="width: 200px;"></el-input>
+      </el-form-item>
+      <el-form-item label="采集器通信地址">
+        <el-input v-model="dataForm.colAddr" placeholder="采集器通信地址" style="width: 200px;"></el-input>
+      </el-form-item>
+      <el-form-item label="用户名称">
+        <el-input v-model="dataForm.hm" disabled style="width: 200px;"></el-input>
+      </el-form-item>
+      <el-form-item style="margin-left: 35%;">
+        <el-button @click="visible = false">取消</el-button>
+        <el-button type="primary" @click="dataFormSubmit(0)">保存</el-button>
+        <el-button type="primary" @click="dataFormSubmit(1)">保存并下发</el-button>
+      </el-form-item>
+      </el-collapse>
+    </el-form>
   </el-dialog>
 </template>
 

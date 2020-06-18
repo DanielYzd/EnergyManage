@@ -79,7 +79,7 @@
     </div>
     <!--</el-col>-->
     <div>
-      <el-dialog title="数据导出类型" :visible.sync="dialogVisible">
+      <el-dialog custom-class="dialogcommon" title="数据导出类型" :visible.sync="dialogVisible">
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="exportExcel(0)">全部导出</el-button>
           <el-button type="primary" @click="exportExcel(1)">当前页导出</el-button>

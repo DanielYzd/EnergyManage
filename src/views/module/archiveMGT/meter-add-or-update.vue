@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+  custom-class="dialogcommon"
     :title="!dataForm.pointid ? '新增' : '修改'"
     :close-on-click-modal="false"
     :visible.sync="visible"
@@ -8,6 +9,7 @@
       :model="dataForm"
       :inline="true"
       :rules="dataRule"
+      style="width:500px;"
       ref="dataForm"
       @keyup.enter.native="dataFormSubmit()"
       size="small"
@@ -240,9 +242,10 @@
         ></el-input-number>
       </el-form-item>
       <br />
-      <el-form-item style="margin-left: 40px;">
+      <el-form-item style="margin-left:200px;">
+         <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
         <el-button @click="visible = false">取消</el-button>
-        <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
+       
       </el-form-item>
     </el-form>
   </el-dialog>

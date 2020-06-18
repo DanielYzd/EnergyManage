@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-dialog
+    custom-class="dialogcommon"
       :title="title"
       :visible.sync="dialogVisible"
       :width="width"

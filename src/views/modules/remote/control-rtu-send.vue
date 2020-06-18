@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+  custom-class="dialogcommon"
     title="下发--设置"
     :close-on-click-modal="false"
     :visible.sync="visible">
