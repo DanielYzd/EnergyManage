@@ -12,7 +12,7 @@
           :collapse-transition="false"
         >
           <el-menu-item index="home" @click="$router.push({ name: 'home' })">
-            <icon-svg name="shouye" class="site-sidebar__menu-icon"></icon-svg>
+            <icon-svg name="home" class="site-sidebar__menu-icon"></icon-svg>
             <span slot="title">首页</span>
           </el-menu-item>
           <sub-menu

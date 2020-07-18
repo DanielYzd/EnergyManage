@@ -14,7 +14,7 @@
       </el-table-column>
       <el-table-column header-align="center" align="center" width="100" label="图标">
         <template slot-scope="scope">
-          <icon-svg :name="scope.row.icon"></icon-svg>
+          <icon-svg :name="scope.row.icon" style="background-color:#109684;"></icon-svg>
         </template>
       </el-table-column>
       <el-table-column prop="type" header-align="center" align="center" width="100" label="类型">

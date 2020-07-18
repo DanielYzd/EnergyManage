@@ -37,7 +37,7 @@
               <div class="mod-menu__icon-list" style="overflow:auto">
                 <el-button v-for="(item, index) in iconList" :key="index" @click="iconActiveHandle(item)"
                   :class="{ 'is-active': item === dataForm.icon }">
-                  <icon-svg :name="item"></icon-svg>
+                  <icon-svg :name="item" style="background-color:#109684;"></icon-svg>
                 </el-button>
               </div>
             </el-popover>
