@@ -9,7 +9,7 @@
     <particles-js />
     <el-card shadow="always">
       <div slot="header" class="head">
-        <span>建筑能耗监测管理平台</span>
+        <span>MG3000建筑能耗管理系统</span>
       </div>
       <el-form
         :model="dataForm"
@@ -197,7 +197,7 @@ export default {
   -o-background-size: cover;
   background-position: center 0;
   .el-card {
-    width: 400px;
+    width: 450px;
     height: 400px;
     position: absolute;
     right: 20%;

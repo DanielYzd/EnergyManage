@@ -2,13 +2,15 @@
   <!-- <nav class="site-navbar" :class="'site-navbar--' + navbarLayoutType"> -->
   <div :class="themeClass">
     <nav class="site-navbar">
-      <div class="site-navbar__header">
+      <div style="height:70px" class="site-navbar__header">
         <h1 class="site-navbar__brand" @click="$router.push({ name: 'home' })">
           <a class="site-navbar__brand-lg" href="javascript:;">
-            <icon-svg name="run"></icon-svg>&nbsp;建筑能耗管理平台
+            <!-- <icon-svg name="run"></icon-svg>&nbsp;MG3000建筑能耗管理系统 -->
+            <img style="height:100%;width:95%;" src="../../static/img/logo.png">
           </a>
           <a class="site-navbar__brand-mini" href="javascript:;">
-            <icon-svg name="run"></icon-svg>
+            <!-- <icon-svg name="run"></icon-svg> -->
+            <div style="color:#fff;">AGE</div>
           </a>
         </h1>
       </div>
